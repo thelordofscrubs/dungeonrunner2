@@ -1,5 +1,6 @@
 extends Node
 class_name Monster
+
 enum DIRECTION {NORTH,EAST,SOUTH,WEST}
 var health 
 var maxHealth 
@@ -13,14 +14,14 @@ var healthBar
 var moveTimer
 var levelMap
 var monsterID
+var flying
 
 # Declare member variables here. Examples:
 # var a = 2
 # var b = "text"
 
-func _init():
-	pass
-	
+func _init(id_):
+	monsterID = id_
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
