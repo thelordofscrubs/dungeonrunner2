@@ -9,7 +9,8 @@ var player
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	player = Player.new(Vector2(0,0))
+	player = Player.new(Vector2(10,10))
+	add_child(player)
 
 func fireProjTest(vin):
 	add_child(FireBolt.new(vin, Vector2(1,0), Vector2(5,5)))

@@ -36,24 +36,27 @@ var currentBuffs = []
 var level
 
 func _ready():
+	print("player ready function")
+	level = get_parent()
+	genSprite()
 #	sprite = spriteScene.instance()
 #	sprite.set_z_index(5)
 #	get_parent().add_child(sprite)
 #	print("charSprite should have been generated")
-	healthBar = get_node("../uiContainer/uiBackground1/healthBar")
-	manaBar = get_node("../uiContainer/uiBackground1/manaBar")
-	moneyDisplay = get_node("../uiContainer/uiBackground1/moneyDisplay")
-	keyDisplay = get_node("../uiContainer/uiBackground1/keyDisplay")
-	arrowDisplay = get_node("../uiContainer/uiBackground1/arrowDisplay")
-	arrowDisplay.set_text("Arrows:\n"+str(arrows))
-	weaponDisplay = get_node("../uiContainer/uiBackground1/weaponDisplay")
-	spellDisplay = get_node("../uiContainer/uiBackground1/spellDisplay")
-	buffDisplay = get_node("../uiContainer/uiBackground1/buffDisplay")
-	manaRegenTimer = Timer.new()
-	manaRegenTimer.connect("timeout", self, "regenMana")
-	add_child(manaRegenTimer)
-	manaRegenTimer.start(2)
-	level = get_parent()
+#	healthBar = get_node("../uiContainer/uiBackground1/healthBar")
+#	manaBar = get_node("../uiContainer/uiBackground1/manaBar")
+#	moneyDisplay = get_node("../uiContainer/uiBackground1/moneyDisplay")
+#	keyDisplay = get_node("../uiContainer/uiBackground1/keyDisplay")
+#	arrowDisplay = get_node("../uiContainer/uiBackground1/arrowDisplay")
+#	arrowDisplay.set_text("Arrows:\n"+str(arrows))
+#	weaponDisplay = get_node("../uiContainer/uiBackground1/weaponDisplay")
+#	spellDisplay = get_node("../uiContainer/uiBackground1/spellDisplay")
+#	buffDisplay = get_node("../uiContainer/uiBackground1/buffDisplay")
+#	manaRegenTimer = Timer.new()
+#	manaRegenTimer.connect("timeout", self, "regenMana")
+#	add_child(manaRegenTimer)
+#	manaRegenTimer.start(2)
+	
 
 func _init(spawnCoordinates, h = 100, aM = 1):
 	name = "Player"
@@ -62,6 +65,7 @@ func _init(spawnCoordinates, h = 100, aM = 1):
 	health = h
 	atkM = aM
 	totalDamage = atkS * atkM
+	print("Player has been initiated")
 
 func removeBuff(buffName):
 	currentBuffs.erase(buffName)
@@ -210,8 +214,8 @@ func attackTimerTimeOut():
 	isAttacking = false
 	sprite.set_texture(load("res://sprites/charSprite.png"))
 
-func move(vec):
-	coordinates += vec
+func move(vec,d):
+	coordinates += vec * Vector2(d,d)
 	facing = vec
 	match facing:
 		Vector2(1,0):
