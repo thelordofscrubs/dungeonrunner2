@@ -7,6 +7,7 @@ extends Control
 var mainMenuScene = preload("res://mainMenu.tscn")
 var mainMenu
 var currentLevel
+var inGame = false
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -15,6 +16,7 @@ func _ready():
 	add_child(mainMenu)
 
 func openMainMenu():
+	inGame = false
 	currentLevel.queue_free()
 	mainMenu = mainMenuScene.instance()
 	add_child(mainMenu)
@@ -23,11 +25,14 @@ func beginLevel():
 	mainMenu.queue_free()
 	currentLevel = load("res://lvlScene.tscn").instance()
 	add_child(currentLevel)
+	inGame = true
 
 
 	
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
+	if inGame == false:
+		return
 	if Input.is_action_pressed("forw"):
 		currentLevel.movePlayer(0,delta)
 	if Input.is_action_pressed("back"):
