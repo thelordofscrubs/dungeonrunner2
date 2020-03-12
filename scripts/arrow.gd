@@ -1,6 +1,9 @@
 extends Projectile
 class_name Arrow
 
+func _init(a,b,c).(a,b,c):
+	pass
+
 func _ready():
 	._ready()
 	timer = Timer.new()
@@ -36,18 +39,18 @@ func movePixel1():
 func movePixel():
 	moveCounter += 1
 	position += direction*Vector2(2,2)
-	if moveCounter == 8:
-		moveCounter = 0
-		coordinates += direction
-		match levelMap[coordinates]:
-			"wall":
-				get_parent().remove_child(self)
-				queue_free()
-				return
-			"door":
-				get_parent().remove_child(self)
-				queue_free()
-				return
-	if get_node("../..").hitMonster(coordinates,10,"arrow") == 1:
-			get_parent().remove_child(self)
-			queue_free()
+#	if moveCounter == 8:
+#		moveCounter = 0
+#		coordinates += direction
+#		match levelMap[coordinates]:
+#			"wall":
+#				get_parent().remove_child(self)
+#				queue_free()
+#				return
+#			"door":
+#				get_parent().remove_child(self)
+#				queue_free()
+#				return
+#	if get_node("../..").hitMonster(coordinates,10,"arrow") == 1:
+#			get_parent().remove_child(self)
+#			queue_free()

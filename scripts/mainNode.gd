@@ -19,8 +19,16 @@ func beginLevel():
 	add_child(currentLevel)
 
 
-
-
+	
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-#func _process(delta):
-#	pass
+func _process(delta):
+	if Input.is_action_pressed("forw"):
+		pass
+	if Input.is_action_pressed("back"):
+		pass
+	if Input.is_action_pressed("left"):
+		pass
+	if Input.is_action_pressed("right"):
+		pass
+	if Input.is_action_pressed("atk1"):
+		pass
