@@ -7,7 +7,7 @@ extends Monster
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	health = 10.0
-	MaxHealth = 10
+	maxHealth = 10
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta):
