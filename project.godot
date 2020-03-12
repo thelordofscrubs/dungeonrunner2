@@ -9,15 +9,35 @@
 config_version=4
 
 _global_script_classes=[ {
+"base": "Projectile",
+"class": "Arrow",
+"language": "GDScript",
+"path": "res://scripts/arrow.gd"
+}, {
 "base": "Monster",
 "class": "BatSkeleton",
 "language": "GDScript",
 "path": "res://scripts/batSkelton.gd"
 }, {
+"base": "Projectile",
+"class": "FireBolt",
+"language": "GDScript",
+"path": "res://scripts/fireBolt.gd"
+}, {
 "base": "Node",
 "class": "Monster",
 "language": "GDScript",
 "path": "res://scripts/Monster.gd"
+}, {
+"base": "Node",
+"class": "Player",
+"language": "GDScript",
+"path": "res://scripts/player.gd"
+}, {
+"base": "Sprite",
+"class": "Projectile",
+"language": "GDScript",
+"path": "res://scripts/projectile.gd"
 }, {
 "base": "TextureProgress",
 "class": "monsterHealthBar",
@@ -25,8 +45,12 @@ _global_script_classes=[ {
 "path": "res://scripts/monsterHealthBar.gd"
 } ]
 _global_script_class_icons={
+"Arrow": "",
 "BatSkeleton": "",
+"FireBolt": "",
 "Monster": "",
+"Player": "",
+"Projectile": "",
 "monsterHealthBar": ""
 }
 
