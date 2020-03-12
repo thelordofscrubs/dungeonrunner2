@@ -34,11 +34,14 @@ var spellDisplay
 var buffDisplay
 var currentBuffs = []
 var level
+var camera
 
 func _ready():
 	print("player ready function")
 	level = get_parent()
 	genSprite()
+	camera = PlayerCam.new()
+	add_child(camera)
 #	sprite = spriteScene.instance()
 #	sprite.set_z_index(5)
 #	get_parent().add_child(sprite)
