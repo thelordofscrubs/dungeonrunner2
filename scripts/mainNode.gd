@@ -9,7 +9,13 @@ var mainMenu
 var currentLevel
 
 # Called when the node enters the scene tree for the first time.
-func _ready(): 
+func _ready():
+	OS.set_window_maximized(true)
+	mainMenu = mainMenuScene.instance()
+	add_child(mainMenu)
+
+func openMainMenu():
+	currentLevel.queue_free()
 	mainMenu = mainMenuScene.instance()
 	add_child(mainMenu)
 
@@ -23,12 +29,16 @@ func beginLevel():
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	if Input.is_action_pressed("forw"):
-		pass
+		currentLevel.player.move(0,delta)
 	if Input.is_action_pressed("back"):
-		pass
+		currentLevel.player.move(2,delta)
 	if Input.is_action_pressed("left"):
-		pass
+		currentLevel.player.move(3,delta)
 	if Input.is_action_pressed("right"):
-		pass
-	if Input.is_action_pressed("atk1"):
-		pass
+		currentLevel.player.move(1,delta)
+	if Input.is_action_just_released("atk1"):
+		currentLevel.player.attack(1)
+	if Input.is_action_just_released("atk2"):
+		currentLevel.player.attack(2)
+	if Input.is_action_just_released("chgw"):
+		currentLevel.player.changeWeapon()

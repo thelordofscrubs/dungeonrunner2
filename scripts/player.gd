@@ -33,6 +33,7 @@ var manaRegenTimer
 var spellDisplay
 var buffDisplay
 var currentBuffs = []
+var level
 
 func _ready():
 #	sprite = spriteScene.instance()
@@ -52,6 +53,7 @@ func _ready():
 	manaRegenTimer.connect("timeout", self, "regenMana")
 	add_child(manaRegenTimer)
 	manaRegenTimer.start(2)
+	level = get_parent()
 
 func _init(spawnCoordinates, h = 100, aM = 1):
 	name = "Player"
@@ -93,8 +95,8 @@ func addBuff(buffName):
 func genSprite():
 	sprite = spriteScene.instance()
 	sprite.set_z_index(5)
-	sprite.set_scale(Vector2(2,2))
-	get_parent().add_child(sprite)
+	#sprite.set_scale(Vector2(2,2))
+	level.add_child(sprite)
 	print("charSprite should have been generated")
 
 func regenMana():
@@ -144,9 +146,9 @@ func deathAnimation():
 	deathAnimationScene = load("res://playerDeathAnimation.tscn").instance()
 	deathAnimationScene.set_position(OS.window_size/Vector2(2,2)+Vector2(8,8))
 	deathAnimationScene.set_frame(0)
-	get_parent().add_child(deathAnimationScene)
+	level.add_child(deathAnimationScene)
 	deathAnimationScene.play("death")
-	get_parent().die()
+	level.die()
 
 func die():
 	get_node("/root/mainControlNode/menuStuff").add_child(load("res://deathScreen.tscn").instance())
@@ -169,21 +171,24 @@ func attackTimer(t):
 	timer.start(time)
 	return true
 
-func attack():
+func attack(t):
+	if t == 2:
+		castSpell()
+		return
 	match weapons[currentWeapon]:
 		"sword":
 			if attackTimer(1) == false:
 				return
 			sprite.set_texture(load("res://sprites/attackingSwordSprite.tres"))
 			var monsterCoords = []
-			for monster in get_parent().monsters:
+			for monster in level.monsters:
 				monsterCoords.append(monster.coordinates)
 			if monsterCoords.has(coordinates):
-				var hit = get_parent().hitMonster(coordinates,float(totalDamage)/2,"melee")
+				var hit = level.hitMonster(coordinates,float(totalDamage)/2,"melee")
 				print("dealt "+str(float(totalDamage)/2)+" damage to monster at " +str(coordinates))
 				return
 			if monsterCoords.has(coordinates+facing):
-				var hit = get_parent().hitMonster(coordinates+facing,totalDamage,"melee")
+				var hit = level.hitMonster(coordinates+facing,totalDamage,"melee")
 				print("dealt "+str(totalDamage)+" damage to monster at " +str(coordinates))
 		"bow":
 			if attackTimer(2) == false:
