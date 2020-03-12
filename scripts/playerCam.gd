@@ -20,8 +20,4 @@ func _ready():
 
 
 
-func _process(delta):
-	totalDelta += delta;
-	if totalDelta > .01:
-		totalDelta = 0
-		align()
+
