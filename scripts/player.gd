@@ -230,7 +230,7 @@ func castSpell():
 			attackTimer(.5)
 			if mana < 20:
 				return
-			spell = fireBolt.new(coordinates, facing, initialCoordinates)
+			spell = FireBolt.new(coordinates, facing, initialCoordinates)
 			get_node("../graphicsContainer").add_child(spell)
 			mana -= 20
 			manaBar.value = mana

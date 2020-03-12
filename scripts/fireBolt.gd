@@ -1,6 +1,9 @@
 extends Projectile
 class_name FireBolt
 
+func _init(a,b,c).(a,b,c):
+	pass
+
 func _ready():
 	._ready()
 	timer = Timer.new()
