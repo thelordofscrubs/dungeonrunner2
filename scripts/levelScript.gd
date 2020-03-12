@@ -12,9 +12,8 @@ func _ready():
 	player = Player.new(Vector2(50,50))
 	add_child(player)
 
-#func fireProjTest(vin):
-#	add_child(FireBolt.new(vin, Vector2(1,0), Vector2(5,5)))
-#	print("fired projectile")
+func fireProjTest(vin):
+	add_child(Arrow.new(player.coordinates + vin * 10, vin, Vector2(0,0)))
 
 func movePlayer(dir, delta):
 	match dir:
@@ -34,23 +33,14 @@ func movePlayer(dir, delta):
 var p
 var ws
 
-#func _input(event):
-#	if event is InputEventMouseButton:
-#		ws = OS.get_window_size()
-#		p = event.position
-##		if p[0] < ws[0]/2:
-##			p[0] *= 1.25
-##		else:
-##			p[0] *= .75
-##		if p[1] < ws[1]/2:
-##			p[1] *= 1.25
-##		else:
-##			p[1] *= .75
-#		p -= ws/2
-#		p += player.coordinates
-#		p[1]-=8
-#		p[0]-=4
-#		fireProjTest(p)
+func _input(event):
+	if event is InputEventMouseButton:
+		ws = OS.get_window_size()
+		p = event.position/2
+		p -= ws/4
+		p+= Vector2(40,40)
+		p = p.normalized()
+		fireProjTest(p)
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta):
 #	pass
