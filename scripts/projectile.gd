@@ -25,7 +25,7 @@ func _init(coords, dir, initialPlayerCoords,persec):
 	#print("arrow Spawned at "+str(coords)+", going towards Vector2"+str(dir))
 	#print("real position of player = "+str(pixelCoordinates))
 	coordinates = coords
-	position = (coords/Vector2(2,2))
+	position = (coords)
 	direction = dir
 	#pcoords = pixelCoordinates
 	centered = false

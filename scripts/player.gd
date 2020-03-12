@@ -40,7 +40,7 @@ func _ready():
 	print("player ready function")
 	level = get_parent()
 	genSprite()
-	camera = PlayerCam.new()
+	camera = PlayerCam.new(coordinates)
 	add_child(camera)
 #	sprite = spriteScene.instance()
 #	sprite.set_z_index(5)
@@ -101,6 +101,7 @@ func addBuff(buffName):
 
 func genSprite():
 	sprite = spriteScene.instance()
+	sprite.setCoords(coordinates)
 	sprite.set_z_index(5)
 	#sprite.set_scale(Vector2(2,2))
 	level.add_child(sprite)
