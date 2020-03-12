@@ -6,6 +6,7 @@ var direction
 var moveCounter = 0
 #var pcoords
 var timer
+var pixelPerSecond
 var moveCounter1 = 0
 var levelMap = {}
 
@@ -19,7 +20,8 @@ func _ready():
 	#levelMap = get_parent().get_parent().levelGrid
 	pass
 
-func _init(coords, dir, initialPlayerCoords):
+func _init(coords, dir, initialPlayerCoords,persec):
+	pixelPerSecond = persec
 	#print("arrow Spawned at "+str(coords)+", going towards Vector2"+str(dir))
 	#print("real position of player = "+str(pixelCoordinates))
 	coordinates = coords
@@ -27,3 +29,6 @@ func _init(coords, dir, initialPlayerCoords):
 	direction = dir
 	#pcoords = pixelCoordinates
 	centered = false
+	
+
+

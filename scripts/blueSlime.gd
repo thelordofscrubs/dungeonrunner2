@@ -1,14 +1,11 @@
 extends Monster
+class_name BlueSlime
+func _init(a,b,c,f).(a,b,c,f,10.0,10,5):
+	pass
 
-# Declare member variables here. Examples:
-# var a = 2
-# var b = "text"
 var spriteScene = preload("res://sprites/blueSlimeSprite.tscn")
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	flying = false
-	health = 10.0
-	maxHealth = 10
 	sprite = spriteScene.instance()
 	sprite.set_position((coordinates)*Vector2(16,16))
 	get_node("../graphicsContainer/spriteContainer").add_child(sprite)
@@ -48,7 +45,3 @@ func attemptMove():
 func attack():
 	if playerCoordinates == coordinates:
 		get_node("../Player").takeDamage(damage)
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-#func _process(delta):
-#	pass

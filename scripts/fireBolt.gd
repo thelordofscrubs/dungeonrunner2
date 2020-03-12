@@ -1,7 +1,7 @@
 extends Projectile
 class_name FireBolt
 
-func _init(a,b,c).(a,b,c):
+func _init(a,b,c).(a,b,c,30):
 	pass
 
 func _ready():
@@ -10,7 +10,6 @@ func _ready():
 	timer.connect("timeout",self,"movePixel1")
 	add_child(timer)
 	timer.start(1.0/80)
-	centered = false
 	texture = load("res://sprites/redSpellSprite.png")
 	scale = Vector2(1,1)
 	z_index = 50

@@ -1,12 +1,10 @@
 extends Monster
 class_name BatSkeleton
+func _init(a,b,c,f).(a,b,c,f,20.0,20,10):
+	pass
 
 var spriteScene = preload("res://sprites/batSkeletonSprite.tscn")
 func _ready():
-	flying = true
-	health = 20.0
-	maxHealth = 20
-	damage = 10
 	sprite = spriteScene.instance()
 	sprite.set_position((coordinates-playerCoordinates)*Vector2(16,16))
 	get_node("../graphicsContainer/spriteContainer").add_child(sprite)

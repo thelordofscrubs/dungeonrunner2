@@ -1,7 +1,7 @@
 extends Projectile
 class_name Arrow
 
-func _init(a,b,c).(a,b,c):
+func _init(a,b,c).(a,b,c,60):
 	pass
 
 func _ready():
@@ -32,7 +32,7 @@ func movePixel1():
 		var timer1 = Timer.new()
 		timer1.connect("timeout",self,"movePixel")
 		add_child(timer1)
-		timer1.start(1.0/60)
+		timer1.start(1.0/(pixelPerSecond))
 		coordinates += direction
 
 

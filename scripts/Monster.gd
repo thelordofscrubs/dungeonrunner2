@@ -16,11 +16,14 @@ var levelMap
 var monsterID
 var flying
 
-func _init(id_,pc ,c = Vector2(1,1), f = DIRECTION.NORTH):
+func _init(id_, pc, c, f, hp, hpMax, dmg):
 	monsterID = id_
 	coordinates = c
 	facing = f
 	playerCoordinates = pc
+	health = hp
+	maxHealth = hpMax
+	damage = dmg
 
 func _ready():
 	healthBar = monsterHealthBar.new(coordinates,maxHealth, health, name)
