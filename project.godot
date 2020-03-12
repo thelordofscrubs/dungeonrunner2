@@ -13,9 +13,15 @@ _global_script_classes=[ {
 "class": "Monster",
 "language": "GDScript",
 "path": "res://scripts/Monster.gd"
+}, {
+"base": "TextureProgress",
+"class": "monsterHealthBar",
+"language": "GDScript",
+"path": "res://scripts/monsterHealthBar.gd"
 } ]
 _global_script_class_icons={
-"Monster": ""
+"Monster": "",
+"monsterHealthBar": ""
 }
 
 [application]
