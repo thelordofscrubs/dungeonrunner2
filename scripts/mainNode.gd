@@ -6,12 +6,18 @@ extends Control
 # var b = "text"
 var mainMenuScene = preload("res://mainMenu.tscn")
 var mainMenu
+var currentLevel
 
 # Called when the node enters the scene tree for the first time.
 func _ready(): 
-	
 	mainMenu = mainMenuScene.instance()
 	add_child(mainMenu)
+
+func beginLevel():
+	mainMenu.queue_free()
+	currentLevel = load("res://lvlScene.tscn").instance()
+	add_child(currentLevel)
+
 
 
 
