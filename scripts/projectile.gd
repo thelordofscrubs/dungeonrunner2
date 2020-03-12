@@ -16,13 +16,14 @@ func _ready():
 	#global_position = pcoords-get_parent().get_parent().position
 	#position -= get_parent().position
 	#print("real position of arrow = "+str(global_position))
-	levelMap = get_parent().get_parent().levelGrid
+	#levelMap = get_parent().get_parent().levelGrid
+	pass
 
 func _init(coords, dir, initialPlayerCoords):
 	#print("arrow Spawned at "+str(coords)+", going towards Vector2"+str(dir))
 	#print("real position of player = "+str(pixelCoordinates))
 	coordinates = coords
-	position = (coords-initialPlayerCoords)*Vector2(16,16)
+	position = (coords/Vector2(2,2))
 	direction = dir
 	#pcoords = pixelCoordinates
 	centered = false
