@@ -29,13 +29,13 @@ func beginLevel():
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	if Input.is_action_pressed("forw"):
-		currentLevel.player.move(0,delta)
+		currentLevel.movePlayer(0,delta)
 	if Input.is_action_pressed("back"):
-		currentLevel.player.move(2,delta)
+		currentLevel.movePlayer(2,delta)
 	if Input.is_action_pressed("left"):
-		currentLevel.player.move(3,delta)
+		currentLevel.movePlayer(3,delta)
 	if Input.is_action_pressed("right"):
-		currentLevel.player.move(1,delta)
+		currentLevel.movePlayer(1,delta)
 	if Input.is_action_just_released("atk1"):
 		currentLevel.player.attack(1)
 	if Input.is_action_just_released("atk2"):

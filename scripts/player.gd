@@ -41,7 +41,7 @@ func _ready():
 	level = get_parent()
 	genSprite()
 	camera = PlayerCam.new(coordinates)
-	add_child(camera)
+	sprite.add_child(camera)
 #	sprite = spriteScene.instance()
 #	sprite.set_z_index(5)
 #	get_parent().add_child(sprite)
@@ -221,7 +221,10 @@ func attackTimerTimeOut():
 	sprite.set_texture(load("res://sprites/charSprite.png"))
 
 func move(vec,d):
-	coordinates += vec * Vector2(d,d)
+#	print("player is about to move from "+str(coordinates)+" m vector = "+str(Vector2(d,d)))
+	coordinates += vec * Vector2(d,d) * 100
+#	print("player has moved to coodinates:"+str(coordinates))
+	sprite.setCoords(coordinates)
 	facing = vec
 	match facing:
 		Vector2(1,0):
@@ -232,6 +235,7 @@ func move(vec,d):
 			sprite.set_texture(load("res://sprites/charSprite3.png"))
 		Vector2(0,-1):
 			sprite.set_texture(load("res://sprites/charSprite2.png"))
+	#camera.align()
 
 func castSpell():
 	if isAttacking == true:
