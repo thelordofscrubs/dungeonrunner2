@@ -143,6 +143,8 @@ func takeDamage(d):
 #		get_parent().die()
 		deathAnimation()
 
+
+#testcomment
 func deathAnimation():
 #	sprite.set_texture(load("res://sprites/charDeath"+str(deathAnimationFrame+1)+".tres"))
 #	if deathAnimationFrame < 3:
