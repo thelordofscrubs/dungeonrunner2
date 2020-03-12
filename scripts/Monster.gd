@@ -16,18 +16,8 @@ var levelMap
 var monsterID
 var flying
 
-# Declare member variables here. Examples:
-# var a = 2
-# var b = "text"
-
-func _init(id_):
+func _init(id_,c = Vector2(1,1), f = DIRECTION.NORTH):
 	monsterID = id_
-
-# Called when the node enters the scene tree for the first time.
-func _ready():
-	pass # Replace with function body.
-
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-#func _process(delta):
-#	pass
+	coordinates = c
+	facing = f
+	
