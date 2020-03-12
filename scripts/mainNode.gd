@@ -5,6 +5,7 @@ extends Control
 # var a = 2
 # var b = "text"
 var mainMenuScene = preload("res://mainMenu.tscn")
+var levelScene = preload("res://lvlScene.tscn")
 var mainMenu
 var currentLevel
 var inGame = false
@@ -21,12 +22,12 @@ func openMainMenu():
 	mainMenu = mainMenuScene.instance()
 	add_child(mainMenu)
 
-func beginLevel():
+func beginLevel(id):
 	mainMenu.queue_free()
-	currentLevel = load("res://lvlScene.tscn").instance()
+	currentLevel = levelScene.instance()
 	add_child(currentLevel)
+	currentLevel.startLevel(id)
 	inGame = true
-
 
 	
 # Called every frame. 'delta' is the elapsed time since the previous frame.

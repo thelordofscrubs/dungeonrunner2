@@ -5,25 +5,32 @@ enum DIR{F,R,B,L}
 # var a = 2
 # var b = "text"
 var player
+var levelID
+var levelTileMap
+var levelDimensions
+var initPlayerCoords
+var currentPlayerCoordinates
+var levelGrid = {}
+var doors = {}
 
 
 # Called when the node enters the scene tree for the first time.
-func _ready():
-	player = Player.new(Vector2(50,50))
-	add_child(player)
+#func _ready():
+	#player = Player.new(Vector2(50,50))
+	#add_child(player)
 
 func fireProjTest(vin):
 	add_child(Arrow.new(player.coordinates + vin * 10, vin, Vector2(0,0)))
 	print("fired projectile")
 
 func startLevel(id):
-#	print("id:"+str(id))
-#	levelID = int(id)
-#	name = "level"+str(levelID)
+	print("id:"+str(id))
+	levelID = int(id)
+	name = "level"+str(levelID)
 	set_pause_mode(1)
-#	var levelName = "res://maps/map"+str(levelID)+"TileMap.tscn"
-#	print(levelName)
-	levelTileMap = load("res://maps/map0TileMap.tscn").instance()
+	var levelName = "res://maps/map"+str(levelID)+"TileMap.tscn"
+	print(levelName)
+	levelTileMap = load(levelName).instance()
 	var x
 	var y
 	var i = 0
@@ -61,7 +68,7 @@ func startLevel(id):
 					doors[cc] = false
 				4:
 					levelGrid[cc] = "chest"
-					spawnChest("doubleArrow",cc)
+					#spawnChest("doubleArrow",cc)
 				5:
 					levelGrid[cc] = "chest"
 				6: #playerSpawn
@@ -70,37 +77,37 @@ func startLevel(id):
 				7: #blueSlimeSpawn
 					levelGrid[cc] = "floor"
 					var facing = Vector2(0,-1)
-					spawnMonster("blueSlime",cc,initPlayerCoords,facing)
+					#spawnMonster("blueSlime",cc,initPlayerCoords,facing)
 					levelTileMap.set_cellv(cc,0)
 				8: #keySpawn
 					levelGrid[cc] = "key"
-					spawnKey(cc)
+					#spawnKey(cc)
 					levelTileMap.set_cellv(cc,0)
 				9: #potSpawn
 					levelGrid[cc] = "pot"
-					spawnPot(cc)
+					#spawnPot(cc)
 					levelTileMap.set_cellv(cc,0)
 				10: #batSkeletonSpawn
 					levelGrid[cc] = "floor"
 					var facing = Vector2(0,-1)
-					spawnMonster("batSkeleton",cc,initPlayerCoords,facing)
+					#spawnMonster("batSkeleton",cc,initPlayerCoords,facing)
 					levelTileMap.set_cellv(cc,0)
 				12:
 					levelGrid[cc] = "floor"
 					var facing = Vector2(1,0)
-					spawnMonster("blueSlime",cc,initPlayerCoords,facing)
+					#spawnMonster("blueSlime",cc,initPlayerCoords,facing)
 					levelTileMap.set_cellv(cc,0)
 	print("initial player coordinates are: "+str(initPlayerCoords[0])+", "+str(initPlayerCoords[1]))
 	levelTileMap.set_position(levelTileMap.get_position()-initPlayerCoords*Vector2(16,16))
 	levelTileMap.set_z_index(0)
-	playerNode = Player.new(initPlayerCoords)
-	add_child(playerNode)
-	playerNode.genSprite()
-	graphicsContainerNode.add_child(levelTileMap)
+	player = Player.new(initPlayerCoords)
+	add_child(player)
+	player.genSprite()
+#	graphicsContainerNode.add_child(levelTileMap)
 	#get_node("healthBar").set_position()
-	graphicsContainerNode.set_position(OS.get_window_size()/Vector2(2,2)-Vector2(8,8))
-	for monster in monsters:
-		monster.getMap(levelGrid)
+#	graphicsContainerNode.set_position(OS.get_window_size()/Vector2(2,2)-Vector2(8,8))
+#	for monster in monsters:
+#		monster.getMap(levelGrid)
 
 func movePlayer(dir, delta):
 	match dir:
