@@ -23,7 +23,7 @@ func _ready():
 	make_current()
 	set_anchor_mode(1)
 	#set_offset(Vector2(-200,-450))
-	print("camera spawned at "+str(get_camera_position())+" with center at "+str(get_camera_screen_center()))
+	#print("camera spawned at "+str(get_camera_position())+" with center at "+str(get_camera_screen_center()))
 
 
 

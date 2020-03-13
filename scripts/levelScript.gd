@@ -22,7 +22,7 @@ var projectiles = []
 	#add_child(player)
 
 func fireProjTest(vin):
-	projectiles.append(Arrow.new(player.coordinates + vin* 20, vin, projectiles.size()))
+	projectiles.append(Arrow.new(player.screenCoordinates + vin* 20, vin, projectiles.size()))
 	add_child(projectiles[-1])
 	#print("fired projectile")
 
@@ -79,7 +79,7 @@ func startLevel(id):
 					levelGrid[cc] = TILE.CHEST
 				6: #playerSpawn
 					levelGrid[cc] = TILE.FLOOR
-					initPlayerCoords = cc*16 + Vector2(8,8)
+					initPlayerCoords = cc
 					set_cellv(cc,0)
 				7: #blueSlimeSpawn
 					levelGrid[cc] = TILE.FLOOR
@@ -107,7 +107,6 @@ func startLevel(id):
 	print("initial player coordinates are: "+str(initPlayerCoords[0])+", "+str(initPlayerCoords[1]))
 	player = Player.new(initPlayerCoords)
 	add_child(player)
-#	graphicsContainerNode.add_child(levelTileMap)
 	#get_node("healthBar").set_position()
 #	graphicsContainerNode.set_position(OS.get_window_size()/Vector2(2,2)-Vector2(8,8))
 #	for monster in monsters:

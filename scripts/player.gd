@@ -11,6 +11,7 @@ var atkS = 5
 var atkM
 var totalDamage
 var coordinates
+var screenCoordinates
 var initialCoordinates
 var isAttacking = false
 var sprite
@@ -68,6 +69,7 @@ func _ready():
 func _init(spawnCoordinates, h = 100, aM = 1):
 	name = "Player"
 	coordinates = spawnCoordinates
+	screenCoordinates = spawnCoordinates*16+Vector2(8,8)
 	initialCoordinates = spawnCoordinates
 	health = h
 	atkM = aM
@@ -105,7 +107,7 @@ func addBuff(buffName):
 
 func genSprite():
 	sprite = spriteScene.instance()
-	sprite.setCoords(coordinates)
+	sprite.setCoords(screenCoordinates)
 	sprite.set_z_index(5)
 	#sprite.set_scale(Vector2(2,2))
 	level.add_child(sprite)
@@ -226,9 +228,10 @@ func attackTimerTimeOut():
 
 func move(vec,d):
 #	print("player is about to move from "+str(coordinates)+" m vector = "+str(Vector2(d,d)))
-	coordinates += vec * Vector2(d,d) * 100
+	coordinates += vec * Vector2(d,d) * 10
+	screenCoordinates = coordinates*16+Vector2(8,8)
 #	print("player has moved to coodinates:"+str(coordinates))
-	sprite.setCoords(coordinates)
+	sprite.setCoords(screenCoordinates)
 	facing = vec
 	match facing:
 		Vector2(1,0):
