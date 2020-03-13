@@ -1,6 +1,8 @@
 extends Node
 class_name Player
 
+enum TILE{OOB,FLOOR,WALL,FINISH,DOOR,CHEST,KEY,POT}
+
 var spriteScene = preload("res://sprites/charSprite.tscn")
 
 var health

@@ -1,5 +1,6 @@
 extends TileMap
 
+enum TILE{OOB,FLOOR,WALL,FINISH,DOOR,CHEST,KEY,POT}
 enum DIR{F,R,B,L}
 # Declare member variables here. Examples:
 # var a = 2
@@ -44,7 +45,7 @@ func startLevel(id):
 		i += 1
 	y = i-1
 	levelDimensions = Vector2(x,y)
-	print(str(levelDimensions))
+	print("level dimensions are"+str(levelDimensions))
 	### NEW X AND Y FROM HERE ###
 	for y in range(levelDimensions[1]):
 		for x in range(levelDimensions[0]):
@@ -56,44 +57,44 @@ func startLevel(id):
 			var cc = Vector2(x,y)
 			match levelTileMap.get_cell(x,y):
 				-1:
-					levelGrid[cc] = "oob"
+					levelGrid[cc] = TILE.OOB
 				0:
-					levelGrid[cc] = "floor"
+					levelGrid[cc] = TILE.FLOOR
 				1:
-					levelGrid[cc] = "wall"
+					levelGrid[cc] = TILE.WALL
 				2:
-					levelGrid[cc] = "finish"
+					levelGrid[cc] = TILE.FINISH
 				3:
-					levelGrid[cc] = "door"
+					levelGrid[cc] = TILE.DOOR
 					doors[cc] = false
 				4:
-					levelGrid[cc] = "chest"
+					levelGrid[cc] = TILE.CHEST
 					#spawnChest("doubleArrow",cc)
 				5:
-					levelGrid[cc] = "chest"
+					levelGrid[cc] = TILE.CHEST
 				6: #playerSpawn
-					levelGrid[cc] = "floor"
+					levelGrid[cc] = TILE.FLOOR
 					levelTileMap.set_cellv(cc,0)
 				7: #blueSlimeSpawn
-					levelGrid[cc] = "floor"
+					levelGrid[cc] = TILE.FLOOR
 					var facing = Vector2(0,-1)
 					#spawnMonster("blueSlime",cc,initPlayerCoords,facing)
 					levelTileMap.set_cellv(cc,0)
 				8: #keySpawn
-					levelGrid[cc] = "key"
+					levelGrid[cc] = TILE.KEY
 					#spawnKey(cc)
 					levelTileMap.set_cellv(cc,0)
 				9: #potSpawn
-					levelGrid[cc] = "pot"
+					levelGrid[cc] = TILE.POT
 					#spawnPot(cc)
 					levelTileMap.set_cellv(cc,0)
 				10: #batSkeletonSpawn
-					levelGrid[cc] = "floor"
+					levelGrid[cc] = TILE.FLOOR
 					var facing = Vector2(0,-1)
 					#spawnMonster("batSkeleton",cc,initPlayerCoords,facing)
 					levelTileMap.set_cellv(cc,0)
 				12:
-					levelGrid[cc] = "floor"
+					levelGrid[cc] = TILE.FLOOR
 					var facing = Vector2(1,0)
 					#spawnMonster("blueSlime",cc,initPlayerCoords,facing)
 					levelTileMap.set_cellv(cc,0)
@@ -102,7 +103,6 @@ func startLevel(id):
 	levelTileMap.set_z_index(0)
 	player = Player.new(initPlayerCoords)
 	add_child(player)
-	player.genSprite()
 #	graphicsContainerNode.add_child(levelTileMap)
 	#get_node("healthBar").set_position()
 #	graphicsContainerNode.set_position(OS.get_window_size()/Vector2(2,2)-Vector2(8,8))

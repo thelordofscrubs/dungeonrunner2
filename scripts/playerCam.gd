@@ -14,8 +14,8 @@ func _ready():
 	#set_position()
 	set_enable_follow_smoothing(true)
 	set_zoom(Vector2(.5,.5))
-#	set_h_drag_enabled(true)
-#	set_v_drag_enabled(true)
+	set_h_drag_enabled(false)
+	set_v_drag_enabled(false)
 	make_current()
 
 
