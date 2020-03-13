@@ -10,6 +10,8 @@ var moveCounter1 = 0
 var levelMap = {}
 var bounds
 var projectileId
+var oldmod = [0.0, 0.0]
+var newmod = [0.0, 0.0]
 
 func _ready():
 	#print("coordinates = "+str(coordinates)+ " and graphicalContainer's coords are "+str(get_parent().get_parent().position/Vector2(16,16)))
@@ -25,9 +27,6 @@ func _ready():
 	timer.start(1.0/pixelPerSecond)
 	scale = Vector2(1,1)
 	z_index = 50
-
-var oldmod = [0.0, 0.0]
-var newmod = [0.0, 0.0]
 
 func updatePos():
 	coordinates += direction
@@ -74,6 +73,8 @@ func _init(coords, dir, id, persec):
 	#print("arrow Spawned at "+str(coords)+", going towards Vector2"+str(dir))
 	#print("real position of player = "+str(pixelCoordinates))
 	coordinates = coords
+	oldmod[0] = fmod(coords[0], 16.0)
+	oldmod[1] = fmod(coords[1], 16.0)
 	position = (coords)
 	direction = dir
 	set_centered(true)
