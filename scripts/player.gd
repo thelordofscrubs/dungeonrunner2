@@ -42,7 +42,9 @@ func _ready():
 	print("player ready function")
 	level = get_parent()
 	genSprite()
-	camera = PlayerCam.new(coordinates)
+	#print("intial player coordinates are "+str(initialCoordinates))
+	camera = PlayerCam.new()
+	#print("dividing Vector2(400, 900) by 2 = " + str(Vector2(400,900)/2))
 	sprite.add_child(camera)
 #	sprite = spriteScene.instance()
 #	sprite.set_z_index(5)
@@ -211,7 +213,7 @@ func attack(t):
 				changeArrows(-1)
 
 func fireArrow(coords, direction):
-	var arrow = Arrow.new(coords, direction, initialCoordinates)
+	var arrow = Arrow.new(coords, direction)
 	get_node("../graphicsContainer").add_child(arrow)
 
 func changeArrows(a):
@@ -251,8 +253,8 @@ func castSpell():
 			attackTimer(.5)
 			if mana < 20:
 				return
-			spell = FireBolt.new(coordinates, facing, initialCoordinates)
-			get_node("../graphicsContainer").add_child(spell)
+			spell = FireBolt.new(coordinates, facing)
+			level.add_child(spell)
 			mana -= 20
 			manaBar.value = mana
 		"speed buff":

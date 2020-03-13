@@ -21,8 +21,8 @@ var doors = {}
 	#add_child(player)
 
 func fireProjTest(vin):
-	add_child(Arrow.new(player.coordinates, vin, Vector2(0,0)))
-	print("fired projectile")
+	add_child(Arrow.new(player.coordinates + vin* 20, vin))
+	#print("fired projectile")
 
 func startLevel(id):
 	print("id:"+str(id))
@@ -98,8 +98,9 @@ func startLevel(id):
 					var facing = Vector2(1,0)
 					#spawnMonster("blueSlime",cc,initPlayerCoords,facing)
 					levelTileMap.set_cellv(cc,0)
+	initPlayerCoords = Vector2(20,20)
 	print("initial player coordinates are: "+str(initPlayerCoords[0])+", "+str(initPlayerCoords[1]))
-	levelTileMap.set_position(levelTileMap.get_position()-initPlayerCoords*Vector2(16,16))
+	levelTileMap.set_position(Vector2(0,0))
 	levelTileMap.set_z_index(0)
 	player = Player.new(initPlayerCoords)
 	add_child(player)
@@ -129,10 +130,9 @@ var ws
 
 func _input(event):
 	if event is InputEventMouseButton:
-		ws = OS.get_window_size()
+		ws = get_viewport_rect().size
 		p = event.position/2
-		p -= ws/4
-		p+= Vector2(40,40)
+		p -= ws/4#+initPlayerCoords
 		p = p.normalized()
 		fireProjTest(p)
 # Called every frame. 'delta' is the elapsed time since the previous frame.
