@@ -54,10 +54,13 @@ func startLevel(id):
 			if levelTileMap.get_cell(x,y) == 6:
 				initPlayerCoords = Vector2(x,y)#need player coordinates for spawning sprites in correct locations
 				currentPlayerCoordinates = initPlayerCoords
+	var tc
 	for y in range(levelDimensions[1]):
 		for x in range(levelDimensions[0]):
 			var cc = Vector2(x,y)
-			match levelTileMap.get_cell(x,y):
+			tc = levelTileMap.get_cell(x,y)
+			set_cellv(cc, tc)
+			match tc:
 				-1:
 					levelGrid[cc] = TILE.OOB
 				0:
@@ -76,34 +79,32 @@ func startLevel(id):
 					levelGrid[cc] = TILE.CHEST
 				6: #playerSpawn
 					levelGrid[cc] = TILE.FLOOR
-					levelTileMap.set_cellv(cc,0)
+					initPlayerCoords = cc*16 + Vector2(8,8)
+					set_cellv(cc,0)
 				7: #blueSlimeSpawn
 					levelGrid[cc] = TILE.FLOOR
 					var facing = Vector2(0,-1)
 					#spawnMonster("blueSlime",cc,initPlayerCoords,facing)
-					levelTileMap.set_cellv(cc,0)
+					set_cellv(cc,0)
 				8: #keySpawn
 					levelGrid[cc] = TILE.KEY
 					#spawnKey(cc)
-					levelTileMap.set_cellv(cc,0)
+					set_cellv(cc,0)
 				9: #potSpawn
 					levelGrid[cc] = TILE.POT
 					#spawnPot(cc)
-					levelTileMap.set_cellv(cc,0)
+					set_cellv(cc,0)
 				10: #batSkeletonSpawn
 					levelGrid[cc] = TILE.FLOOR
 					var facing = Vector2(0,-1)
 					#spawnMonster("batSkeleton",cc,initPlayerCoords,facing)
-					levelTileMap.set_cellv(cc,0)
+					set_cellv(cc,0)
 				12:
 					levelGrid[cc] = TILE.FLOOR
 					var facing = Vector2(1,0)
 					#spawnMonster("blueSlime",cc,initPlayerCoords,facing)
-					levelTileMap.set_cellv(cc,0)
-	initPlayerCoords = Vector2(20,20)
+					set_cellv(cc,0)
 	print("initial player coordinates are: "+str(initPlayerCoords[0])+", "+str(initPlayerCoords[1]))
-	levelTileMap.set_position(Vector2(0,0))
-	levelTileMap.set_z_index(0)
 	player = Player.new(initPlayerCoords)
 	add_child(player)
 #	graphicsContainerNode.add_child(levelTileMap)
