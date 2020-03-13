@@ -13,6 +13,7 @@ var initPlayerCoords
 var currentPlayerCoordinates
 var levelGrid = {}
 var doors = {}
+var projectiles = []
 
 
 # Called when the node enters the scene tree for the first time.
@@ -21,7 +22,8 @@ var doors = {}
 	#add_child(player)
 
 func fireProjTest(vin):
-	add_child(Arrow.new(player.coordinates + vin* 20, vin))
+	projectiles.append(Arrow.new(player.coordinates + vin* 20, vin, projectiles.size()))
+	add_child(projectiles[-1])
 	#print("fired projectile")
 
 func startLevel(id):
@@ -129,7 +131,7 @@ var p
 var ws
 
 func _input(event):
-	if event is InputEventMouseButton:
+	if event is InputEventMouseButton and event.pressed == true:
 		ws = get_viewport_rect().size
 		p = event.position/2
 		p -= ws/4#+initPlayerCoords

@@ -9,6 +9,7 @@ var pixelPerSecond
 var moveCounter1 = 0
 var levelMap = {}
 var bounds
+var projectileId
 
 func _ready():
 	#print("coordinates = "+str(coordinates)+ " and graphicalContainer's coords are "+str(get_parent().get_parent().position/Vector2(16,16)))
@@ -25,20 +26,50 @@ func _ready():
 	scale = Vector2(1,1)
 	z_index = 50
 
+var oldmod = [0.0, 0.0]
+var newmod = [0.0, 0.0]
+
 func updatePos():
 	coordinates += direction
 	set_position(coordinates)
 #	print(str(bounds))
 	for c in coordinates:
-		if abs(c) > 200:
+		if abs(c) >500:
 			queue_free()
 			#print("deleted arrow")
+	if direction[0] > 0:
+		newmod[0] = fmod(coordinates[0],16.0)
+		if newmod[0] < oldmod[0]:
+			#print("newmod[0] is smaller than oldmod[0], newmod = "+str(newmod[0])+" and oldmod = "+str(oldmod[0])+" and coordinates is currently" + str(coordinates))
+			checkForTerrain()
+		oldmod[0] = newmod[0]
+	if direction[0] < 0:
+		newmod[0] = fmod(coordinates[0],16.0)
+		if newmod[0] > oldmod[0]:
+			checkForTerrain()
+		oldmod[0] = newmod[0]
+	if direction[1] < 0:
+		newmod[1] = fmod(coordinates[1],16.0)
+		if newmod[1] > oldmod[1]:
+			checkForTerrain()
+		oldmod[1] = newmod[1]
+	if direction[1] > 0:
+		newmod[1] = fmod(coordinates[1],16.0)
+		if newmod[1] < oldmod[1]:
+			#print("newmod[1] is smaller than oldmod[1], newmod = "+str(newmod[1])+" and oldmod = "+str(oldmod[1])+" and coordinates is currently" + str(coordinates))
+			checkForTerrain()
+		oldmod[1] = newmod[1]
+
+func checkForTerrain():
+	print("projectile number "+str(projectileId)+" checking for terrain at coordinates : "+str((coordinates/16).floor()))
+	#print("cft ran")
 
 func _draw():
 	draw_rect(get_rect(),Color(0,255,0),false)
 	#draw_texture(get_texture(),Vector2(0,0))
 
-func _init(coords, dir, persec):
+func _init(coords, dir, id, persec):
+	projectileId = id
 	pixelPerSecond = persec
 	#print("arrow Spawned at "+str(coords)+", going towards Vector2"+str(dir))
 	#print("real position of player = "+str(pixelCoordinates))

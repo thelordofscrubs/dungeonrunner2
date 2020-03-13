@@ -209,12 +209,12 @@ func attack(t):
 				return
 			sprite.set_texture(load("res://sprites/attackingBowSprite.png"))
 			if arrows > 0:
-				fireArrow(coordinates,facing)
+				#fireArrow(coordinates,facing)
 				changeArrows(-1)
 
-func fireArrow(coords, direction):
-	var arrow = Arrow.new(coords, direction)
-	get_node("../graphicsContainer").add_child(arrow)
+#func fireArrow(coords, direction):
+#	var arrow = Arrow.new(coords, direction)
+#	get_node("../graphicsContainer").add_child(arrow)
 
 func changeArrows(a):
 	arrows += a
@@ -253,7 +253,7 @@ func castSpell():
 			attackTimer(.5)
 			if mana < 20:
 				return
-			spell = FireBolt.new(coordinates, facing)
+			#spell = FireBolt.new(coordinates, facing)
 			level.add_child(spell)
 			mana -= 20
 			manaBar.value = mana
