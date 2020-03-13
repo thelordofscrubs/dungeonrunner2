@@ -21,7 +21,7 @@ var doors = {}
 	#add_child(player)
 
 func fireProjTest(vin):
-	add_child(Arrow.new(player.coordinates + vin * 10, vin, Vector2(0,0)))
+	add_child(Arrow.new(player.coordinates, vin, Vector2(0,0)))
 	print("fired projectile")
 
 func startLevel(id):

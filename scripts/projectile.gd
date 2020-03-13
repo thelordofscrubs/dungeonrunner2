@@ -29,6 +29,7 @@ func _init(coords, dir, initialPlayerCoords,persec):
 	direction = dir
 	#pcoords = pixelCoordinates
 	centered = false
+	set_rotation(atan2(dir[1],dir[0])+ PI/2)
 	
 
 
