@@ -48,3 +48,4 @@ func _process(delta):
 		currentLevel.player.attack(2)
 	if Input.is_action_just_released("chgw"):
 		currentLevel.player.changeWeapon()
+	currentLevel.moveMonsters(delta)

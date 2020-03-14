@@ -5,39 +5,33 @@ func _init(a,b,c,f).(a,b,c,f,20.0,20,10):
 
 var spriteScene = preload("res://sprites/batSkeletonSprite.tscn")
 func _ready():
-	sprite = spriteScene.instance()
-	sprite.set_position((coordinates-playerCoordinates)*Vector2(16,16))
-	get_node("../graphicsContainer/spriteContainer").add_child(sprite)
+	initSprite(spriteScene)
 	attackTimer = Timer.new()
 	add_child(attackTimer)
 	attackTimer.connect("timeout",self,"attack")
 	attackTimer.start(.5)
-	moveTimer = Timer.new()
-	add_child(moveTimer)
-	moveTimer.connect("timeout",self,"attemptMove")
-	moveTimer.start(1)
 
-func attemptMove():
+func attemptMove(delta):
 	var attemptedCoordinates = coordinates + facing
 	if levelMap[attemptedCoordinates] == "wall":
 		facing *= Vector2(-1,-1)
-		move(facing, 1)
+		move(facing, delta)
 	elif levelMap[attemptedCoordinates] == "door":
 		facing *= Vector2(-1,-1)
-		move(facing, 1)
+		move(facing, delta)
 	else:
 		match facing:
 			Vector2(1,0):
-				move(facing, 1)
+				move(facing, delta)
 				facing = Vector2(0,1)
 			Vector2(0,1):
-				move(facing, 1)
+				move(facing, delta)
 				facing = Vector2(-1,0)
 			Vector2(-1,0):
-				move(facing, 1)
+				move(facing, delta)
 				facing = Vector2(0,-1)
 			Vector2(0,-1):
-				move(facing, 1)
+				move(facing, delta)
 				facing = Vector2(1,0)
 	attack()
 

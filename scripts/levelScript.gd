@@ -14,6 +14,7 @@ var currentPlayerCoordinates
 var levelGrid = {}
 var doors = {}
 var projectiles = []
+var monsters = []
 
 
 # Called when the node enters the scene tree for the first time.
@@ -84,6 +85,8 @@ func startLevel(id):
 				7: #blueSlimeSpawn
 					levelGrid[cc] = TILE.FLOOR
 					var facing = Vector2(0,-1)
+					var monster = BlueSlime.new(monsters.size(),currentPlayerCoordinates,cc,facing)
+					addMonster(monster)
 					#spawnMonster("blueSlime",cc,initPlayerCoords,facing)
 					set_cellv(cc,0)
 				8: #keySpawn
@@ -97,11 +100,15 @@ func startLevel(id):
 				10: #batSkeletonSpawn
 					levelGrid[cc] = TILE.FLOOR
 					var facing = Vector2(0,-1)
+					var monster = BatSkeleton.new(monsters.size(),currentPlayerCoordinates,cc,facing)
+					addMonster(monster)
 					#spawnMonster("batSkeleton",cc,initPlayerCoords,facing)
 					set_cellv(cc,0)
 				12:
 					levelGrid[cc] = TILE.FLOOR
 					var facing = Vector2(1,0)
+					var monster = BlueSlime.new(monsters.size(),currentPlayerCoordinates,cc,facing)
+					addMonster(monster)
 					#spawnMonster("blueSlime",cc,initPlayerCoords,facing)
 					set_cellv(cc,0)
 	print("initial player coordinates are: "+str(initPlayerCoords[0])+", "+str(initPlayerCoords[1]))
@@ -111,6 +118,15 @@ func startLevel(id):
 #	graphicsContainerNode.set_position(OS.get_window_size()/Vector2(2,2)-Vector2(8,8))
 #	for monster in monsters:
 #		monster.getMap(levelGrid)
+
+func moveMonsters(delta):
+	for monster in monsters:
+		monster.attemptMove(delta)
+	pass
+
+func addMonster(monster):
+	monsters.append(monster)
+	add_child(monster)
 
 func movePlayer(dir, delta):
 	match dir:

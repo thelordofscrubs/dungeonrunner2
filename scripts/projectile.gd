@@ -60,7 +60,8 @@ func updatePos():
 		oldmod[1] = newmod[1]
 
 func checkForTerrain():
-	print("projectile number "+str(projectileId)+" checking for terrain at coordinates : "+str((coordinates/16).floor()))
+	pass
+	#print("projectile number "+str(projectileId)+" checking for terrain at coordinates : "+str((coordinates/16).floor()))
 	#print("cft ran")
 
 func _draw():

@@ -1,7 +1,7 @@
 extends Sprite
 
 func move(vec):
-	position += vec*Vector2(16,16)
+	set_position(vec)
 
 func takeDamage(a):
 	var dmgLabel = damageLabel.new()
@@ -20,6 +20,13 @@ class damageLabel:
 	
 	var age = 0
 	var timer
+	var t = Theme.new()
+	var a = 255
+	
+	
+	func _init():
+		t.set_color("font_color","Label",Color(255,255,255,255))
+		set_theme(t)
 	
 	func startTimer():
 		timer = Timer.new()
@@ -30,6 +37,8 @@ class damageLabel:
 	func moveSelf():
 		rect_position -= Vector2(0,1)
 		age += 1
+		a -= 3
+		t.set_color("font_color","Label",Color(255,255,255,a))
 		if age > 50:
 			get_parent().remove_child(self)
 			queue_free()
