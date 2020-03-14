@@ -72,7 +72,7 @@ func _ready():
 func _init(spawnCoordinates, h = 100, aM = 1):
 	name = "Player"
 	coordinates = spawnCoordinates
-	playerBottomRight = coordinates + Vector2(16,16)
+	playerBottomRight = coordinates + Vector2(1,1)
 	screenCoordinates = spawnCoordinates*16+Vector2(8,8)
 	initialCoordinates = spawnCoordinates
 	health = h
@@ -246,7 +246,7 @@ func move(vec,d):
 	        return
 #	print("player is about to move from "+str(coordinates)+" m vector = "+str(Vector2(d,d)))
 	coordinates += moveVector
-	playerBottomRight = coordinates + Vector2(16,16)
+	playerBottomRight = coordinates + Vector2(1,1)
 	screenCoordinates = coordinates*16+Vector2(8,8)
 #	print("player has moved to coodinates:"+str(coordinates))
 	sprite.setCoords(screenCoordinates)
