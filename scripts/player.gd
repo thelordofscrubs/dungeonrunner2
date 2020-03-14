@@ -293,13 +293,3 @@ func changeSpell(d):
 	if currentSpell == spells.size():
 		currentSpell = 0
 	spellDisplay.set_text("Current Spell:\n"+spells[currentSpell].capitalize())
-
-func _process(delta):
-	if Input.is_action_just_released("changeUp"):
-		changeWeapon(1)
-	if Input.is_action_just_released("changeDown"):
-		changeWeapon(-1)
-	if Input.is_action_just_released("changeUp1"):
-		changeSpell(1)
-	if Input.is_action_just_released("changeDown1"):
-		changeSpell(-1)

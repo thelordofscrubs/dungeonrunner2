@@ -34,11 +34,6 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://scripts/Monster.gd"
 }, {
-"base": "TextureProgress",
-"class": "MonsterHealthBar",
-"language": "GDScript",
-"path": "res://scripts/monsterHealthBar.gd"
-}, {
 "base": "Node",
 "class": "Player",
 "language": "GDScript",
@@ -53,6 +48,11 @@ _global_script_classes=[ {
 "class": "Projectile",
 "language": "GDScript",
 "path": "res://scripts/projectile.gd"
+}, {
+"base": "TextureProgress",
+"class": "monsterHealthBar",
+"language": "GDScript",
+"path": "res://scripts/monsterHealthBar.gd"
 } ]
 _global_script_class_icons={
 "Arrow": "",
@@ -60,10 +60,10 @@ _global_script_class_icons={
 "BlueSlime": "",
 "FireBolt": "",
 "Monster": "",
-"MonsterHealthBar": "",
 "Player": "",
 "PlayerCam": "",
-"Projectile": ""
+"Projectile": "",
+"monsterHealthBar": ""
 }
 
 [application]
