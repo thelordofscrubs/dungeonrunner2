@@ -1,7 +1,6 @@
 extends Monster
 class_name BlueSlime
 
-
 func _init(a,b,c,f).(a,b,c,f,10.0,10,5):
 	pass
 
@@ -16,13 +15,13 @@ func _ready():
 
 #enum TILE{OOB,FLOOR,WALL,FINISH,DOOR,CHEST,KEY,POT}
 func attemptMove(delta):
-	var moveAmount = facing*delta
 	var coordinates2 = coordinates
 	for c in coordinates2:
 		if (c > 0):
 			c += 16
 	if levelMap[(coordinates2+(facing*delta)).floor()] == TILE.WALL:
 		facing *= -1
+	var moveAmount = facing*delta
 	match facing:
 		Vector2(1,0):
 			move(moveAmount)
