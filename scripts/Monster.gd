@@ -1,6 +1,6 @@
 extends Node
 class_name Monster
-
+enum TILE{OOB,FLOOR,WALL,FINISH,DOOR,CHEST,KEY,POT}
 enum DIRECTION {NORTH,EAST,SOUTH,WEST}
 var health 
 var maxHealth 
@@ -50,7 +50,7 @@ func die():
 	sprite.queue_free()
 	healthBar.queue_free()
 
-func move(vec,delta):
-	coordinates += vec*delta
+func move(vec):
+	coordinates += vec
 	#facing = vec
 	sprite.move(coordinates*16)

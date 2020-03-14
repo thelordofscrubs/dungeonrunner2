@@ -111,6 +111,8 @@ func startLevel(id):
 					addMonster(monster)
 					#spawnMonster("blueSlime",cc,initPlayerCoords,facing)
 					set_cellv(cc,0)
+	for monster in monsters:
+		monster.getMap(levelGrid)
 	print("initial player coordinates are: "+str(initPlayerCoords[0])+", "+str(initPlayerCoords[1]))
 	player = Player.new(initPlayerCoords)
 	add_child(player)
