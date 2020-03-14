@@ -12,28 +12,29 @@ func _ready():
 	attackTimer.start(.5)
 
 func attemptMove(delta):
-	var attemptedCoordinates = coordinates + facing
-	if levelMap[attemptedCoordinates] == "wall":
-		facing *= Vector2(-1,-1)
-		move(facing, delta)
-	elif levelMap[attemptedCoordinates] == "door":
-		facing *= Vector2(-1,-1)
-		move(facing, delta)
-	else:
-		match facing:
-			Vector2(1,0):
-				move(facing, delta)
-				facing = Vector2(0,1)
-			Vector2(0,1):
-				move(facing, delta)
-				facing = Vector2(-1,0)
-			Vector2(-1,0):
-				move(facing, delta)
-				facing = Vector2(0,-1)
-			Vector2(0,-1):
-				move(facing, delta)
-				facing = Vector2(1,0)
-	attack()
+	return
+#	var attemptedCoordinates = coordinates + facing
+#	if levelMap[attemptedCoordinates] == "wall":
+#		facing *= Vector2(-1,-1)
+#		move(facing, delta)
+#	elif levelMap[attemptedCoordinates] == "door":
+#		facing *= Vector2(-1,-1)
+#		move(facing, delta)
+#	else:
+#		match facing:
+#			Vector2(1,0):
+#				move(facing, delta)
+#				facing = Vector2(0,1)
+#			Vector2(0,1):
+#				move(facing, delta)
+#				facing = Vector2(-1,0)
+#			Vector2(-1,0):
+#				move(facing, delta)
+#				facing = Vector2(0,-1)
+#			Vector2(0,-1):
+#				move(facing, delta)
+#				facing = Vector2(1,0)
+#	attack()
 
 func attack():
 	if playerCoordinates == coordinates:

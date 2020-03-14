@@ -38,6 +38,9 @@ var buffDisplay
 var currentBuffs = []
 var level
 var camera
+var playerSize = 1
+var playerBottomRight
+var unitBlockVector = Vector2(1,1)
 
 func _ready():
 	print("player ready function")
@@ -69,6 +72,7 @@ func _ready():
 func _init(spawnCoordinates, h = 100, aM = 1):
 	name = "Player"
 	coordinates = spawnCoordinates
+	playerBottomRight = coordinates + Vector2(16,16)
 	screenCoordinates = spawnCoordinates*16+Vector2(8,8)
 	initialCoordinates = spawnCoordinates
 	health = h
@@ -226,9 +230,23 @@ func attackTimerTimeOut():
 	isAttacking = false
 	sprite.set_texture(load("res://sprites/charSprite.png"))
 
+var moveVector
+
 func move(vec,d):
+	moveVector = vec*Vector2(d,d)*10
+	match level.levelGrid[(coordinates+moveVector).floor()]:
+	    -1:
+	        return
+	    TILE.WALL:
+	        return
+	match level.levelGrid[(playerBottomRight+moveVector).floor()]:
+	    -1:
+	        return
+	    TILE.WALL:
+	        return
 #	print("player is about to move from "+str(coordinates)+" m vector = "+str(Vector2(d,d)))
-	coordinates += vec * Vector2(d,d) * 10
+	coordinates += moveVector
+	playerBottomRight = coordinates + Vector2(16,16)
 	screenCoordinates = coordinates*16+Vector2(8,8)
 #	print("player has moved to coodinates:"+str(coordinates))
 	sprite.setCoords(screenCoordinates)
