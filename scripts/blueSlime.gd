@@ -44,15 +44,7 @@ func attemptMove(delta):
 	if flipFacing():
 		facing *= -1
 	moveVector = facing*delta
-	match facing:
-		Vector2(1,0):
-			move(moveVector)
-		Vector2(0,1):
-			move(moveVector)
-		Vector2(-1,0):
-			move(moveVector)
-		Vector2(0,-1):
-			move(moveVector)
+	move(moveVector)
 	attack()
 
 func attack():

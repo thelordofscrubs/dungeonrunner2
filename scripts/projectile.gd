@@ -13,6 +13,7 @@ var projectileId
 var oldmod = [0.0, 0.0]
 var newmod = [0.0, 0.0]
 var level
+var damage
 
 func _ready():
 	scale = Vector2(1,1)
@@ -34,7 +35,11 @@ func invisibleBoi():
 
 func startNormalMovement():
 	set_visible(true)
+	timer.queue_free()
+	timer = Timer.new()
 	timer.connect("timeout", self, "updatePos")
+	add_child(timer)
+	timer.start(1.0/pixelPerSecond)
 
 func moveNoCollision():
 	coordinates += direction
@@ -43,6 +48,7 @@ func moveNoCollision():
 func updatePos():
 	coordinates += direction
 	set_position(coordinates)
+	entityCollision()
 #	print(str(bounds))
 	if !level.levelGrid.has((coordinates/16.0).floor()):
 		queue_free()
@@ -70,6 +76,18 @@ func updatePos():
 			checkForTerrain()
 		oldmod[1] = newmod[1]
 
+func entityCollision():
+	for monster in level.monsters:
+		if Rect2(monster.coordinates,Vector2(1,1)).has_point(coordinates/16):
+			monster.changeHealth(-damage)
+			queue_free()
+	if Rect2(level.player.coordinates,Vector2(1,1)).has_point(coordinates/16):
+		queue_free()
+
+#func checkIfIn(vec2, rec2):
+#	if vec2[0] > rec2.position[0] and vec2[0] < rec2.end[0] and vec2[1] > rec2.position[1] and vec2[1] < rec2.end[1]:
+#		return true
+
 func checkForTerrain():
 	match level.levelGrid[(coordinates/16).floor()]:
 		0:
@@ -81,7 +99,8 @@ func checkForTerrain():
 	#draw_rect(get_rect(),Color(0,255,0),false)
 	#draw_texture(get_texture(),Vector2(0,0))
 
-func _init(coords, dir, id, persec):
+func _init(coords, dir, id, persec, d):
+	damage = d
 	projectileId = id
 	pixelPerSecond = persec
 	#print("arrow Spawned at "+str(coords)+", going towards Vector2"+str(dir))

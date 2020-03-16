@@ -51,6 +51,7 @@ func changeHealth(a):
 		die()
 
 func die():
+	level.monsters.erase(self)
 	sprite.queue_free()
 	healthBar.queue_free()
 
