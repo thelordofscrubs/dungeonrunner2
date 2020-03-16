@@ -42,6 +42,7 @@ var playerSize = 1
 var playerRect
 var playerCenter
 var unitBlockVector = Vector2(1,1)
+const collisionLen = .8
 
 func _ready():
 	print("player ready function")
@@ -265,24 +266,24 @@ func move(vec,d):
 		pv = Vector2(0,.5)
 		#print(str(pv))
 		#level.setPointsForDrawLine(pc,ec)
-		match level.levelGrid[(ec+pv*.9+moveVector).floor()]:
+		match level.levelGrid[(ec+pv*collisionLen+moveVector).floor()]:
 			-1:
 				moveVector[0] = 0
 			TILE.WALL:
 				moveVector[0] = 0
-		match level.levelGrid[(ec-pv*.9+moveVector).floor()]:
+		match level.levelGrid[(ec-pv*collisionLen+moveVector).floor()]:
 			-1:
 				moveVector[0] = 0
 			TILE.WALL:
 				moveVector[0] = 0
 		ec = pc+Vector2(0,vec[1]).normalized()*.5
 		pv = Vector2(.5,0)
-		match level.levelGrid[(ec+pv*.9+moveVector).floor()]:
+		match level.levelGrid[(ec+pv*collisionLen+moveVector).floor()]:
 			-1:
 				moveVector[1] = 0
 			TILE.WALL:
 				moveVector[1] = 0
-		match level.levelGrid[(ec-pv*.9+moveVector).floor()]:
+		match level.levelGrid[(ec-pv*collisionLen+moveVector).floor()]:
 			-1:
 				moveVector[1] = 0
 			TILE.WALL:
@@ -290,12 +291,12 @@ func move(vec,d):
 	else:
 		ec = pc+vec*.5
 		pv = Vector2(vec[1],vec[0])*.5
-		match level.levelGrid[(ec+pv*.9+moveVector).floor()]:
+		match level.levelGrid[(ec+pv*collisionLen+moveVector).floor()]:
 			-1:
 				return
 			TILE.WALL:
 				return
-		match level.levelGrid[(ec-pv*.9+moveVector).floor()]:
+		match level.levelGrid[(ec-pv*collisionLen+moveVector).floor()]:
 			-1:
 				return
 			TILE.WALL:

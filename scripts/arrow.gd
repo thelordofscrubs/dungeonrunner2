@@ -1,7 +1,7 @@
 extends Projectile
 class_name Arrow
 
-func _init(a,b,c).(a,b,c,100,5):
+func _init(a,b,c).(a,b,c,120,5):
 	pass
 
 func checkForTerrain():

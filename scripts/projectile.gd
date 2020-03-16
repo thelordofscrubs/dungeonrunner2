@@ -82,8 +82,10 @@ func entityCollision():
 		if Rect2(monster.coordinates,Vector2(1,1)).has_point(coordinates/16):
 			monster.changeHealth(-damage)
 			queue_free()
+			return
 	if Rect2(level.player.coordinates,Vector2(1,1)).has_point(coordinates/16):
 		queue_free()
+		return
 
 #func checkIfIn(vec2, rec2):
 #	if vec2[0] > rec2.position[0] and vec2[0] < rec2.end[0] and vec2[1] > rec2.position[1] and vec2[1] < rec2.end[1]:
