@@ -22,11 +22,11 @@ class damageLabel:
 	var age = 0
 	var timer
 	var t = Theme.new()
-	var a = 255
+	var a = 1.0
 	
 	
 	func _init():
-		t.set_color("font_color","Label",Color(255,255,255,255))
+		t.set_color("font_color","Label",Color(200,200,200))
 		set_theme(t)
 	
 	func startTimer():
@@ -36,11 +36,12 @@ class damageLabel:
 		timer.start(0.01)
 	
 	func moveSelf():
-		rect_position -= Vector2(0,1)
+		rect_position -= Vector2(0,.5)
 		age += 1
-		a -= 3
-		t.set_color("font_color","Label",Color(a,a,a,a))
-		set_theme(t)
+		a -= .02
+		modulate.a = a
+		#t.set_color("font_color","Label",Color(200,200,200,a))
+		#set_theme(t)
 		if age > 50:
 			get_parent().remove_child(self)
 			queue_free()
