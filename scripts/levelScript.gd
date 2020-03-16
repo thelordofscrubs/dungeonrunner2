@@ -22,9 +22,9 @@ var monsters = []
 	#player = Player.new(Vector2(50,50))
 	#add_child(player)
 
-func fireProjTest(vin):
-	projectiles.append(Arrow.new(player.screenCoordinates + vin* 20, vin, projectiles.size()))
-	add_child(projectiles[-1])
+#func fireProjTest(vin):
+#	projectiles.append(Arrow.new(player.screenCoordinates + vin* 20, vin, projectiles.size()))
+#	add_child(projectiles[-1])
 	#print("fired projectile")
 
 func startLevel(id):
@@ -153,7 +153,7 @@ func _input(event):
 		p = event.position/2
 		p -= ws/4#+initPlayerCoords
 		p = p.normalized()
-		fireProjTest(p)
+		player.fireArrow(p)
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta):
 #	pass

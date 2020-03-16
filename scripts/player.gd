@@ -219,9 +219,9 @@ func attack(t):
 				#fireArrow(coordinates,facing)
 				changeArrows(-1)
 
-#func fireArrow(coords, direction):
-#	var arrow = Arrow.new(coords, direction)
-#	get_node("../graphicsContainer").add_child(arrow)
+func fireArrow(vin):
+	var arrow = Arrow.new(screenCoordinates + vin* 5, vin, level.projectiles.size())
+	level.add_child(arrow)
 
 func changeArrows(a):
 	arrows += a
