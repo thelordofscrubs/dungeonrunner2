@@ -34,6 +34,25 @@ func beginLevel(id):
 func _process(delta):
 	if inGame == false:
 		return
+	if Input.is_action_just_released("atk1"):
+		currentLevel.player.attack(1)
+	if Input.is_action_just_released("atk2"):
+		currentLevel.player.attack(2)
+	if Input.is_action_just_released("chgw"):
+		currentLevel.player.changeWeapon()
+	currentLevel.moveMonsters(delta)
+	if Input.is_action_pressed("forw") and Input.is_action_pressed("left"):
+		currentLevel.movePlayer(7,delta)
+		return
+	if Input.is_action_pressed("back") and Input.is_action_pressed("left"):
+		currentLevel.movePlayer(6,delta)
+		return
+	if Input.is_action_pressed("back") and Input.is_action_pressed("right"):
+		currentLevel.movePlayer(5,delta)
+		return
+	if Input.is_action_pressed("forw") and Input.is_action_pressed("right"):
+		currentLevel.movePlayer(4,delta)
+		return
 	if Input.is_action_pressed("forw"):
 		currentLevel.movePlayer(0,delta)
 	if Input.is_action_pressed("back"):
@@ -42,10 +61,3 @@ func _process(delta):
 		currentLevel.movePlayer(3,delta)
 	if Input.is_action_pressed("right"):
 		currentLevel.movePlayer(1,delta)
-	if Input.is_action_just_released("atk1"):
-		currentLevel.player.attack(1)
-	if Input.is_action_just_released("atk2"):
-		currentLevel.player.attack(2)
-	if Input.is_action_just_released("chgw"):
-		currentLevel.player.changeWeapon()
-	currentLevel.moveMonsters(delta)

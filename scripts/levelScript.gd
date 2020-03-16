@@ -1,7 +1,7 @@
 extends TileMap
 
 enum TILE{OOB,FLOOR,WALL,FINISH,DOOR,CHEST,KEY,POT}
-enum DIR{F,R,B,L}
+enum DIR{F,R,B,L,FR,BR,BL,FL}
 # Declare member variables here. Examples:
 # var a = 2
 # var b = "text"
@@ -117,7 +117,6 @@ func startLevel(id):
 	player = Player.new(initPlayerCoords)
 	add_child(player)
 	#get_node("healthBar").set_position()
-#	graphicsContainerNode.set_position(OS.get_window_size()/Vector2(2,2)-Vector2(8,8))
 #	for monster in monsters:
 #		monster.getMap(levelGrid)
 
@@ -128,6 +127,37 @@ func moveMonsters(delta):
 func addMonster(monster):
 	monsters.append(monster)
 	add_child(monster)
+
+var dv1 = Vector2(1,1)
+var dv2 = Vector2(10,11)
+
+var drawClass
+
+func setPointsForDrawLine(v1,v2):
+	if drawClass:
+		drawClass.setPoints(v1,v2)
+		return
+	drawClass = drawingStuff.new(v1,v2)
+	add_child(drawClass)
+
+class drawingStuff:
+	extends Node2D
+	var v1
+	var v2
+	func _init(tv1,tv2):
+		v1 = tv1*16
+		v2 = tv2*16
+		z_index = 100
+		print("drawClass has been initiated")
+	
+	func setPoints(tv1,tv2):
+		v1 = tv1*16
+		v2 = tv2*16
+		update()
+	
+	func _draw():
+		#print("drawClass is printing")
+		draw_line(v1,v2,Color(0,250,250), 1.3)
 
 func movePlayer(dir, delta):
 	match dir:
@@ -143,6 +173,18 @@ func movePlayer(dir, delta):
 		DIR.L:
 			#print("level script is calling player.move((-1,0),"+str(delta)+")L")
 			player.move(Vector2(-1,0), delta)
+		DIR.FR:
+			#print("level script is calling player.move((-1,0),"+str(delta)+")L")
+			player.move(Vector2(1,-1).normalized(), delta)
+		DIR.BR:
+			#print("level script is calling player.move((-1,0),"+str(delta)+")L")
+			player.move(Vector2(1,1).normalized(), delta)
+		DIR.BL:
+			#print("level script is calling player.move((-1,0),"+str(delta)+")L")
+			player.move(Vector2(-1,1).normalized(), delta)
+		DIR.FL:
+			#print("level script is calling player.move((-1,0),"+str(delta)+")L")
+			player.move(Vector2(-1,-1).normalized(), delta)
 
 var p
 var ws

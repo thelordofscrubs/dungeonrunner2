@@ -12,8 +12,9 @@ func takeDamage(a):
 	var posX = dmgLabel.get_size()[0]/2-8
 	dmgLabel.set_position(position+Vector2(4,5))
 	dmgLabel.set_scale(Vector2(0.6,0.6))
-	dmgLabel.startTimer()
 	get_parent().add_child(dmgLabel)
+	dmgLabel.startTimer()
+
 
 class damageLabel:
 	extends Label
@@ -38,7 +39,8 @@ class damageLabel:
 		rect_position -= Vector2(0,1)
 		age += 1
 		a -= 3
-		t.set_color("font_color","Label",Color(255,255,255,a))
+		t.set_color("font_color","Label",Color(a,a,a,a))
+		set_theme(t)
 		if age > 50:
 			get_parent().remove_child(self)
 			queue_free()

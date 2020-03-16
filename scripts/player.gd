@@ -39,7 +39,7 @@ var currentBuffs = []
 var level
 var camera
 var playerSize = 1
-var playerBottomRight
+var playerRect
 var playerCenter
 var unitBlockVector = Vector2(1,1)
 
@@ -73,7 +73,7 @@ func _ready():
 func _init(spawnCoordinates, h = 100, aM = 1):
 	name = "Player"
 	coordinates = spawnCoordinates
-	playerBottomRight = coordinates + Vector2(1,1)
+	playerRect = Rect2(coordinates, Vector2(1,1))
 	screenCoordinates = spawnCoordinates*16+Vector2(8,8)
 	initialCoordinates = spawnCoordinates
 	health = h
@@ -233,88 +233,76 @@ func attackTimerTimeOut():
 
 var moveVector
 
-func detectWall(vecin):
-	var ec = coordinates+Vector2(.5,.5)+vecin*.5
-	var pv = Vector2(vecin[1],vecin[0])*.5
-	match level.levelGrid[(ec+moveVector).floor()]:
-		-1:
-			return false
-		TILE.WALL:
-			return false
-	match level.levelGrid[(ec+pv+moveVector).floor()]:
-		-1:
-			return false
-		TILE.WALL:
-			return false
-	match level.levelGrid[(ec-pv+moveVector).floor()]:
-		-1:
-			return false
-		TILE.WALL:
-			return false
-
-var ec
-var pv
-
-func move(vec,d):
-	moveVector = vec*Vector2(d,d)*5
-	ec = coordinates+Vector2(.5,.5)+vec*.5
-	pv = Vector2(vec[1],vec[0])*.5
-#	match level.levelGrid[(playerBottomRight+moveVector).floor()]:
-#	    -1:
-#	        return
-#	    TILE.WALL:
-#	        return
-#	match level.levelGrid[(coordinates+Vector2(.5,.5)+vec*.5+moveVector).floor()]:
-#		-1:
-#			return
-#		TILE.WALL:
-#			return
-
+#func detectWall(vecin):
+#	var ec = coordinates+Vector2(.5,.5)+vecin*.5
+#	var pv = Vector2(vecin[1],vecin[0])*.5
 #	match level.levelGrid[(ec+moveVector).floor()]:
 #		-1:
 #			return false
 #		TILE.WALL:
 #			return false
-	match level.levelGrid[(ec+pv*.9+moveVector).floor()]:
-		-1:
-			return false
-		TILE.WALL:
-			return false
-	match level.levelGrid[(ec-pv*.9+moveVector).floor()]:
-		-1:
-			return false
-		TILE.WALL:
-			return false
-#	match vec:
-#		Vector2(1,0):
-#			match level.levelGrid[(coordinates+Vector2(.5,.5)+moveVector).floor()]:
-#				-1:
-#					return
-#				TILE.WALL:
-#					return
-#		Vector2(0,1):
-#			match level.levelGrid[(coordinates+Vector2(.5,.5)+moveVector).floor()]:
-#			    -1:
-#			        return
-#			    TILE.WALL:
-#			        return
-#		Vector2(-1,0):
-#			match level.levelGrid[(coordinates+Vector2(.5,.5)+moveVector).floor()]:
-#			    -1:
-#			        return
-#			    TILE.WALL:
-#			        return
-#		Vector2(0,-1):
-#			match level.levelGrid[(coordinates+Vector2(.5,.5)+moveVector).floor()]:
-#			    -1:
-#			        return
-#			    TILE.WALL:
-#			        return
-#	print("player is about to move from "+str(coordinates)+" m vector = "+str(Vector2(d,d)))
+#	match level.levelGrid[(ec+pv+moveVector).floor()]:
+#		-1:
+#			return false
+#		TILE.WALL:
+#			return false
+#	match level.levelGrid[(ec-pv+moveVector).floor()]:
+#		-1:
+#			return false
+#		TILE.WALL:
+#			return false
+
+var ec
+var pv
+var pc
+
+func move(vec,d):
+	moveVector = vec*Vector2(d,d)*5
+	pc = coordinates+Vector2(.5,.5)
+	if vec[0] and vec[1]:
+		ec = pc+Vector2(vec[0],0).normalized()*.5
+		#print(str(Vector2(vec[0],0).normalized()*.5))
+		pv = Vector2(0,.5)
+		#print(str(pv))
+		#level.setPointsForDrawLine(pc,ec)
+		match level.levelGrid[(ec+pv*.9+moveVector).floor()]:
+			-1:
+				moveVector[0] = 0
+			TILE.WALL:
+				moveVector[0] = 0
+		match level.levelGrid[(ec-pv*.9+moveVector).floor()]:
+			-1:
+				moveVector[0] = 0
+			TILE.WALL:
+				moveVector[0] = 0
+		ec = pc+Vector2(0,vec[1]).normalized()*.5
+		pv = Vector2(.5,0)
+		match level.levelGrid[(ec+pv*.9+moveVector).floor()]:
+			-1:
+				moveVector[1] = 0
+			TILE.WALL:
+				moveVector[1] = 0
+		match level.levelGrid[(ec-pv*.9+moveVector).floor()]:
+			-1:
+				moveVector[1] = 0
+			TILE.WALL:
+				moveVector[1] = 0
+	else:
+		ec = pc+vec*.5
+		pv = Vector2(vec[1],vec[0])*.5
+		match level.levelGrid[(ec+pv*.9+moveVector).floor()]:
+			-1:
+				return
+			TILE.WALL:
+				return
+		match level.levelGrid[(ec-pv*.9+moveVector).floor()]:
+			-1:
+				return
+			TILE.WALL:
+				return
 	coordinates += moveVector
-	playerBottomRight = coordinates + Vector2(1,1)#the game is checking the top left as like 1.000000 and adding a direct 1 to it and its barely colliding with the wall so fix that by probably checking all 4 sides individually isntead of two corners
+	playerRect.position = coordinates 
 	screenCoordinates = coordinates*16+Vector2(8,8)
-#	print("player has moved to coodinates:"+str(coordinates))
 	sprite.setCoords(screenCoordinates)
 	facing = vec
 	match facing:

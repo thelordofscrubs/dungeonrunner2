@@ -22,7 +22,7 @@ func _ready():
 	timer = Timer.new()
 	add_child(timer)
 	timer.connect("timeout", self, "moveNoCollision")
-	timer.start(1.0/pixelPerSecond)
+	timer.start(1.0/(pixelPerSecond+30))
 	invisibleBoi()
 
 func invisibleBoi():
@@ -31,7 +31,7 @@ func invisibleBoi():
 	add_child(tempTimer)
 	tempTimer.connect("timeout", self, "startNormalMovement")
 	tempTimer.set_one_shot(true)
-	tempTimer.start(.1)
+	tempTimer.start(.08)
 
 func startNormalMovement():
 	set_visible(true)
