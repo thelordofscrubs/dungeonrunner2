@@ -44,6 +44,7 @@ func startNormalMovement():
 func moveNoCollision():
 	coordinates += direction
 	set_position(coordinates)
+	#print(str(get_incoming_connections()))
 
 func updatePos():
 	coordinates += direction

@@ -1,7 +1,7 @@
 extends Projectile
 class_name FireBolt
 
-func _init(a,b,c).(a,b,c,30):
+func _init(a,b,c).(a,b,c,30,5):
 	pass
 
 func _ready():
