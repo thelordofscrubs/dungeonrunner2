@@ -14,6 +14,7 @@ var healthBar
 var levelMap
 var monsterID
 var flying
+var level
 
 func _init(id_, pc, c, f, hp, hpMax, dmg):
 	monsterID = id_
@@ -23,6 +24,9 @@ func _init(id_, pc, c, f, hp, hpMax, dmg):
 	health = hp
 	maxHealth = hpMax
 	damage = dmg
+
+func _ready():
+	level = get_parent()
 
 func initSprite(spriteScene):
 	print("Getting Monster Sprite")

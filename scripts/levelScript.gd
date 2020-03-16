@@ -124,7 +124,6 @@ func startLevel(id):
 func moveMonsters(delta):
 	for monster in monsters:
 		monster.attemptMove(delta)
-	pass
 
 func addMonster(monster):
 	monsters.append(monster)

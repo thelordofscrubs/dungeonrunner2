@@ -12,25 +12,43 @@ func _ready():
 	add_child(attackTimer)
 	attackTimer.connect("timeout",self,"attack")
 	attackTimer.start(.5)
+	._ready()
+
+var moveVector
+var ec
+var pv
+var moveChecks = []
 
 #enum TILE{OOB,FLOOR,WALL,FINISH,DOOR,CHEST,KEY,POT}
 func attemptMove(delta):
-	var coordinates2 = coordinates
-	for c in coordinates2:
-		if (c > 0):
-			c += 16
-	if levelMap[(coordinates2+(facing*delta)).floor()] == TILE.WALL:
+	moveVector = facing*delta
+	ec = coordinates+Vector2(.5,.5)+facing*.5
+	pv = Vector2(facing[1],facing[0])*.5
+	moveChecks[0] = (ec+pv*.9+moveVector).floor()
+	moveChecks[1] = (ec-pv*.9+moveVector).floor()
+	if !level.levelGrid.has(moveChecks[0]):
 		facing *= -1
-	var moveAmount = facing*delta
+	if !level.levelGrid.has(moveChecks[1]):
+		facing *= -1
+	match level.levelGrid[moveChecks[0]]:
+		-1:
+			facing *= -1
+		TILE.WALL:
+			facing *= -1
+	match level.levelGrid[moveChecks[1]]:
+		-1:
+			facing *= -1
+		TILE.WALL:
+			facing *= -1
 	match facing:
 		Vector2(1,0):
-			move(moveAmount)
+			move(moveVector)
 		Vector2(0,1):
-			move(moveAmount)
+			move(moveVector)
 		Vector2(-1,0):
-			move(moveAmount)
+			move(moveVector)
 		Vector2(0,-1):
-			move(moveAmount)
+			move(moveVector)
 	attack()
 
 func attack():
