@@ -102,7 +102,7 @@ func checkForTerrain():
 	#draw_rect(get_rect(),Color(0,255,0),false)
 	#draw_texture(get_texture(),Vector2(0,0))
 
-func _init(coords, dir, id, persec, d):
+func _init(coords, dir, id, persec, d, pv = Vector2(0,0)):
 	damage = d
 	projectileId = id
 	pixelPerSecond = persec
@@ -112,7 +112,7 @@ func _init(coords, dir, id, persec, d):
 	oldmod[0] = fmod(coords[0], 16.0)
 	oldmod[1] = fmod(coords[1], 16.0)
 	position = (coords)
-	direction = dir
+	direction = dir+pv*2
 	set_centered(true)
 	set_rotation(atan2(dir[1],dir[0])+ PI/2)
 	

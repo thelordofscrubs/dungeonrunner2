@@ -43,6 +43,7 @@ var playerRect
 var playerCenter
 var unitBlockVector = Vector2(1,1)
 const collisionLen = .8
+var lastMoveVector = Vector2(0,0)
 
 func _ready():
 	print("player ready function")
@@ -221,7 +222,7 @@ func attack(t):
 				changeArrows(-1)
 
 func fireArrow(vin):
-	var arrow = Arrow.new(screenCoordinates + vin* 5, vin, level.projectiles.size())
+	var arrow = Arrow.new(screenCoordinates + vin* 5, vin, level.projectiles.size(), lastMoveVector)
 	level.add_child(arrow)
 
 func changeArrows(a):
@@ -302,6 +303,7 @@ func move(vec,d):
 			TILE.WALL:
 				return
 	coordinates += moveVector
+	lastMoveVector = moveVector
 	playerRect.position = coordinates 
 	screenCoordinates = coordinates*16+Vector2(8,8)
 	sprite.setCoords(screenCoordinates)
