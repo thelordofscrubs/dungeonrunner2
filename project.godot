@@ -29,6 +29,16 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://scripts/fireBolt.gd"
 }, {
+"base": "TileMap",
+"class": "LevelNode",
+"language": "GDScript",
+"path": "res://scripts/levelScript.gd"
+}, {
+"base": "Node2D",
+"class": "LevelParent",
+"language": "GDScript",
+"path": "res://scripts/levelParent.gd"
+}, {
 "base": "Node",
 "class": "Monster",
 "language": "GDScript",
@@ -59,6 +69,8 @@ _global_script_class_icons={
 "BatSkeleton": "",
 "BlueSlime": "",
 "FireBolt": "",
+"LevelNode": "",
+"LevelParent": "",
 "Monster": "",
 "MonsterHealthBar": "",
 "Player": "",

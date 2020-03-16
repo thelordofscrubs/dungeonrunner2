@@ -31,7 +31,7 @@ var currentWeapon = 1
 var arrows = 10
 var spells = ["firebolt","speed buff"]
 var currentSpell = 0
-#var manaRegenTimer
+var manaRegenTimer
 var spellDisplay
 var buffDisplay
 var currentBuffs = []
@@ -43,7 +43,7 @@ var playerRect
 #var unitBlockVector = Vector2(1,1)
 const collisionLen = .8
 var lastMoveVector = Vector2(0,0)
-var arrowDamage = 5
+var arrowDamage = 8
 
 func _ready():
 	print("player ready function")
@@ -53,23 +53,26 @@ func _ready():
 	camera = PlayerCam.new()
 	#print("dividing Vector2(400, 900) by 2 = " + str(Vector2(400,900)/2))
 	sprite.add_child(camera)
+	var uic = get_node("../uiContainer")
+	get_viewport().add_child(uic)
+	level.remove_child(uic)
 #	sprite = spriteScene.instance()
 #	sprite.set_z_index(5)
 #	get_parent().add_child(sprite)
 #	print("charSprite should have been generated")
-#	healthBar = get_node("../uiContainer/uiBackground1/healthBar")
-#	manaBar = get_node("../uiContainer/uiBackground1/manaBar")
-#	moneyDisplay = get_node("../uiContainer/uiBackground1/moneyDisplay")
-#	keyDisplay = get_node("../uiContainer/uiBackground1/keyDisplay")
-#	arrowDisplay = get_node("../uiContainer/uiBackground1/arrowDisplay")
-#	arrowDisplay.set_text("Arrows:\n"+str(arrows))
-#	weaponDisplay = get_node("../uiContainer/uiBackground1/weaponDisplay")
-#	spellDisplay = get_node("../uiContainer/uiBackground1/spellDisplay")
-#	buffDisplay = get_node("../uiContainer/uiBackground1/buffDisplay")
-#	manaRegenTimer = Timer.new()
-#	manaRegenTimer.connect("timeout", self, "regenMana")
-#	add_child(manaRegenTimer)
-#	manaRegenTimer.start(2)
+	healthBar = uic.get_node("uiBackground1/healthBar")
+	manaBar = uic.get_node("uiBackground1/manaBar")
+	moneyDisplay = uic.get_node("uiBackground1/moneyDisplay")
+	keyDisplay = uic.get_node("uiBackground1/keyDisplay")
+	arrowDisplay = uic.get_node("uiBackground1/arrowDisplay")
+	arrowDisplay.set_text("Arrows:\n"+str(arrows))
+	weaponDisplay = uic.get_node("uiBackground1/weaponDisplay")
+	spellDisplay = uic.get_node("uiBackground1/spellDisplay")
+	buffDisplay = uic.get_node("uiBackground1/buffDisplay")
+	manaRegenTimer = Timer.new()
+	manaRegenTimer.connect("timeout", self, "regenMana")
+	add_child(manaRegenTimer)
+	manaRegenTimer.start(2)
 	
 
 func _init(spawnCoordinates, h = 100, aM = 1):
@@ -122,7 +125,7 @@ func genSprite():
 
 func regenMana():
 	mana += 2
-	manaBar.value = mana
+	#manaBar.value = mana
 
 func unlockSpell(spellName):
 	spells.append(spellName)
@@ -237,7 +240,7 @@ func drawBow():
 	bowDrawTimer = Timer.new()
 	bowDrawTimer.connect("timeout", self, "incBowDamage")
 	add_child(bowDrawTimer)
-	bowDrawTimer.start(.5)
+	bowDrawTimer.start(.2)
 
 func fireArrow(vin):
 	var arrow = Arrow.new(screenCoordinates + vin* 5, vin, level.projectiles.size(),arrowDamage, lastMoveVector)
@@ -246,7 +249,7 @@ func fireArrow(vin):
 
 func changeArrows(a):
 	arrows += a
-	#arrowDisplay.set_text("Arrows:\n"+str(arrows))
+	arrowDisplay.set_text("Arrows:\n"+str(arrows))
 
 func attackTimerTimeOut():
 	isAttacking = false

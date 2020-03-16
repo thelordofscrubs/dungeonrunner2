@@ -5,10 +5,11 @@ extends Control
 # var a = 2
 # var b = "text"
 var mainMenuScene = preload("res://mainMenu.tscn")
-var levelScene = preload("res://lvlScene.tscn")
 var mainMenu
+var levelScene = preload("res://lvlScene.tscn")
 var currentLevel
 var inGame = false
+#var currentLevelP
 
 # Called when the node enters the scene tree for the first time.
 func _ready():

@@ -1,7 +1,11 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://maps/map0TileMap.tres" type="TileSet" id=1]
 [ext_resource path="res://scripts/levelScript.gd" type="Script" id=2]
+[ext_resource path="res://otherArt/healthBarBackground.png" type="Texture" id=3]
+[ext_resource path="res://otherArt/healthBarForeground.png" type="Texture" id=4]
+[ext_resource path="res://otherArt/manaBarBackground.png" type="Texture" id=5]
+[ext_resource path="res://otherArt/manaBarForeground.png" type="Texture" id=6]
 
 [node name="TileMap" type="TileMap"]
 tile_set = ExtResource( 1 )
@@ -9,3 +13,84 @@ cell_size = Vector2( 16, 16 )
 cell_quadrant_size = 8
 format = 1
 script = ExtResource( 2 )
+
+[node name="uiContainer" type="CanvasLayer" parent="."]
+
+[node name="uiBackground1" type="ColorRect" parent="uiContainer"]
+margin_left = -77.1461
+margin_top = -29.8862
+margin_right = 388.854
+margin_bottom = 147.114
+color = Color( 0.235294, 0.2, 0.2, 1 )
+
+[node name="moneyDisplay" type="Label" parent="uiContainer/uiBackground1"]
+margin_left = 393.122
+margin_top = 99.975
+margin_right = 449.122
+margin_bottom = 130.975
+text = "Money:
+0"
+align = 1
+
+[node name="keyDisplay" type="Label" parent="uiContainer/uiBackground1"]
+margin_left = 342.545
+margin_top = 100.045
+margin_right = 386.545
+margin_bottom = 131.045
+text = "Keys:
+0"
+align = 1
+
+[node name="arrowDisplay" type="Label" parent="uiContainer/uiBackground1"]
+margin_left = 398.184
+margin_top = 134.385
+margin_right = 446.184
+margin_bottom = 165.385
+text = "Arrows:
+10"
+align = 1
+
+[node name="weaponDisplay" type="Label" parent="uiContainer/uiBackground1"]
+margin_left = 220.871
+margin_top = 99.1426
+margin_right = 327.871
+margin_bottom = 130.143
+text = "Current Weapon:
+Bow"
+align = 1
+
+[node name="spellDisplay" type="Label" parent="uiContainer/uiBackground1"]
+margin_left = 116.379
+margin_top = 102.885
+margin_right = 202.379
+margin_bottom = 133.885
+text = "Current Spell:
+Firebolt"
+align = 1
+
+[node name="buffDisplay" type="Label" parent="uiContainer/uiBackground1"]
+margin_left = 15.0
+margin_top = 99.0
+margin_right = 95.0
+margin_bottom = 130.0
+text = "Current Buff:
+None"
+align = 1
+
+[node name="healthBar" type="TextureProgress" parent="uiContainer/uiBackground1"]
+margin_left = 28.0
+margin_top = 16.0
+margin_right = 439.0
+margin_bottom = 49.0
+texture_under = ExtResource( 3 )
+texture_over = ExtResource( 4 )
+nine_patch_stretch = true
+
+[node name="manaBar" type="TextureProgress" parent="uiContainer/uiBackground1"]
+margin_left = 28.0
+margin_top = 55.0
+margin_right = 439.0
+margin_bottom = 88.0
+texture_under = ExtResource( 5 )
+texture_over = ExtResource( 6 )
+nine_patch_stretch = true

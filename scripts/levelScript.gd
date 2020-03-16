@@ -1,4 +1,5 @@
 extends TileMap
+class_name LevelNode
 
 enum TILE{OOB,FLOOR,WALL,FINISH,DOOR,CHEST,KEY,POT}
 enum DIR{F,R,B,L,FR,BR,BL,FL}
