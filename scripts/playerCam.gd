@@ -4,8 +4,8 @@ class_name PlayerCam
 # Declare member variables here. Examples:
 # var a = 2
 # var b = "text"
-var totalDelta = 0
-var tp
+#var totalDelta = 0
+#var tp
 
 #func _init(c):
 #	tp=c

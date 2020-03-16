@@ -55,9 +55,14 @@ func _process(delta):
 		return
 	if Input.is_action_pressed("forw"):
 		currentLevel.movePlayer(0,delta)
+		return
 	if Input.is_action_pressed("back"):
 		currentLevel.movePlayer(2,delta)
+		return
 	if Input.is_action_pressed("left"):
 		currentLevel.movePlayer(3,delta)
+		return
 	if Input.is_action_pressed("right"):
 		currentLevel.movePlayer(1,delta)
+		return
+	currentLevel.player.lastMoveVector = Vector2(0,0)

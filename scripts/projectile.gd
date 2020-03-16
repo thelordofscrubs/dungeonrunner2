@@ -3,12 +3,12 @@ class_name Projectile
 
 var coordinates
 var direction
-var moveCounter = 0
+#var moveCounter = 0
 var timer
 var pixelPerSecond
-var moveCounter1 = 0
-var levelMap = {}
-var bounds
+#var moveCounter1 = 0
+#var levelMap = {}
+#var bounds
 var projectileId
 var oldmod = [0.0, 0.0]
 var newmod = [0.0, 0.0]

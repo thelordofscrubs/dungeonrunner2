@@ -25,25 +25,25 @@ var keyDisplay
 var arrowDisplay
 var weaponDisplay
 var isDead = false
-#var deathAnimationFrame = 0
 var attackSpeed = 1
 var weapons = ["sword","bow"]
-var currentWeapon = 0
-var arrows = 0
+var currentWeapon = 1
+var arrows = 10
 var spells = ["firebolt","speed buff"]
 var currentSpell = 0
-var manaRegenTimer
+#var manaRegenTimer
 var spellDisplay
 var buffDisplay
 var currentBuffs = []
 var level
 var camera
-var playerSize = 1
+#var playerSize = 1
 var playerRect
-var playerCenter
-var unitBlockVector = Vector2(1,1)
+#var playerCenter
+#var unitBlockVector = Vector2(1,1)
 const collisionLen = .8
 var lastMoveVector = Vector2(0,0)
+var arrowDamage = 5
 
 func _ready():
 	print("player ready function")
@@ -182,8 +182,6 @@ func changeKeys(a):
 	keyDisplay.set_text("Keys:\n"+str(keys))
 
 func attackTimer(t):
-	if isAttacking == true:
-		return false
 	isAttacking = true
 	var timer = Timer.new()
 	timer.set_one_shot(true)
@@ -192,68 +190,69 @@ func attackTimer(t):
 	var time = float(t)/attackSpeed
 	#print("Starting attack timer with "+String(time)+" seconds")
 	timer.start(time)
-	return true
 
-func attack(t):
-	if t == 2:
-		castSpell()
+func attack(vin = Vector2(0,0)):
+	if isAttacking:
 		return
 	match weapons[currentWeapon]:
 		"sword":
-			if attackTimer(1) == false:
-				return
-			sprite.set_texture(load("res://sprites/attackingSwordSprite.tres"))
-			var monsterCoords = []
-			for monster in level.monsters:
-				monsterCoords.append(monster.coordinates)
-			if monsterCoords.has(coordinates):
-				var hit = level.hitMonster(coordinates,float(totalDamage)/2,"melee")
-				print("dealt "+str(float(totalDamage)/2)+" damage to monster at " +str(coordinates))
-				return
-			if monsterCoords.has(coordinates+facing):
-				var hit = level.hitMonster(coordinates+facing,totalDamage,"melee")
-				print("dealt "+str(totalDamage)+" damage to monster at " +str(coordinates))
+#			if attackTimer(1) == false:
+#				return
+#			sprite.set_texture(load("res://sprites/attackingSwordSprite.tres"))
+#			var monsterCoords = []
+#			for monster in level.monsters:
+#				monsterCoords.append(monster.coordinates)
+#			if monsterCoords.has(coordinates):
+##				var hit = level.hitMonster(coordinates,float(totalDamage)/2,"melee")
+#				print("dealt "+str(float(totalDamage)/2)+" damage to monster at " +str(coordinates))
+#				return
+#			if monsterCoords.has(coordinates+facing):
+##				var hit = level.hitMonster(coordinates+facing,totalDamage,"melee")
+#				print("dealt "+str(totalDamage)+" damage to monster at " +str(coordinates))
+			pass
 		"bow":
-			if attackTimer(2) == false:
+			if vin == Vector2(0,0):
+				drawBow()
+				bowDrawn = true
 				return
-			sprite.set_texture(load("res://sprites/attackingBowSprite.png"))
+			if bowDrawn == false:
+				return
+			bowDrawn = false
+			bowDrawTimer.stop()
+			bowDrawTimer.queue_free()
 			if arrows > 0:
-				#fireArrow(coordinates,facing)
+				fireArrow(vin)
 				changeArrows(-1)
+			attackTimer(1)
+
+var bowDrawn
+var bowDrawTimer
+
+func incBowDamage():
+	if arrowDamage < 20:
+		arrowDamage += 1
+
+func drawBow():
+	sprite.set_texture(load("res://sprites/attackingBowSprite.png"))
+	bowDrawTimer = Timer.new()
+	bowDrawTimer.connect("timeout", self, "incBowDamage")
+	add_child(bowDrawTimer)
+	bowDrawTimer.start(.5)
 
 func fireArrow(vin):
-	var arrow = Arrow.new(screenCoordinates + vin* 5, vin, level.projectiles.size(), lastMoveVector)
+	var arrow = Arrow.new(screenCoordinates + vin* 5, vin, level.projectiles.size(),arrowDamage, lastMoveVector)
 	level.add_child(arrow)
+	arrowDamage = 5
 
 func changeArrows(a):
 	arrows += a
-	arrowDisplay.set_text("Arrows:\n"+str(arrows))
+	#arrowDisplay.set_text("Arrows:\n"+str(arrows))
 
 func attackTimerTimeOut():
 	isAttacking = false
 	sprite.set_texture(load("res://sprites/charSprite.png"))
 
 var moveVector
-
-#func detectWall(vecin):
-#	var ec = coordinates+Vector2(.5,.5)+vecin*.5
-#	var pv = Vector2(vecin[1],vecin[0])*.5
-#	match level.levelGrid[(ec+moveVector).floor()]:
-#		-1:
-#			return false
-#		TILE.WALL:
-#			return false
-#	match level.levelGrid[(ec+pv+moveVector).floor()]:
-#		-1:
-#			return false
-#		TILE.WALL:
-#			return false
-#	match level.levelGrid[(ec-pv+moveVector).floor()]:
-#		-1:
-#			return false
-#		TILE.WALL:
-#			return false
-
 var ec
 var pv
 var pc
@@ -308,6 +307,8 @@ func move(vec,d):
 	screenCoordinates = coordinates*16+Vector2(8,8)
 	sprite.setCoords(screenCoordinates)
 	facing = vec
+	if bowDrawTimer:
+		return
 	match facing:
 		Vector2(1,0):
 			sprite.set_texture(load("res://sprites/charSprite1.png"))
@@ -325,14 +326,14 @@ func castSpell():
 	#sprite.set_texture(load("res://sprites/charSprite.png"))
 	if mana == 0:
 		return
-	var spell
+#	var spell
 	match spells[currentSpell]:
 		"firebolt":
 			attackTimer(.5)
 			if mana < 20:
 				return
 			#spell = FireBolt.new(coordinates, facing)
-			level.add_child(spell)
+#			level.add_child(spell)
 			mana -= 20
 			manaBar.value = mana
 		"speed buff":

@@ -190,12 +190,14 @@ var p
 var ws
 
 func _input(event):
-	if event is InputEventMouseButton and event.pressed == true:
+	if event is InputEventMouseButton and event.pressed == true and event.button_index == 1:
+		player.attack()
+	if event is InputEventMouseButton and event.pressed == false and event.button_index == 1:
 		ws = get_viewport_rect().size
 		p = event.position/2
 		p -= ws/4#+initPlayerCoords
 		p = p.normalized()
-		player.fireArrow(p)
+		player.attack(p)
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta):
 #	pass

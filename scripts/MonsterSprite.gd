@@ -9,7 +9,7 @@ func takeDamage(a):
 	if typeof(a) == TYPE_STRING:
 		dmgLabel.set_text(a)
 	dmgLabel.set_text(str(a))
-	var posX = dmgLabel.get_size()[0]/2-8
+#	var posX = dmgLabel.get_size()[0]/2-8
 	dmgLabel.set_position(position+Vector2(4,5))
 	dmgLabel.set_scale(Vector2(0.6,0.6))
 	get_parent().add_child(dmgLabel)
