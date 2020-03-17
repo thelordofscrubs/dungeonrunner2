@@ -47,5 +47,5 @@ func attemptMove(delta):
 	move(moveVector)
 
 func attack():
-	if playerCoordinates == coordinates:
-		get_node("../Player").takeDamage(damage)
+	if player.playerRect.intersects(entRect):
+		player.takeDamage(damage)

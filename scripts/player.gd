@@ -151,19 +151,19 @@ func takeDamage(d):
 	if health > 100:
 		health = 100
 	if health <= 0:
-		var deathTimer = Timer.new()
+#		var deathTimer = Timer.new()
 		isDead = true
-		deathTimer.set_one_shot(true)
-		deathTimer.connect("timeout",self,"die")
-		add_child(deathTimer)
-		deathTimer.start(3)
+#		deathTimer.set_one_shot(true)
+#		deathTimer.connect("timeout",self,"die")
+#		add_child(deathTimer)
+#		deathTimer.start(3)
 #		var deathAnimTimer = Timer.new()
 #		deathAnimTimer.connect("timeout",self,"deathAnimation")
 #		deathAnimTimer.set_name("playerDeathAnimationTimer")
 #		add_child(deathAnimTimer)
 #		deathAnimTimer.start(.8)
-#		get_parent().die()
-		deathAnimation()
+#		deathAnimation()
+		die()
 
 
 #testcomment
@@ -173,12 +173,11 @@ func deathAnimation():
 #		deathAnimationFrame += 1
 #	else:
 #		get_node("playerDeathAnimationTimer").stop()
-	sprite.set_visible(false)
-	level.die()
+	sprite.set_texture(load("res://sprites/charDeath4.tres"))
 
 func die():
-	get_node("/root/mainControlNode/menuStuff").add_child(load("res://deathScreen.tscn").instance())
-	get_node("/root/mainControlNode").pause()
+	deathAnimation()
+	level.die()
 
 func changeKeys(a):
 	keys += a

@@ -56,6 +56,8 @@ func startLevel(id):
 			if levelTileMap.get_cell(x,y) == 6:
 				initPlayerCoords = Vector2(x,y)#need player coordinates for spawning sprites in correct locations
 				currentPlayerCoordinates = initPlayerCoords
+	player = Player.new(initPlayerCoords)
+	add_child(player)
 	var tc
 	for y in range(levelDimensions[1]):
 		for x in range(levelDimensions[0]):
@@ -115,11 +117,6 @@ func startLevel(id):
 	for monster in monsters:
 		monster.getMap(levelGrid)
 	print("initial player coordinates are: "+str(initPlayerCoords[0])+", "+str(initPlayerCoords[1]))
-	player = Player.new(initPlayerCoords)
-	add_child(player)
-	#get_node("healthBar").set_position()
-#	for monster in monsters:
-#		monster.getMap(levelGrid)
 
 func moveMonsters(delta):
 	for monster in monsters:
@@ -161,7 +158,7 @@ class drawingStuff:
 		draw_line(v1,v2,Color(0,250,250), 1.3)
 
 func die():
-	pass
+	get_parent().openMainMenu()
 
 func movePlayer(dir, delta):
 	match dir:

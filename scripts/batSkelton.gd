@@ -36,5 +36,4 @@ func attemptMove(delta):
 	attack()
 
 func attack():
-	if playerCoordinates == coordinates:
-		get_node("../Player").takeDamage(damage)
+	pass

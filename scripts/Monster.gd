@@ -32,7 +32,6 @@ func _ready():
 	level = get_parent()
 
 func initSprite(spriteScene):
-	print("Getting Monster Sprite")
 	sprite = spriteScene.instance()
 	sprite.set_position((coordinates)*Vector2(16,16))
 	get_parent().add_child(sprite)
@@ -60,5 +59,6 @@ func die():
 
 func move(vec):
 	coordinates += vec
+	entRect.position = coordinates
 	#facing = vec
 	sprite.move(coordinates*16)
