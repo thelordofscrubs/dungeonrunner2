@@ -68,7 +68,7 @@ func _ready():
 	keyDisplay = uic.get_node("uiBackground1/keyDisplay")
 	arrowDisplay = uic.get_node("uiBackground1/arrowDisplay")
 	arrowDisplay.set_text("Arrows:\n"+str(arrows))
-	arrowDDisplay = uic.get_node("bowDrawBG/bowDrawBar")
+	arrowDDisplay = uic.get_node("bd2/bowDrawBG/bowDrawBar")
 	arrowDDisplay.set_min(8)
 	arrowDDisplay.set_max(20)
 	arrowDDisplay.set_value(8)
@@ -253,7 +253,7 @@ func drawBow():
 func fireArrow(vin):
 	var arrow = Arrow.new(screenCoordinates + vin* 5, vin, level.projectiles.size(),arrowDamage, lastMoveVector)
 	level.add_child(arrow)
-	arrowDamage = 5
+	arrowDamage = 8
 
 func changeArrows(a):
 	arrows += a
