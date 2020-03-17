@@ -86,7 +86,7 @@ func startLevel(id):
 				7: #blueSlimeSpawn
 					levelGrid[cc] = TILE.FLOOR
 					var facing = Vector2(0,-1)
-					var monster = BlueSlime.new(monsters.size(),currentPlayerCoordinates,cc,facing)
+					var monster = BlueSlime.new(monsters.size(),player,cc,facing)
 					addMonster(monster)
 					#spawnMonster("blueSlime",cc,initPlayerCoords,facing)
 					set_cellv(cc,0)
@@ -101,14 +101,14 @@ func startLevel(id):
 				10: #batSkeletonSpawn
 					levelGrid[cc] = TILE.FLOOR
 					var facing = Vector2(0,-1)
-					var monster = BatSkeleton.new(monsters.size(),currentPlayerCoordinates,cc,facing)
+					var monster = BatSkeleton.new(monsters.size(),player,cc,facing)
 					addMonster(monster)
 					#spawnMonster("batSkeleton",cc,initPlayerCoords,facing)
 					set_cellv(cc,0)
 				12:
 					levelGrid[cc] = TILE.FLOOR
 					var facing = Vector2(1,0)
-					var monster = BlueSlime.new(monsters.size(),currentPlayerCoordinates,cc,facing)
+					var monster = BlueSlime.new(monsters.size(),player,cc,facing)
 					addMonster(monster)
 					#spawnMonster("blueSlime",cc,initPlayerCoords,facing)
 					set_cellv(cc,0)
@@ -159,6 +159,9 @@ class drawingStuff:
 	func _draw():
 		#print("drawClass is printing")
 		draw_line(v1,v2,Color(0,250,250), 1.3)
+
+func die():
+	pass
 
 func movePlayer(dir, delta):
 	match dir:

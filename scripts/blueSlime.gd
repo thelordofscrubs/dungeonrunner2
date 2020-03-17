@@ -45,7 +45,6 @@ func attemptMove(delta):
 		facing *= -1
 	moveVector = facing*delta
 	move(moveVector)
-	attack()
 
 func attack():
 	if playerCoordinates == coordinates:

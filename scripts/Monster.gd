@@ -7,7 +7,7 @@ var maxHealth
 var damage 
 var coordinates
 var facing
-var playerCoordinates
+var player
 var sprite
 var attackTimer
 var healthBar
@@ -15,12 +15,15 @@ var levelMap
 var monsterID
 var flying
 var level
+var entRect
+var monsterSize = Vector2(1,1)
 
-func _init(id_, pc, c, f, hp, hpMax, dmg):
+func _init(id_, p, c, f, hp, hpMax, dmg):
 	monsterID = id_
 	coordinates = c
 	facing = f
-	playerCoordinates = pc
+	player = p
+	entRect = Rect2(c, monsterSize)
 	health = hp
 	maxHealth = hpMax
 	damage = dmg

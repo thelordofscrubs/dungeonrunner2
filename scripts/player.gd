@@ -174,12 +174,6 @@ func deathAnimation():
 #	else:
 #		get_node("playerDeathAnimationTimer").stop()
 	sprite.set_visible(false)
-	var deathAnimationScene
-	deathAnimationScene = load("res://playerDeathAnimation.tscn").instance()
-	deathAnimationScene.set_position(OS.window_size/Vector2(2,2)+Vector2(8,8))
-	deathAnimationScene.set_frame(0)
-	level.add_child(deathAnimationScene)
-	deathAnimationScene.play("death")
 	level.die()
 
 func die():
