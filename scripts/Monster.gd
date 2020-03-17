@@ -56,6 +56,7 @@ func die():
 	level.monsters.erase(self)
 	sprite.queue_free()
 	healthBar.queue_free()
+	queue_free()
 
 func move(vec):
 	coordinates += vec

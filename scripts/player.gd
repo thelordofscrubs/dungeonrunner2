@@ -250,7 +250,6 @@ func fireArrow(vin):
 
 func changeArrows(a):
 	arrows += a
-	takeDamage(10)
 	arrowDisplay.set_text("Arrows:\n"+str(arrows))
 
 func attackTimerTimeOut():
