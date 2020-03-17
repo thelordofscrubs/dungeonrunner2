@@ -3,6 +3,7 @@ class_name LevelNode
 
 enum TILE{OOB,FLOOR,WALL,FINISH,DOOR,CHEST,KEY,POT}
 enum DIR{F,R,B,L,FR,BR,BL,FL}
+enum MONST{BLUESLIME,BATSKELE,ENT,WEARWOLF,GARBAGE,PINKSLIME}
 # Declare member variables here. Examples:
 # var a = 2
 # var b = "text"
@@ -88,7 +89,7 @@ func startLevel(id):
 				7: #blueSlimeSpawn
 					levelGrid[cc] = TILE.FLOOR
 					var facing = Vector2(0,-1)
-					var monster = BlueSlime.new(monsters.size(),player,cc,facing)
+					var monster = buildingAMonter(MONST.BLUESLIME,cc,facing)
 					addMonster(monster)
 					#spawnMonster("blueSlime",cc,initPlayerCoords,facing)
 					set_cellv(cc,0)
@@ -103,14 +104,14 @@ func startLevel(id):
 				10: #batSkeletonSpawn
 					levelGrid[cc] = TILE.FLOOR
 					var facing = Vector2(0,-1)
-					var monster = BatSkeleton.new(monsters.size(),player,cc,facing)
+					var monster = buildingAMonter(MONST.BATSKELE,cc,facing)
 					addMonster(monster)
 					#spawnMonster("batSkeleton",cc,initPlayerCoords,facing)
 					set_cellv(cc,0)
 				12:
 					levelGrid[cc] = TILE.FLOOR
 					var facing = Vector2(1,0)
-					var monster = BlueSlime.new(monsters.size(),player,cc,facing)
+					var monster = buildingAMonter(MONST.BLUESLIME,cc,facing)
 					addMonster(monster)
 					#spawnMonster("blueSlime",cc,initPlayerCoords,facing)
 					set_cellv(cc,0)
@@ -125,6 +126,14 @@ func moveMonsters(delta):
 func addMonster(monster):
 	monsters.append(monster)
 	add_child(monster)
+
+func buildingAMonter(monst, cc,facing):
+	match monst:
+		MONST.BLUESLIME:
+			return BlueSlime.new(monsters.size(),player,cc,facing)
+		MONST.BATSKELE:
+			return BatSkeleton.new(monsters.size(),player,cc,facing)
+
 
 var dv1 = Vector2(1,1)
 var dv2 = Vector2(10,11)
