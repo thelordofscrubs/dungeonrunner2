@@ -7,7 +7,9 @@
 [ext_resource path="res://otherArt/manaBarBackground.png" type="Texture" id=5]
 [ext_resource path="res://otherArt/manaBarForeground.png" type="Texture" id=6]
 [ext_resource path="res://otherArt/Untitled.png" type="Texture" id=7]
-[ext_resource path="res://otherArt/arrowOver.png" type="Texture" id=8]
+
+[sub_resource type="StreamTexture" id=1]
+load_path = "res://.import/healthBarForeground.png-cbd58ee5440fd4654edba012790da2da.stex"
 
 [node name="TileMap" type="TileMap"]
 tile_set = ExtResource( 1 )
@@ -101,19 +103,24 @@ nine_patch_stretch = true
 
 [node name="bowDrawBG" type="ColorRect" parent="uiContainer"]
 margin_left = 16.0
-margin_top = 173.25
-margin_right = 88.0
-margin_bottom = 244.25
-color = Color( 0.137255, 0.301961, 0.321569, 1 )
+margin_top = 173.0
+margin_right = 86.0
+margin_bottom = 243.0
+color = Color( 0, 0, 0, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="bowDrawBar" type="TextureProgress" parent="uiContainer/bowDrawBG"]
-margin_left = 1.00137
-margin_top = 0.500702
-margin_right = 71.0014
-margin_bottom = 70.5007
+margin_right = 70.0
+margin_bottom = 70.0
 min_value = 8.0
 max_value = 20.0
 value = 20.0
 texture_over = ExtResource( 7 )
-texture_progress = ExtResource( 8 )
+texture_progress = SubResource( 1 )
 fill_mode = 4
+nine_patch_stretch = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
