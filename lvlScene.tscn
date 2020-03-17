@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://maps/map0TileMap.tres" type="TileSet" id=1]
 [ext_resource path="res://scripts/levelScript.gd" type="Script" id=2]
@@ -6,6 +6,8 @@
 [ext_resource path="res://otherArt/healthBarForeground.png" type="Texture" id=4]
 [ext_resource path="res://otherArt/manaBarBackground.png" type="Texture" id=5]
 [ext_resource path="res://otherArt/manaBarForeground.png" type="Texture" id=6]
+[ext_resource path="res://otherArt/Untitled.png" type="Texture" id=7]
+[ext_resource path="res://otherArt/arrowOver.png" type="Texture" id=8]
 
 [node name="TileMap" type="TileMap"]
 tile_set = ExtResource( 1 )
@@ -17,12 +19,11 @@ script = ExtResource( 2 )
 [node name="uiContainer" type="CanvasLayer" parent="."]
 
 [node name="uiBackground1" type="ColorRect" parent="uiContainer"]
-margin_right = 466.0
-margin_bottom = 177.0
+margin_left = -77.1461
+margin_top = -29.8862
+margin_right = 388.854
+margin_bottom = 147.114
 color = Color( 0.235294, 0.2, 0.2, 1 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="moneyDisplay" type="Label" parent="uiContainer/uiBackground1"]
 margin_left = 393.122
@@ -83,8 +84,9 @@ margin_left = 28.0
 margin_top = 16.0
 margin_right = 439.0
 margin_bottom = 49.0
+value = 100.0
 texture_under = ExtResource( 3 )
-texture_over = ExtResource( 4 )
+texture_progress = ExtResource( 4 )
 nine_patch_stretch = true
 
 [node name="manaBar" type="TextureProgress" parent="uiContainer/uiBackground1"]
@@ -92,6 +94,26 @@ margin_left = 28.0
 margin_top = 55.0
 margin_right = 439.0
 margin_bottom = 88.0
+value = 100.0
 texture_under = ExtResource( 5 )
-texture_over = ExtResource( 6 )
+texture_progress = ExtResource( 6 )
 nine_patch_stretch = true
+
+[node name="bowDrawBG" type="ColorRect" parent="uiContainer"]
+margin_left = 16.0
+margin_top = 173.25
+margin_right = 88.0
+margin_bottom = 244.25
+color = Color( 0.137255, 0.301961, 0.321569, 1 )
+
+[node name="bowDrawBar" type="TextureProgress" parent="uiContainer/bowDrawBG"]
+margin_left = 1.00137
+margin_top = 0.500702
+margin_right = 71.0014
+margin_bottom = 70.5007
+min_value = 8.0
+max_value = 20.0
+value = 20.0
+texture_over = ExtResource( 7 )
+texture_progress = ExtResource( 8 )
+fill_mode = 4

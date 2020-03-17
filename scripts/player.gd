@@ -44,6 +44,7 @@ var playerRect
 const collisionLen = .8
 var lastMoveVector = Vector2(0,0)
 var arrowDamage = 8
+var arrowDDisplay
 
 func _ready():
 	print("player ready function")
@@ -61,11 +62,16 @@ func _ready():
 #	get_parent().add_child(sprite)
 #	print("charSprite should have been generated")
 	healthBar = uic.get_node("uiBackground1/healthBar")
+	#healthBar = uic.get_node("bowDrawBG/healthBar2")
 	manaBar = uic.get_node("uiBackground1/manaBar")
 	moneyDisplay = uic.get_node("uiBackground1/moneyDisplay")
 	keyDisplay = uic.get_node("uiBackground1/keyDisplay")
 	arrowDisplay = uic.get_node("uiBackground1/arrowDisplay")
 	arrowDisplay.set_text("Arrows:\n"+str(arrows))
+	arrowDDisplay = uic.get_node("bowDrawBG/bowDrawBar")
+	arrowDDisplay.set_min(8)
+	arrowDDisplay.set_max(20)
+	arrowDDisplay.set_value(8)
 	weaponDisplay = uic.get_node("uiBackground1/weaponDisplay")
 	spellDisplay = uic.get_node("uiBackground1/spellDisplay")
 	buffDisplay = uic.get_node("uiBackground1/buffDisplay")
@@ -141,7 +147,7 @@ func takeDamage(d):
 	if isDead == true:
 		return
 	health -= d
-	healthBar.value = health
+	healthBar.set_value(health)
 	if health > 100:
 		health = 100
 	if health <= 0:
@@ -226,6 +232,7 @@ func attack(vin = Vector2(0,0)):
 			if arrows > 0:
 				fireArrow(vin)
 				changeArrows(-1)
+				arrowDDisplay.set_value(arrowDamage)
 			attackTimer(1)
 
 var bowDrawn
@@ -234,6 +241,7 @@ var bowDrawTimer
 func incBowDamage():
 	if arrowDamage < 20:
 		arrowDamage += 1
+		arrowDDisplay.value = arrowDamage
 
 func drawBow():
 	sprite.set_texture(load("res://sprites/attackingBowSprite.png"))
@@ -249,6 +257,7 @@ func fireArrow(vin):
 
 func changeArrows(a):
 	arrows += a
+	takeDamage(10)
 	arrowDisplay.set_text("Arrows:\n"+str(arrows))
 
 func attackTimerTimeOut():
