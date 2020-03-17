@@ -14,6 +14,7 @@ var oldmod = [0.0, 0.0]
 var newmod = [0.0, 0.0]
 var level
 var damage
+var moveNorm = false
 
 func _ready():
 	scale = Vector2(1,1)
@@ -22,7 +23,7 @@ func _ready():
 	timer = Timer.new()
 	add_child(timer)
 	timer.connect("timeout", self, "moveNoCollision")
-	timer.start(1.0/(pixelPerSecond+30))
+	timer.start(1.0/(pixelPerSecond))
 	invisibleBoi()
 
 func invisibleBoi():
@@ -36,18 +37,19 @@ func invisibleBoi():
 func startNormalMovement():
 	set_visible(true)
 	timer.queue_free()
-	timer = Timer.new()
-	timer.connect("timeout", self, "updatePos")
-	add_child(timer)
-	timer.start(1.0/pixelPerSecond)
+#	timer = Timer.new()
+#	timer.connect("timeout", self, "updatePos")
+#	add_child(timer)
+#	timer.start(1.0/pixelPerSecond)
+	moveNorm = true
 
 func moveNoCollision():
 	coordinates += direction
 	set_position(coordinates)
 	#print(str(get_incoming_connections()))
 
-func updatePos():
-	coordinates += direction
+func updatePos(d):
+	coordinates += direction *d * pixelPerSecond
 	set_position(coordinates)
 	entityCollision()
 #	print(str(bounds))
@@ -115,6 +117,10 @@ func _init(coords, dir, id, persec, d, pv = Vector2(0,0)):
 	direction = dir+pv*2
 	set_centered(true)
 	set_rotation(atan2(dir[1],dir[0])+ PI/2)
-	
+
+func _process(delta):
+	if moveNorm:
+		updatePos(delta)
+
 
 
