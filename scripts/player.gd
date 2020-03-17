@@ -1,7 +1,8 @@
 extends Node
 class_name Player
 
-enum TILE{OOB,FLOOR,WALL,FINISH,DOOR,CHEST,KEY,POT}
+enum TILE{OOB,FLOOR,WALL,FINISH,DOOR,CHEST,KEY,POT,CHESTOPEN}
+enum LOOT{ARROW,GELD}
 
 var spriteScene = preload("res://sprites/charSprite.tscn")
 
@@ -256,6 +257,20 @@ func attackTimerTimeOut():
 	isAttacking = false
 	sprite.set_texture(load("res://sprites/charSprite.png"))
 
+func openChest(point):
+	var chest =level.chests[point]
+	if (chest[1]):
+		return
+	chest[1] = true
+	level.updateChest(point)
+	var rng = RandomNumberGenerator.new()
+	rng.randomize()
+	match chest[0]:
+		LOOT.ARROW:
+			changeArrows(1)
+		LOOT.GELD:
+			changeMoney(rng.randi_range(1,5))
+
 var moveVector
 var ec
 var pv
@@ -275,11 +290,17 @@ func move(vec,d):
 				moveVector[0] = 0
 			TILE.WALL:
 				moveVector[0] = 0
+			TILE.CHEST:
+				openChest((ec+pv*collisionLen+moveVector).floor())
+				level.levelGrid[(ec-pv*collisionLen+moveVector).floor()] = TILE.CHESTOPEN
 		match level.levelGrid[(ec-pv*collisionLen+moveVector).floor()]:
 			-1:
 				moveVector[0] = 0
 			TILE.WALL:
 				moveVector[0] = 0
+			TILE.CHEST:
+				openChest((ec-pv*collisionLen+moveVector).floor())
+				level.levelGrid[(ec-pv*collisionLen+moveVector).floor()] = TILE.CHESTOPEN
 		ec = pc+Vector2(0,vec[1]).normalized()*.5
 		pv = Vector2(.5,0)
 		match level.levelGrid[(ec+pv*collisionLen+moveVector).floor()]:
@@ -287,11 +308,17 @@ func move(vec,d):
 				moveVector[1] = 0
 			TILE.WALL:
 				moveVector[1] = 0
+			TILE.CHEST:
+				openChest((ec+pv*collisionLen+moveVector).floor())
+				level.levelGrid[(ec+pv*collisionLen+moveVector).floor()] = TILE.CHESTOPEN
 		match level.levelGrid[(ec-pv*collisionLen+moveVector).floor()]:
 			-1:
 				moveVector[1] = 0
 			TILE.WALL:
 				moveVector[1] = 0
+			TILE.CHEST:
+				openChest((ec-pv*collisionLen+moveVector).floor())
+				level.levelGrid[(ec-pv*collisionLen+moveVector).floor()] = TILE.CHESTOPEN
 	else:
 		ec = pc+vec*.5
 		pv = Vector2(vec[1],vec[0])*.5
@@ -300,11 +327,17 @@ func move(vec,d):
 				return
 			TILE.WALL:
 				return
+			TILE.CHEST:
+				openChest((ec+pv*collisionLen+moveVector).floor())
+				level.levelGrid[(ec+pv*collisionLen+moveVector).floor()] = TILE.CHESTOPEN
 		match level.levelGrid[(ec-pv*collisionLen+moveVector).floor()]:
 			-1:
 				return
 			TILE.WALL:
 				return
+			TILE.CHEST:
+				openChest((ec-pv*collisionLen+moveVector).floor())
+				level.levelGrid[(ec-pv*collisionLen+moveVector).floor()] = TILE.CHESTOPEN
 	coordinates += moveVector
 	lastMoveVector = moveVector
 	playerRect.position = coordinates 

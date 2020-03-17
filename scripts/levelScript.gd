@@ -4,6 +4,7 @@ class_name LevelNode
 enum TILE{OOB,FLOOR,WALL,FINISH,DOOR,CHEST,KEY,POT}
 enum DIR{F,R,B,L,FR,BR,BL,FL}
 enum MONST{BLUESLIME,BATSKELE,ENT,WEARWOLF,GARBAGE,PINKSLIME}
+enum LOOT{ARROW,GELD}
 # Declare member variables here. Examples:
 # var a = 2
 # var b = "text"
@@ -13,6 +14,7 @@ var levelTileMap
 var levelDimensions
 var initPlayerCoords
 var currentPlayerCoordinates
+var chests = {}
 var levelGrid = {}
 var doors = {}
 var projectiles = []
@@ -79,7 +81,7 @@ func startLevel(id):
 					doors[cc] = false
 				4:
 					levelGrid[cc] = TILE.CHEST
-					#spawnChest("doubleArrow",cc)
+					spawnChest(LOOT.ARROW,cc)
 				5:
 					levelGrid[cc] = TILE.CHEST
 				6: #playerSpawn
@@ -134,6 +136,12 @@ func buildingAMonter(monst, cc,facing):
 		MONST.BATSKELE:
 			return BatSkeleton.new(monsters.size(),player,cc,facing)
 
+func spawnChest(loot, cc):
+	chests[cc] = [loot,false]
+
+func updateChest(cc):
+	if (chests[cc][1]):
+		set_cellv(cc,5)
 
 var dv1 = Vector2(1,1)
 var dv2 = Vector2(10,11)
