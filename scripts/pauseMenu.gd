@@ -11,10 +11,11 @@ var settingsB
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	set_self_modulate(Color(1,1,1,0.5))
+	set_self_modulate(Color(0,0,0,0.5))
+	z_index = 1000
 	resumeB = Button.new()
-	resumeB.position = Vector2(50,50)
-	resumeB.size = Vector2(200,150)
+	resumeB.rect_position = Vector2(50,50)
+	resumeB.rect_size = Vector2(200,150)
 	resumeB.text = "Resume Game"
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.

@@ -10,6 +10,7 @@ var levelScene = preload("res://lvlScene.tscn")
 var currentLevel
 var inGame = false
 var pauseMenu
+var paused = false
 #var currentLevelP
 
 # Called when the node enters the scene tree for the first time.
@@ -25,9 +26,17 @@ func openMainMenu():
 	add_child(mainMenu)
 
 func pauseGame():
+	inGame = false
+	paused = true
 	get_tree().paused = true
 	pauseMenu = PauseMenu.new()
-	
+	add_child(pauseMenu)
+
+func unPause():
+	paused = false
+	inGame = true
+	get_tree().paused = false
+	pauseMenu.queue_free()
 
 func beginLevel(id):
 	mainMenu.queue_free()
@@ -40,7 +49,10 @@ func beginLevel(id):
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	if Input.is_action_just_pressed("pause"):
-		pauseGame()
+		if paused:
+			unPause()
+		else:
+			pauseGame()
 	if inGame == false:
 		return
 	if Input.is_action_just_released("atk1"):
