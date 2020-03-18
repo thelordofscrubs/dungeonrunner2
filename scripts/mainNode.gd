@@ -20,6 +20,8 @@ func _ready():
 	add_child(mainMenu)
 
 func openMainMenu():
+	if paused:
+		unPause()
 	inGame = false
 	currentLevel.queue_free()
 	mainMenu = mainMenuScene.instance()
