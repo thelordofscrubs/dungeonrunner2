@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://maps/map0TileMap.tres" type="TileSet" id=1]
 [ext_resource path="res://scripts/levelScript.gd" type="Script" id=2]
@@ -8,8 +8,10 @@
 [ext_resource path="res://otherArt/manaBarForeground.png" type="Texture" id=6]
 [ext_resource path="res://otherArt/arrowOver.png" type="Texture" id=7]
 [ext_resource path="res://otherArt/arrowProg.png" type="Texture" id=8]
+[ext_resource path="res://otherArt/blackPixel.png" type="Texture" id=9]
 
 [node name="TileMap" type="TileMap"]
+pause_mode = 1
 tile_set = ExtResource( 1 )
 cell_size = Vector2( 16, 16 )
 cell_quadrant_size = 8
@@ -125,3 +127,9 @@ nine_patch_stretch = true
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="Background" type="Sprite" parent="."]
+modulate = Color( 0, 0, 0, 1 )
+scale = Vector2( 10000, 10000 )
+z_index = -2
+texture = ExtResource( 9 )
