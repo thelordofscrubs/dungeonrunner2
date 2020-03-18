@@ -19,12 +19,19 @@ var levelGrid = {}
 var doors = {}
 var projectiles = []
 var monsters = []
+var uiTheme
 
 
 # Called when the node enters the scene tree for the first time.
 #func _ready():
-	#player = Player.new(Vector2(50,50))
-	#add_child(player)
+#	uiTheme = Theme.new()
+#	for c in get_node("uiContainer").get_children():
+#		c.set_theme(uiTheme)
+
+func darken(a):
+	for c in get_node("uiContainer").get_children():
+		c.set_modulate(Color(a,a,a,1))
+	set_modulate(Color(a,a,a,1))
 
 #func fireProjTest(vin):
 #	projectiles.append(Arrow.new(player.screenCoordinates + vin* 20, vin, projectiles.size()))

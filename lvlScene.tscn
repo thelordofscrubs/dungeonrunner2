@@ -101,20 +101,18 @@ texture_under = ExtResource( 5 )
 texture_progress = ExtResource( 6 )
 nine_patch_stretch = true
 
-[node name="bd2" type="Node2D" parent="uiContainer"]
-scale = Vector2( 2, 2 )
-
-[node name="bowDrawBG" type="ColorRect" parent="uiContainer/bd2"]
-margin_left = 16.0
-margin_top = 173.0
-margin_right = 86.0
-margin_bottom = 243.0
+[node name="bowDrawBG" type="ColorRect" parent="uiContainer"]
+margin_left = 32.0
+margin_top = 346.0
+margin_right = 102.0
+margin_bottom = 416.0
+rect_scale = Vector2( 2, 2 )
 color = Color( 0, 0, 0, 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="bowDrawBar" type="TextureProgress" parent="uiContainer/bd2/bowDrawBG"]
+[node name="bowDrawBar" type="TextureProgress" parent="uiContainer/bowDrawBG"]
 margin_right = 70.0
 margin_bottom = 70.0
 min_value = 8.0

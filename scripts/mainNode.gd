@@ -28,6 +28,9 @@ func openMainMenu():
 func pauseGame():
 	inGame = false
 	paused = true
+	currentLevel.darken(.4)
+	for control in currentLevel.get_node("uiContainer").get_children():
+		control.set_theme(Theme.new())
 	get_tree().paused = true
 	pauseMenu = PauseMenu.new()
 	add_child(pauseMenu)
@@ -35,6 +38,7 @@ func pauseGame():
 func unPause():
 	paused = false
 	inGame = true
+	currentLevel.darken(1)
 	get_tree().paused = false
 	pauseMenu.queue_free()
 

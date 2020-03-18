@@ -9,9 +9,11 @@ var resumeB
 var exitB
 var settingsB
 
+#func _init():
+#	pause_mode = Node.PAUSE_MODE_PROCESS
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	set_self_modulate(Color(0,0,0,0.5))
 	z_index = 1000
 	resumeB = Button.new()
 	resumeB.rect_position = Vector2(50,50)
