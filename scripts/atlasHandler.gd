@@ -9,5 +9,5 @@ func _init(tex = null):
 func grab(idx = 0, size = Vector2(16,16)):
 	var text = AtlasTexture.new()
 	text.set_atlas(atlas)
-	text.set_region(Rect2(Vector2(idx%16,idx/16),size))
+	text.set_region(Rect2(Vector2(idx%16 * 16,idx/16 * 16),size))
 	return text
