@@ -1,6 +1,7 @@
 extends TileMap
 class_name LevelNode
 
+
 enum TILE{OOB,FLOOR,WALL,FINISH,DOOR,CHEST,KEY,POT}
 enum DIR{F,R,B,L,FR,BR,BL,FL}
 enum MONST{BLUESLIME,BATSKELE,ENT,WEARWOLF,GARBAGE,PINKSLIME}
@@ -20,7 +21,7 @@ var doors = {}
 var projectiles = []
 var monsters = []
 var uiTheme
-
+var spriteAtlas = preload("res://sprites/spriteAtlas.png")
 
 # Called when the node enters the scene tree for the first time.
 #func _ready():

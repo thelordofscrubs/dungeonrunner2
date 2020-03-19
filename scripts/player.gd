@@ -4,8 +4,6 @@ class_name Player
 enum TILE{OOB,FLOOR,WALL,FINISH,DOOR,CHEST,KEY,POT,CHESTOPEN}
 enum LOOT{ARROW,GELD}
 
-var spriteScene = preload("res://sprites/charSprite.tscn")
-
 var health
 var mana = 100
 var atkS = 5
@@ -47,6 +45,7 @@ var lastMoveVector = Vector2(0,0)
 var arrowDamage = 8
 var arrowDDisplay
 var magicPower = 1
+var animations = ["faceForeward","faceUpward","faceLeft","faceRight","goForeward","goUpward","goLeft","goRight","bow","die"]
 
 func _ready():
 	print("player ready function")
@@ -81,7 +80,7 @@ func _ready():
 	manaRegenTimer.connect("timeout", self, "regenMana")
 	add_child(manaRegenTimer)
 	manaRegenTimer.start(2)
-	
+
 
 func _init(spawnCoordinates, h = 100, aM = 1):
 	name = "Player"
@@ -124,8 +123,24 @@ func addBuff(buffName):
 	buffDisplay.set_text(buffText)
 
 func genSprite():
-	sprite = spriteScene.instance()
-	sprite.setCoords(screenCoordinates)
+	var grabber = AtlasHandler.new()
+	var frames = SpriteFrames.new()
+	for an in animations:
+		frames.add_animation(an)
+	for an in animations:
+		frames.set_animation_loop(an,true)
+	frames.set_animation_loop("bow",false)
+	frames.set_animation_loop("die",false)
+	frames.add_frame("bow",grabber.grab(3))
+	for x in range(9,14):
+		frames.add_frame("die",grabber.grab(x))
+	for x in range(8):
+		frames.add_frame(animations[x],grabber.grab((x%4)+14))
+	for x in range(31,31+7):
+		frames.add_frame(animations[8],grabber.grab(x))
+	sprite = AnimatedSprite.new()
+	sprite.set_sprite_frames(frames)
+	sprite.set_position(screenCoordinates)
 	sprite.set_z_index(5)
 	#sprite.set_scale(Vector2(2,2))
 	level.add_child(sprite)
@@ -176,7 +191,7 @@ func deathAnimation():
 #		deathAnimationFrame += 1
 #	else:
 #		get_node("playerDeathAnimationTimer").stop()
-	sprite.set_texture(load("res://sprites/charDeath4.tres"))
+	sprite.play("die")
 
 func die():
 	deathAnimation()
@@ -240,7 +255,7 @@ func incBowDamage():
 		arrowDDisplay.value = arrowDamage
 
 func drawBow():
-	sprite.set_texture(load("res://sprites/attackingBowSprite.png"))
+	sprite.play("bow")
 	bowDrawTimer = Timer.new()
 	bowDrawTimer.connect("timeout", self, "incBowDamage")
 	add_child(bowDrawTimer)
@@ -257,7 +272,7 @@ func changeArrows(a):
 
 func attackTimerTimeOut():
 	isAttacking = false
-	sprite.set_texture(load("res://sprites/charSprite.png"))
+	stopMoving()
 
 func openChest(point):
 	var chest =level.chests[point]
@@ -277,8 +292,21 @@ var moveVector
 var ec
 var pv
 var pc
+var moving = false
+
+func stopMoving():
+	moving = false
+	if (abs(facing.angle_to(Vector2(0,-1))) <= PI/4):
+			sprite.play(animations[0])
+	elif(abs(facing.angle_to(Vector2(0,1))) <= PI/4):
+		sprite.play(animations[1])
+	elif(abs(facing.angle_to(Vector2(-1,0))) <= PI/4):
+		sprite.play(animations[2])
+	elif(abs(facing.angle_to(Vector2(1,0))) <= PI/4):
+		sprite.play(animations[3])
 
 func move(vec,d):
+	moving = true
 	moveVector = vec*Vector2(d,d)*5
 	pc = coordinates+Vector2(.5,.5)
 	if vec[0] and vec[1]:
@@ -342,21 +370,20 @@ func move(vec,d):
 				level.levelGrid[(ec-pv*collisionLen+moveVector).floor()] = TILE.CHESTOPEN
 	coordinates += moveVector
 	lastMoveVector = moveVector
-	playerRect.position = coordinates 
+	playerRect.position = coordinates
 	screenCoordinates = coordinates*16+Vector2(8,8)
-	sprite.setCoords(screenCoordinates)
+	sprite.set_position(screenCoordinates)
 	facing = vec
 	if bowDrawTimer:
 		return
-	match facing:
-		Vector2(1,0):
-			sprite.set_texture(load("res://sprites/charSprite1.png"))
-		Vector2(0,1):
-			sprite.set_texture(load("res://sprites/charSprite0.png"))
-		Vector2(-1,0):
-			sprite.set_texture(load("res://sprites/charSprite3.png"))
-		Vector2(0,-1):
-			sprite.set_texture(load("res://sprites/charSprite2.png"))
+	if (abs(facing.angle_to(Vector2(0,-1))) <= PI/4):
+			sprite.play(animations[4])
+	elif(abs(facing.angle_to(Vector2(0,1))) <= PI/4):
+		sprite.play(animations[5])
+	elif(abs(facing.angle_to(Vector2(-1,0))) <= PI/4):
+		sprite.play(animations[6])
+	elif(abs(facing.angle_to(Vector2(1,0))) <= PI/4):
+		sprite.play(animations[7])
 	#camera.align()
 
 func castSpell(vin):

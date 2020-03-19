@@ -20,8 +20,6 @@ func _ready():
 	add_child(mainMenu)
 
 func openMainMenu():
-	if paused:
-		unPause()
 	inGame = false
 	currentLevel.queue_free()
 	mainMenu = mainMenuScene.instance()
@@ -92,4 +90,6 @@ func _process(delta):
 	if Input.is_action_pressed("right"):
 		currentLevel.movePlayer(1,delta)
 		return
-	currentLevel.player.lastMoveVector = Vector2(0,0)
+	if (currentLevel.player.moving):
+		currentLevel.player.stopMoving()
+	
