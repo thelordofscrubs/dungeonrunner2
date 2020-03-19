@@ -143,6 +143,7 @@ func genSprite():
 	sprite.set_position(screenCoordinates)
 	sprite.set_z_index(5)
 	#sprite.set_scale(Vector2(2,2))
+	sprite.play("faceForeward")
 	level.add_child(sprite)
 	print("charSprite should have been generated")
 

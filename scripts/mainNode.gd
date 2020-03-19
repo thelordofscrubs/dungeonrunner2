@@ -20,6 +20,8 @@ func _ready():
 	add_child(mainMenu)
 
 func openMainMenu():
+	if paused:
+		unPause()
 	inGame = false
 	currentLevel.queue_free()
 	mainMenu = mainMenuScene.instance()
@@ -65,7 +67,6 @@ func _process(delta):
 #		currentLevel.player.attack(2)
 	if Input.is_action_just_released("chgw"):
 		currentLevel.player.changeWeapon()
-	currentLevel.moveMonsters(delta)
 	if Input.is_action_pressed("forw") and Input.is_action_pressed("left"):
 		currentLevel.movePlayer(7,delta)
 		return
