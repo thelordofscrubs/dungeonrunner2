@@ -223,6 +223,13 @@ func _input(event):
 		p -= ws/4#+initPlayerCoords
 		p = p.normalized()
 		player.attack(p)
+	if event is InputEventMouseButton and event.pressed == false and event.button_index == 2:
+		ws = get_viewport_rect().size
+		p = event.position/2
+		p -= ws/4#+initPlayerCoords
+		p = p.normalized()
+		player.castSpell(p)
+	
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta):
 #	pass

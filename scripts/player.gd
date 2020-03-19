@@ -46,6 +46,7 @@ const collisionLen = .8
 var lastMoveVector = Vector2(0,0)
 var arrowDamage = 8
 var arrowDDisplay
+var magicPower = 1
 
 func _ready():
 	print("player ready function")
@@ -131,8 +132,9 @@ func genSprite():
 	print("charSprite should have been generated")
 
 func regenMana():
-	mana += 2
-	#manaBar.value = mana
+	if mana < 100:
+		mana += 2
+		manaBar.value = mana
 
 func unlockSpell(spellName):
 	spells.append(spellName)
@@ -226,7 +228,7 @@ func attack(vin = Vector2(0,0)):
 			if arrows > 0:
 				fireArrow(vin)
 				changeArrows(-1)
-				arrowDDisplay.set_value(arrowDamage)
+			arrowDDisplay.set_value(arrowDamage)
 			attackTimer(1)
 
 var bowDrawn
@@ -357,7 +359,7 @@ func move(vec,d):
 			sprite.set_texture(load("res://sprites/charSprite2.png"))
 	#camera.align()
 
-func castSpell():
+func castSpell(vin):
 	if isAttacking == true:
 		return
 	#sprite.set_texture(load("res://sprites/charSprite.png"))
@@ -367,11 +369,11 @@ func castSpell():
 	match spells[currentSpell]:
 		"firebolt":
 			attackTimer(.5)
-			if mana < 20:
+			if mana < 10:
 				return
 			#spell = FireBolt.new(coordinates, facing)
-#			level.add_child(spell)
-			mana -= 20
+			level.add_child(FireBolt.new(screenCoordinates + vin* 5, vin, level.projectiles.size(), 5 * magicPower))
+			mana -= 10
 			manaBar.value = mana
 		"speed buff":
 			attackTimer(1)
