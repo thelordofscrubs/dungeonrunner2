@@ -11,7 +11,7 @@ func checkForTerrain():
 		2:
 #			timer.stop()
 #			timer.queue_free()
-			moveNorm = false
+			stopAllMotion = true
 			timer = Timer.new()
 			timer.set_one_shot(true)
 			timer.connect("timeout", self, "queue_free")
