@@ -79,8 +79,8 @@ func _ready():
 	manaRegenTimer = Timer.new()
 	manaRegenTimer.connect("timeout", self, "regenMana")
 	add_child(manaRegenTimer)
-	manaRegenTimer.start(2)
-
+	manaRegenTimer.start(1.0/2)
+	
 
 func _init(spawnCoordinates, h = 100, aM = 1):
 	name = "Player"
@@ -148,7 +148,7 @@ func genSprite():
 
 func regenMana():
 	if mana < 100:
-		mana += 2
+		mana += 1
 		manaBar.value = mana
 
 func unlockSpell(spellName):

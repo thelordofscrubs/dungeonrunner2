@@ -59,10 +59,10 @@ func _process(delta):
 			pauseGame()
 	if inGame == false:
 		return
-	if Input.is_action_just_released("atk1"):
-		currentLevel.player.attack(1)
-	if Input.is_action_just_released("atk2"):
-		currentLevel.player.attack(2)
+#	if Input.is_action_just_released("atk1"):
+#		currentLevel.player.attack(1)
+#	if Input.is_action_just_released("atk2"):
+#		currentLevel.player.attack(2)
 	if Input.is_action_just_released("chgw"):
 		currentLevel.player.changeWeapon()
 	currentLevel.moveMonsters(delta)
