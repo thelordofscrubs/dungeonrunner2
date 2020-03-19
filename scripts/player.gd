@@ -46,6 +46,7 @@ var arrowDamage = 8
 var arrowDDisplay
 var magicPower = 1
 var animations = ["faceForeward","faceUpward","faceLeft","faceRight","goForeward","goUpward","goLeft","goRight","bow","die"]
+var spriteFlipped = false
 
 func _ready():
 	print("player ready function")
@@ -127,17 +128,16 @@ func genSprite():
 	var frames = SpriteFrames.new()
 	for an in animations:
 		frames.add_animation(an)
-	for an in animations:
 		frames.set_animation_loop(an,true)
 	frames.set_animation_loop("bow",false)
 	frames.set_animation_loop("die",false)
 	frames.add_frame("bow",grabber.grab(3))
 	for x in range(9,14):
 		frames.add_frame("die",grabber.grab(x))
-	for x in range(8):
+	for x in range(7):
 		frames.add_frame(animations[x],grabber.grab((x%4)+14))
-	for x in range(31,31+7):
-		frames.add_frame(animations[8],grabber.grab(x))
+	for x in range(31,31+6):
+		frames.add_frame(animations[7],grabber.grab(x))
 	sprite = AnimatedSprite.new()
 	sprite.set_sprite_frames(frames)
 	sprite.set_position(screenCoordinates)
@@ -297,8 +297,9 @@ var moving = false
 
 func stopMoving():
 	moving = false
+	sprite.play(animations[0])
 	if (abs(facing.angle_to(Vector2(0,-1))) <= PI/4):
-			sprite.play(animations[0])
+		sprite.play(animations[0])
 	elif(abs(facing.angle_to(Vector2(0,1))) <= PI/4):
 		sprite.play(animations[1])
 	elif(abs(facing.angle_to(Vector2(-1,0))) <= PI/4):
@@ -307,7 +308,6 @@ func stopMoving():
 		sprite.play(animations[3])
 
 func move(vec,d):
-	moving = true
 	moveVector = vec*Vector2(d,d)*5
 	pc = coordinates+Vector2(.5,.5)
 	if vec[0] and vec[1]:
@@ -370,22 +370,27 @@ func move(vec,d):
 				openChest((ec-pv*collisionLen+moveVector).floor())
 				level.levelGrid[(ec-pv*collisionLen+moveVector).floor()] = TILE.CHESTOPEN
 	coordinates += moveVector
-	lastMoveVector = moveVector
 	playerRect.position = coordinates
 	screenCoordinates = coordinates*16+Vector2(8,8)
 	sprite.set_position(screenCoordinates)
 	facing = vec
-	if bowDrawTimer:
-		return
-	if (abs(facing.angle_to(Vector2(0,-1))) <= PI/4):
+	if !(sign(lastMoveVector[0]) == sign(moveVector[0]) and sign(lastMoveVector[1]) == sign(moveVector[1])) or moving == false or bowDrawTimer:
+		if (abs(facing.angle_to(Vector2(0,1))) <= PI/4):
 			sprite.play(animations[4])
-	elif(abs(facing.angle_to(Vector2(0,1))) <= PI/4):
-		sprite.play(animations[5])
-	elif(abs(facing.angle_to(Vector2(-1,0))) <= PI/4):
-		sprite.play(animations[6])
-	elif(abs(facing.angle_to(Vector2(1,0))) <= PI/4):
-		sprite.play(animations[7])
+			sprite.set_flip_h(false)
+		elif(abs(facing.angle_to(Vector2(0,-1))) <= PI/4):
+			sprite.play(animations[5])
+			sprite.set_flip_h(false)
+		elif(abs(facing.angle_to(Vector2(-1,0))) <= PI/4):
+			sprite.play(animations[7])
+			sprite.set_flip_h(true)
+			spriteFlipped = true
+		elif(abs(facing.angle_to(Vector2(1,0))) <= PI/4):
+			sprite.play(animations[7])
+			sprite.set_flip_h(false)
 	#camera.align()
+	moving = true
+	lastMoveVector = moveVector
 
 func castSpell(vin):
 	if isAttacking == true:
