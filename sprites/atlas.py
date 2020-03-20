@@ -18,7 +18,7 @@ r = math.ceil(root)
 l = math.floor(length/r)
 r = math.ceil(length/l)
 succsess = False
-while (abs(r-root) <= .1*length):
+while (abs(r-root) <= math.e/10*length):
     if (l*r == length):
         succsess = True
         break
