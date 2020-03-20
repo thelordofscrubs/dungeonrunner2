@@ -11,6 +11,16 @@ func checkForTerrain():
 		2:
 			queue_free()
 
+func entityCollision():
+	for monster in level.monsters:
+		if Rect2(monster.coordinates,Vector2(1,1)).has_point(coordinates/16):
+			monster.changeHealth(-damage)
+			queue_free()
+			return
+	#if Rect2(level.player.coordinates,Vector2(1,1)).has_point(coordinates/16):
+		#queue_free()
+		#return
+
 func _ready():
 	._ready()
 	texture = load("res://sprites/redSpellSprite.png")
