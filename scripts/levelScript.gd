@@ -129,6 +129,11 @@ func startLevel(id):
 		monster.getMap(levelGrid)
 	print("initial player coordinates are: "+str(initPlayerCoords[0])+", "+str(initPlayerCoords[1]))
 
+func openDoor(vecC):
+	doors[vecC] = true
+	set_cellv(vecC, TILE.DOOROPEN)
+	levelGrid[vecC] = TILE.DOOROPEN
+
 func moveMonsters(delta):
 	for monster in monsters:
 		monster.attemptMove(delta)

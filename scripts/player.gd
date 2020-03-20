@@ -332,7 +332,7 @@ func move(vec,d):
 				if level.doors[mvp]:
 					continue
 				if keys > 0:
-					level.doors[mvp] = true
+					level.openDoor(mvp)
 					changeKeys(-1)
 					continue
 				moveVector[0] = 0
@@ -348,7 +348,7 @@ func move(vec,d):
 				if level.doors[mvn]:
 					continue
 				if keys > 0:
-					level.doors[mvn] = true
+					level.openDoor(mvn)
 					changeKeys(-1)
 					continue
 				moveVector[0] = 0
@@ -368,7 +368,7 @@ func move(vec,d):
 				if level.doors[mvp]:
 					continue
 				if keys > 0:
-					level.doors[mvp] = true
+					level.openDoor(mvp)
 					changeKeys(-1)
 					continue
 				moveVector[1] = 0
@@ -384,7 +384,7 @@ func move(vec,d):
 				if level.doors[mvn]:
 					continue
 				if keys > 0:
-					level.doors[mvn] = true
+					level.openDoor(mvn)
 					changeKeys(-1)
 					continue
 				moveVector[1] = 0
@@ -405,7 +405,7 @@ func move(vec,d):
 				if level.doors[mvp]:
 					continue
 				if keys > 0:
-					level.doors[mvp] = true
+					level.openDoor(mvp)
 					changeKeys(-1)
 					continue
 				return
@@ -421,7 +421,7 @@ func move(vec,d):
 				if level.doors[mvn]:
 					continue
 				if keys > 0:
-					level.doors[mvn] = true
+					level.openDoor(mvn)
 					changeKeys(-1)
 					continue
 				return
