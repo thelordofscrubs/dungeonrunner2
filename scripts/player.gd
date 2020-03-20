@@ -296,6 +296,7 @@ var pc
 var moving = false
 
 func stopMoving():
+	lastMoveVector = Vector2(0,0)
 	moving = false
 	sprite.play(animations[0])
 	if (abs(facing.angle_to(Vector2(0,-1))) <= PI/4):
