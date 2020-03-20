@@ -8,7 +8,7 @@ func checkForTerrain():
 	match level.levelGrid[(coordinates/16).floor()]:
 		TILE.OOB:
 			queue_free()
-		TILE.WALL:
+		TILE.DOOR, TILE.WALL:
 #			timer.stop()
 #			timer.queue_free()
 			stopAllMotion = true
