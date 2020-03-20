@@ -374,7 +374,7 @@ func move(vec,d):
 	screenCoordinates = coordinates*16+Vector2(8,8)
 	sprite.set_position(screenCoordinates)
 	facing = vec
-	if !(sign(lastMoveVector[0]) == sign(moveVector[0]) and sign(lastMoveVector[1]) == sign(moveVector[1])) or moving == false or bowDrawTimer:
+	if !(sign(lastMoveVector[0]) == sign(moveVector[0]) and sign(lastMoveVector[1]) == sign(moveVector[1])) or moving == false or bowDrawn:
 		if (abs(facing.angle_to(Vector2(0,1))) <= PI/4):
 			sprite.play(animations[4])
 			sprite.set_flip_h(false)

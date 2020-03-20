@@ -15,7 +15,6 @@ var settingsB
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	set_layer(5)
-	var vp = get_viewport()
 	resumeB = PButton.new(1)
 	resumeB.text = "Resume Game"
 	resumeB.connectTo("resume")
