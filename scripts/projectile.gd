@@ -1,6 +1,8 @@
 extends Sprite
 class_name Projectile
 
+enum TILE{FLOOR,WALL,FINISH,DOOR,CHEST,CHESTOPEN,CHARSPRITE,BLUESLIME,KEY,POT,BATSKELETON,DOOROPEN,BLUESLIMESIDE, OOB = -1}
+
 var coordinates
 var direction
 #var moveCounter = 0
@@ -91,9 +93,9 @@ func entityCollision():
 
 func checkForTerrain():
 	match level.levelGrid[(coordinates/16).floor()]:
-		0:
+		TILE.WALL:
 			queue_free()
-		2:
+		TILE.DOOR:
 			queue_free()
 
 #func _draw():

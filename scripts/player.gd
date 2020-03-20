@@ -1,7 +1,7 @@
 extends Node
 class_name Player
 
-enum TILE{OOB,FLOOR,WALL,FINISH,DOOR,CHEST,KEY,POT,CHESTOPEN}
+enum TILE{FLOOR,WALL,FINISH,DOOR,CHEST,CHESTOPEN,CHARSPRITE,BLUESLIME,KEY,POT,BATSKELETON,DOOROPEN,BLUESLIMESIDE, OOB = -1}
 enum LOOT{ARROW,GELD}
 
 var health
@@ -15,7 +15,7 @@ var initialCoordinates
 var isAttacking = false
 var sprite
 var facing = Vector2(0,1)
-var keys = 0
+var keys = 5
 var money = 0
 var healthBar
 var manaBar
@@ -68,6 +68,7 @@ func _ready():
 	manaBar = uic.get_node("uiBackground1/manaBar")
 	moneyDisplay = uic.get_node("uiBackground1/moneyDisplay")
 	keyDisplay = uic.get_node("uiBackground1/keyDisplay")
+	keyDisplay.set_text("Keys:\n"+str(keys))
 	arrowDisplay = uic.get_node("uiBackground1/arrowDisplay")
 	arrowDisplay.set_text("Arrows:\n"+str(arrows))
 	arrowDDisplay = uic.get_node("bowDrawBG/bowDrawBar")
@@ -317,59 +318,113 @@ func move(vec,d):
 		pv = Vector2(0,.5)
 		#print(str(pv))
 		#level.setPointsForDrawLine(pc,ec)
-		match level.levelGrid[(ec+pv*collisionLen+moveVector).floor()]:
+		var mvp = (ec+pv*collisionLen+moveVector).floor()
+		var mvn = (ec-pv*collisionLen+moveVector).floor()
+		match level.levelGrid[mvp]:
 			-1:
 				moveVector[0] = 0
 			TILE.WALL:
 				moveVector[0] = 0
 			TILE.CHEST:
-				openChest((ec+pv*collisionLen+moveVector).floor())
-				level.levelGrid[(ec-pv*collisionLen+moveVector).floor()] = TILE.CHESTOPEN
-		match level.levelGrid[(ec-pv*collisionLen+moveVector).floor()]:
+				openChest(mvp)
+				level.levelGrid[mvp] = TILE.CHESTOPEN
+			TILE.DOOR:
+				if level.doors[mvp]:
+					continue
+				if keys > 0:
+					level.doors[mvp] = true
+					changeKeys(-1)
+					continue
+				moveVector[0] = 0
+		match level.levelGrid[mvn]:
 			-1:
 				moveVector[0] = 0
 			TILE.WALL:
 				moveVector[0] = 0
 			TILE.CHEST:
-				openChest((ec-pv*collisionLen+moveVector).floor())
-				level.levelGrid[(ec-pv*collisionLen+moveVector).floor()] = TILE.CHESTOPEN
+				openChest(mvn)
+				level.levelGrid[mvn] = TILE.CHESTOPEN
+			TILE.DOOR:
+				if level.doors[mvn]:
+					continue
+				if keys > 0:
+					level.doors[mvn] = true
+					changeKeys(-1)
+					continue
+				moveVector[0] = 0
 		ec = pc+Vector2(0,vec[1]).normalized()*.5
 		pv = Vector2(.5,0)
-		match level.levelGrid[(ec+pv*collisionLen+moveVector).floor()]:
+		mvp = (ec+pv*collisionLen+moveVector).floor()
+		mvn = (ec-pv*collisionLen+moveVector).floor()
+		match level.levelGrid[mvp]:
 			-1:
 				moveVector[1] = 0
 			TILE.WALL:
 				moveVector[1] = 0
 			TILE.CHEST:
-				openChest((ec+pv*collisionLen+moveVector).floor())
-				level.levelGrid[(ec+pv*collisionLen+moveVector).floor()] = TILE.CHESTOPEN
-		match level.levelGrid[(ec-pv*collisionLen+moveVector).floor()]:
+				openChest(mvp)
+				level.levelGrid[mvp] = TILE.CHESTOPEN
+			TILE.DOOR:
+				if level.doors[mvp]:
+					continue
+				if keys > 0:
+					level.doors[mvp] = true
+					changeKeys(-1)
+					continue
+				moveVector[1] = 0
+		match level.levelGrid[mvn]:
 			-1:
 				moveVector[1] = 0
 			TILE.WALL:
 				moveVector[1] = 0
 			TILE.CHEST:
-				openChest((ec-pv*collisionLen+moveVector).floor())
-				level.levelGrid[(ec-pv*collisionLen+moveVector).floor()] = TILE.CHESTOPEN
+				openChest(mvn)
+				level.levelGrid[mvn] = TILE.CHESTOPEN
+			TILE.DOOR:
+				if level.doors[mvn]:
+					continue
+				if keys > 0:
+					level.doors[mvn] = true
+					changeKeys(-1)
+					continue
+				moveVector[1] = 0
 	else:
 		ec = pc+vec*.5
 		pv = Vector2(vec[1],vec[0])*.5
-		match level.levelGrid[(ec+pv*collisionLen+moveVector).floor()]:
+		var mvp = (ec+pv*collisionLen+moveVector).floor()
+		var mvn = (ec-pv*collisionLen+moveVector).floor()
+		match level.levelGrid[mvp]:
 			-1:
 				return
 			TILE.WALL:
 				return
 			TILE.CHEST:
-				openChest((ec+pv*collisionLen+moveVector).floor())
-				level.levelGrid[(ec+pv*collisionLen+moveVector).floor()] = TILE.CHESTOPEN
-		match level.levelGrid[(ec-pv*collisionLen+moveVector).floor()]:
+				openChest(mvp)
+				level.levelGrid[mvp] = TILE.CHESTOPEN
+			TILE.DOOR:
+				if level.doors[mvp]:
+					continue
+				if keys > 0:
+					level.doors[mvp] = true
+					changeKeys(-1)
+					continue
+				return
+		match level.levelGrid[mvn]:
 			-1:
 				return
 			TILE.WALL:
 				return
 			TILE.CHEST:
-				openChest((ec-pv*collisionLen+moveVector).floor())
-				level.levelGrid[(ec-pv*collisionLen+moveVector).floor()] = TILE.CHESTOPEN
+				openChest(mvn)
+				level.levelGrid[mvn] = TILE.CHESTOPEN
+			TILE.DOOR:
+				if level.doors[mvn]:
+					continue
+				if keys > 0:
+					level.doors[mvn] = true
+					changeKeys(-1)
+					continue
+				return
 	coordinates += moveVector
 	playerRect.position = coordinates
 	screenCoordinates = coordinates*16+Vector2(8,8)
