@@ -245,6 +245,7 @@ func attack(vin = Vector2(0,0)):
 			if arrows > 0:
 				fireArrow(vin)
 				changeArrows(-1)
+			arrowDamage = 8
 			arrowDDisplay.set_value(arrowDamage)
 			attackTimer(1)
 
@@ -266,7 +267,6 @@ func drawBow():
 func fireArrow(vin):
 	var arrow = Arrow.new(screenCoordinates + vin* 5, vin, level.projectiles.size(),arrowDamage, lastMoveVector)
 	level.add_child(arrow)
-	arrowDamage = 8
 
 func changeArrows(a):
 	arrows += a
