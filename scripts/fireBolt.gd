@@ -20,5 +20,5 @@ func entityCollision():
 		#return
 
 func _ready():
-	._ready()
-	texture = load("res://sprites/redSpellSprite.png")
+	var grabber = AtlasHandler.new()
+	texture = grabber.grab(30)

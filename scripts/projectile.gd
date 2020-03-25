@@ -18,11 +18,13 @@ var level
 var damage
 var moveNorm = false
 var stopAllMotion = false
+var atlas
 
 func _ready():
 	scale = Vector2(1,1)
 	z_index = 50
 	level = get_parent()
+	atlas = level.spriteAtlas
 	invisibleBoi()
 
 func invisibleBoi():
