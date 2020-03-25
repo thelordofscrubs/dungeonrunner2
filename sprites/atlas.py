@@ -6,9 +6,22 @@ images = []
 
 files = os.listdir()
 
+if not ("atlasHas.txt" in files):
+    t = open("atlasHas.txt", "w")
+    t.close()
+
+filesFile = open("atlasHas.txt", "r")
+
+currentFilesS = filesFile.read()
+currentFiles = currentFilesS.split(",")
+if not currentFilesS:
+    currentFiles = []
+filesFile.close()
 for f in files:
-    if (f != "spriteAtlas.png" and f.endswith(".png")):
-        images.append(Image.open(f))
+    if (f != "spriteAtlas.png" and f.endswith(".png")) and not (f in currentFiles):
+        currentFiles.append(f)
+for f in currentFiles:
+    images.append(Image.open(f))
 length = len(images)
 #trying to get dimentions to be near a square number, (ex 25 would be 5 by 5, but 42 would be 6 by 7)
 #gonna try and use the inner most multiples, if fail:
@@ -56,6 +69,14 @@ for x in range(left):
 #atlas.show()
 atlas.save("spriteAtlas.png")
 
+currentFilesS = ""
+
+for fi in range(len(currentFiles)-1):
+    currentFilesS += currentFiles[fi] + ","
+currentFilesS += currentFiles[-1]
+filesFile = open("atlasHas.txt", "w")
+filesFile.write(currentFilesS)
+filesFile.close()
 
 
 
