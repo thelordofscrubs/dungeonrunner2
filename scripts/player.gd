@@ -233,6 +233,8 @@ func attack(vin = Vector2(0,0)):
 #				print("dealt "+str(totalDamage)+" damage to monster at " +str(coordinates))
 			pass
 		"bow":
+			if arrows == 0:
+				return
 			if vin == Vector2(0,0):
 				drawBow()
 				bowDrawn = true
@@ -242,9 +244,8 @@ func attack(vin = Vector2(0,0)):
 			bowDrawn = false
 			bowDrawTimer.stop()
 			bowDrawTimer.queue_free()
-			if arrows > 0:
-				fireArrow(vin)
-				changeArrows(-1)
+			fireArrow(vin)
+			changeArrows(-1)
 			arrowDamage = 8
 			arrowDDisplay.set_value(arrowDamage)
 			attackTimer(1)
