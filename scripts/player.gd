@@ -149,7 +149,6 @@ func genSprite():
 	sprite.set_z_index(5)
 	sprite.play("faceForeward")
 	level.add_child(sprite)
-	print("charSprite should have been generated")
 
 func regenMana():
 	if mana < 100:
