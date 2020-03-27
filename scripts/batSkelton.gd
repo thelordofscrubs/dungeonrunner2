@@ -47,4 +47,8 @@ func detectWall():
 				return true
 
 func attack():
-	pass
+	if player.playerRect.intersects(entRect):
+		player.takeDamage(damage)
+	var dtp = coordinates.direction_to(player.coordinates)
+	level.add_child(FireBolt.new(coordinates*16 +dtp*3,dtp,level.projectiles.size(),damage))
+	
