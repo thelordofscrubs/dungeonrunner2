@@ -1,4 +1,4 @@
-extends Node
+extends AnimatedSprite
 class_name Monster
 enum TILE{FLOOR,WALL,FINISH,DOOR,CHEST,CHESTOPEN,CHARSPRITE,BLUESLIME,KEY,POT,BATSKELETON,DOOROPEN,BLUESLIMESIDE, OOB = -1}
 enum DIRECTION {NORTH,EAST,SOUTH,WEST}
@@ -31,13 +31,16 @@ func _init(id_, p, c, f, hp, hpMax, dmg):
 func _ready():
 	level = get_parent()
 
-func initSprite(spriteScene):
-	sprite = spriteScene.instance()
-	sprite.set_position((coordinates)*Vector2(16,16))
-	sprite.set_z_index(1)
-	get_parent().add_child(sprite)
+func initSprite():
+	var grabber = AtlasHandler.new()
+	var frames = SpriteFrames.new()
+	frames.add_animation("move")
+	frames.add_animation("die")
+	frames.add_frame("move",grabber.grab())
+	set_position((coordinates)*Vector2(16,16))
+	set_z_index(1)
 	healthBar = MonsterHealthBar.new(maxHealth,health)
-	sprite.add_child(healthBar)
+	add_child(healthBar)
 
 func getMap(map):
 	levelMap = map
@@ -63,4 +66,48 @@ func move(vec):
 	coordinates += vec
 	entRect.position = coordinates
 	#facing = vec
-	sprite.move(coordinates*16)
+	move(coordinates*16)
+
+func takeDamage(a):
+	var dmgLabel = damageLabel.new()
+	dmgLabel.set_align(1)
+	if typeof(a) == TYPE_STRING:
+		dmgLabel.set_text(a)
+	dmgLabel.set_text(str(a))
+#	var posX = dmgLabel.get_size()[0]/2-8
+	dmgLabel.set_position(position+Vector2(4,5))
+	dmgLabel.set_scale(Vector2(0.6,0.6))
+	add_child(dmgLabel)
+	dmgLabel.startTimer()
+
+
+class damageLabel:
+	extends Label
+	
+	var age = 0
+	var timer
+	var t = Theme.new()
+	var a = 1.0
+	
+	
+	func _init():
+		t.set_color("font_color","Label",Color(200,200,200))
+		set_theme(t)
+	
+	func startTimer():
+		timer = Timer.new()
+		timer.connect("timeout",self,"moveSelf")
+		add_child(timer)
+		timer.start(0.01)
+	
+	func moveSelf():
+		rect_position -= Vector2(0,.5)
+		age += 1
+		a -= .02
+		modulate.a = a
+		#t.set_color("font_color","Label",Color(200,200,200,a))
+		#set_theme(t)
+		if age > 50:
+			get_parent().remove_child(self)
+			queue_free()
+	

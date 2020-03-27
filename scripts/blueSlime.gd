@@ -8,15 +8,13 @@ var moveChecks = [Vector2(0,0),Vector2(0,0)]
 func _init(a,b,c,f).(a,b,c,f,10.0,10,5):
 	pass
 
-var spriteScene = preload("res://sprites/blueSlimeSprite.tscn")
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	initSprite(spriteScene)
+	initSprite()
 	attackTimer = Timer.new()
 	add_child(attackTimer)
 	attackTimer.connect("timeout",self,"attack")
 	attackTimer.start(.5)
-	._ready()
 
 func flipFacing():
 	match level.levelGrid[moveChecks[0]]:
