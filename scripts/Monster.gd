@@ -67,7 +67,7 @@ func move(vec):
 
 func getHit(d, type):
 	if flying == true && type == DAMAGETYPE.PHYSICAL:
-		if rng.randf() < .8:
+		if rng.randf() < .2:
 			changeHealth("Dodged!")
 		else:
 			changeHealth(-d)
