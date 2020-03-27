@@ -10,7 +10,7 @@ func checkForTerrain():
 			queue_free()
 
 func checkForPlayer():
-	print("Fireball CFP function")
+	pass
 func _ready():
 	var grabber = AtlasHandler.new()
 	texture = grabber.grab(30)

@@ -19,7 +19,7 @@ func checkForTerrain():
 			timer.start(1)
 
 func checkForPlayer():
-	print("Arrow CFP function")
+	pass
 func _ready():
 	var grabber = AtlasHandler.new()
 	texture = grabber.grab(2)
