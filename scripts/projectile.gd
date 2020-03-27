@@ -81,11 +81,19 @@ func updatePos(d):
 
 func entityCollision():
 	for monster in level.monsters:
-		if Rect2(monster.coordinates,Vector2(1,1)).has_point(coordinates/16):
+		if monster.entRect.has_point(coordinates/16):
 			monster.changeHealth(-damage)
 			queue_free()
 			return
-	if Rect2(level.player.coordinates,Vector2(1,1)).has_point(coordinates/16):
+	for pot in level.pots:
+		if pot.rect.has_point(coordinates/16):
+			pot.hit()
+			queue_free()
+			return
+	checkForPlayer()
+
+func checkForPlayer():
+	if level.player.playerRect.has_point(coordinates/16):
 		queue_free()
 		return
 
