@@ -85,7 +85,7 @@ func entityCollision():
 			monster.changeHealth(-damage)
 			queue_free()
 			return
-	for pot in level.pots:
+	for pot in level.pots.values():
 		if pot.rect.has_point(coordinates/16):
 			pot.hit()
 			queue_free()
