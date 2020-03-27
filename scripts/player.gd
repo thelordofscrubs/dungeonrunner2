@@ -141,8 +141,12 @@ func genSprite():
 		frames.add_frame(animations[7],grabber.grab(x))
 	for x in range(40,48):
 		frames.add_frame(animations[4],grabber.grab(x))
-	frames.add_frame(animations[5],grabber.grab(14))
+	for x in range(49,55):
+		frames.add_frame(animations[6],grabber.grab(x))
+	for x in range(55,63):
+		frames.add_frame(animations[5],grabber.grab(x))
 	frames.set_animation_speed(animations[4],12)
+	frames.set_animation_speed(animations[5],12)
 	sprite = AnimatedSprite.new()
 	sprite.set_sprite_frames(frames)
 	sprite.set_position(screenCoordinates)
@@ -378,18 +382,12 @@ func move(vec,d):
 	if !(sign(lastMoveVector[0]) == sign(moveVector[0]) and sign(lastMoveVector[1]) == sign(moveVector[1])) or moving == false or bowDrawn:
 		if (abs(facing.angle_to(Vector2(0,1))) <= PI/4):
 			sprite.play(animations[4])
-			sprite.set_flip_h(false)
 		elif(abs(facing.angle_to(Vector2(0,-1))) <= PI/4):
 			sprite.play(animations[5])
-			sprite.set_flip_h(false)
 		elif(abs(facing.angle_to(Vector2(-1,0))) <= PI/4):
-			sprite.play(animations[7])
-			sprite.set_flip_h(true)
-			spriteFlipped = true
+			sprite.play(animations[6])
 		elif(abs(facing.angle_to(Vector2(1,0))) <= PI/4):
 			sprite.play(animations[7])
-			sprite.set_flip_h(false)
-	#camera.align()
 	moving = true
 	lastMoveVector = moveVector
 
