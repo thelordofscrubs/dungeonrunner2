@@ -9,16 +9,8 @@ func checkForTerrain():
 		TILE.WALL,TILE.DOOR:
 			queue_free()
 
-func entityCollision():
-	for monster in level.monsters:
-		if Rect2(monster.coordinates,Vector2(1,1)).has_point(coordinates/16):
-			monster.changeHealth(-damage)
-			queue_free()
-			return
-	#if Rect2(level.player.coordinates,Vector2(1,1)).has_point(coordinates/16):
-		#queue_free()
-		#return
-
+func checkForPlayer():
+	print("Fireball CFP function")
 func _ready():
 	var grabber = AtlasHandler.new()
 	texture = grabber.grab(30)
