@@ -10,6 +10,7 @@ class_name PlayerCam
 #func _init(c):
 #	tp=c
 
+const ZOOMYWOOMY = .5
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	#print("setting cam position to "+str(tp))
@@ -17,7 +18,7 @@ func _ready():
 	#print("cam pos after setting: "+str(get_camera_position()))
 	#set_position()
 	set_enable_follow_smoothing(true)
-	set_zoom(Vector2(.5,.5))
+	set_zoom(Vector2(ZOOMYWOOMY,ZOOMYWOOMY))
 	set_h_drag_enabled(false)
 	set_v_drag_enabled(false)
 	make_current()

@@ -135,15 +135,18 @@ func genSprite():
 	frames.add_frame("bow",grabber.grab(3))
 	for x in range(9,14):
 		frames.add_frame("die",grabber.grab(x))
-	for x in range(7):
-		frames.add_frame(animations[x],grabber.grab((x%4)+14))
+	for x in range(4):
+		frames.add_frame(animations[x],grabber.grab((x)+14))
 	for x in range(31,31+6):
 		frames.add_frame(animations[7],grabber.grab(x))
+	for x in range(40,48):
+		frames.add_frame(animations[4],grabber.grab(x))
+	frames.add_frame(animations[5],grabber.grab(14))
+	frames.set_animation_speed(animations[4],12)
 	sprite = AnimatedSprite.new()
 	sprite.set_sprite_frames(frames)
 	sprite.set_position(screenCoordinates)
 	sprite.set_z_index(5)
-	#sprite.set_scale(Vector2(2,2))
 	sprite.play("faceForeward")
 	level.add_child(sprite)
 	print("charSprite should have been generated")
