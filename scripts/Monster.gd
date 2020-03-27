@@ -29,24 +29,18 @@ func _init(id_, p, c, f, hp, hpMax, dmg):
 	damage = dmg
 
 func _ready():
-	level = get_parent()
-
-func initSprite():
-	var grabber = AtlasHandler.new()
-	var frames = SpriteFrames.new()
-	frames.add_animation("move")
-	frames.add_animation("die")
-	frames.add_frame("move",grabber.grab())
 	set_position((coordinates)*Vector2(16,16))
 	set_z_index(1)
 	healthBar = MonsterHealthBar.new(maxHealth,health)
 	add_child(healthBar)
+	level = get_parent()
+
 
 func getMap(map):
 	levelMap = map
 
 func changeHealth(a):
-	sprite.takeDamage(a)
+	takeDamage(a)
 	if typeof(a) == TYPE_STRING:
 		return
 	health += a
@@ -58,7 +52,6 @@ func changeHealth(a):
 
 func die():
 	level.monsters.erase(self)
-	sprite.queue_free()
 	healthBar.queue_free()
 	queue_free()
 
@@ -66,7 +59,7 @@ func move(vec):
 	coordinates += vec
 	entRect.position = coordinates
 	#facing = vec
-	move(coordinates*16)
+	set_position(coordinates*16)
 
 func takeDamage(a):
 	var dmgLabel = damageLabel.new()
@@ -75,10 +68,9 @@ func takeDamage(a):
 		dmgLabel.set_text(a)
 	dmgLabel.set_text(str(a))
 #	var posX = dmgLabel.get_size()[0]/2-8
-	dmgLabel.set_position(position+Vector2(4,5))
+	dmgLabel.set_position(position + Vector2(2,-10))
 	dmgLabel.set_scale(Vector2(0.6,0.6))
-	add_child(dmgLabel)
-	dmgLabel.startTimer()
+	level.add_child(dmgLabel)
 
 
 class damageLabel:
@@ -87,14 +79,13 @@ class damageLabel:
 	var age = 0
 	var timer
 	var t = Theme.new()
-	var a = 1.0
 	
 	
 	func _init():
 		t.set_color("font_color","Label",Color(200,200,200))
 		set_theme(t)
 	
-	func startTimer():
+	func _ready():
 		timer = Timer.new()
 		timer.connect("timeout",self,"moveSelf")
 		add_child(timer)
@@ -103,8 +94,7 @@ class damageLabel:
 	func moveSelf():
 		rect_position -= Vector2(0,.5)
 		age += 1
-		a -= .02
-		modulate.a = a
+		modulate.a -=.02
 		#t.set_color("font_color","Label",Color(200,200,200,a))
 		#set_theme(t)
 		if age > 50:

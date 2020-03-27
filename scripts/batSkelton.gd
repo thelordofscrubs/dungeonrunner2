@@ -3,9 +3,7 @@ class_name BatSkeleton
 func _init(a,b,c,f).(a,b,c,f,20.0,20,10):
 	pass
 
-var spriteScene = preload("res://sprites/batSkeletonSprite.tscn")
 func _ready():
-	initSprite(spriteScene)
 	attackTimer = Timer.new()
 	add_child(attackTimer)
 	attackTimer.connect("timeout",self,"attack")

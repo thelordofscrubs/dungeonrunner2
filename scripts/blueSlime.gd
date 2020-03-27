@@ -10,7 +10,14 @@ func _init(a,b,c,f).(a,b,c,f,10.0,10,5):
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	initSprite()
+	var grabber = AtlasHandler.new()
+	var frames = SpriteFrames.new()
+	frames.add_animation("move")
+	frames.add_animation("die")
+	frames.add_frame("move",grabber.grab(6))
+	set_sprite_frames(frames)
+	play("move")
+	set_centered(false)
 	attackTimer = Timer.new()
 	add_child(attackTimer)
 	attackTimer.connect("timeout",self,"attack")
@@ -35,10 +42,6 @@ func attemptMove(delta):
 	pv = Vector2(facing[1],facing[0])*.5
 	moveChecks[0] = (ec+pv*.9+moveVector).floor()
 	moveChecks[1] = (ec-pv*.9+moveVector).floor()
-#	if !level.levelGrid.has(moveChecks[0]):
-#		facing *= -1
-#	if !level.levelGrid.has(moveChecks[1]):
-#		facing *= -1
 	if flipFacing():
 		facing *= -1
 	moveVector = facing*delta
