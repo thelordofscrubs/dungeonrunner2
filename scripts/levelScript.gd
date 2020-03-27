@@ -7,6 +7,7 @@ enum DIR{F,R,B,L,FR,BR,BL,FL}
 enum MONST{BLUESLIME,BATSKELE,ENT,WEARWOLF,GARBAGE,PINKSLIME}
 enum LOOT{ARROW,GELD}
 enum POTLOOT{COINX2}
+enum DAMAGETYPE{PHYSICAL,MAGICAL}
 # Declare member variables here. Examples:
 # var a = 2
 # var b = "text"

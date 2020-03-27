@@ -2,6 +2,7 @@ extends AnimatedSprite
 class_name Monster
 enum TILE{FLOOR,WALL,FINISH,DOOR,CHEST,CHESTOPEN,CHARSPRITE,BLUESLIME,KEY,POT,BATSKELETON,DOOROPEN,BLUESLIMESIDE, OOB = -1}
 enum DIRECTION {NORTH,EAST,SOUTH,WEST}
+enum DAMAGETYPE{PHYSICAL,MAGICAL}
 var health 
 var maxHealth 
 var damage 
@@ -13,10 +14,11 @@ var attackTimer
 var healthBar
 var levelMap
 var monsterID
-var flying
+var flying = false
 var level
 var entRect
 var monsterSize = Vector2(1,1)
+var rng
 
 func _init(id_, p, c, f, hp, hpMax, dmg):
 	monsterID = id_
@@ -34,13 +36,15 @@ func _ready():
 	healthBar = MonsterHealthBar.new(maxHealth,health)
 	add_child(healthBar)
 	level = get_parent()
+	rng = RandomNumberGenerator.new()
+	rng.randomize()
 
 
 func getMap(map):
 	levelMap = map
 
 func changeHealth(a):
-	takeDamage(a)
+	spawnDamageLabel(a)
 	if typeof(a) == TYPE_STRING:
 		return
 	health += a
@@ -61,7 +65,16 @@ func move(vec):
 	#facing = vec
 	set_position(coordinates*16)
 
-func takeDamage(a):
+func getHit(d, type):
+	if flying == true && type == DAMAGETYPE.PHYSICAL:
+		if rng.randf() < .8:
+			changeHealth("Dodged!")
+		else:
+			changeHealth(-d)
+	else:
+		changeHealth(-d)
+
+func spawnDamageLabel(a):
 	var dmgLabel = damageLabel.new()
 	dmgLabel.set_align(1)
 	if typeof(a) == TYPE_STRING:
@@ -71,6 +84,7 @@ func takeDamage(a):
 	dmgLabel.set_position(position + Vector2(2,-10))
 	dmgLabel.set_scale(Vector2(0.6,0.6))
 	level.add_child(dmgLabel)
+
 
 
 class damageLabel:

@@ -2,6 +2,7 @@ extends Sprite
 class_name Projectile
 
 enum TILE{FLOOR,WALL,FINISH,DOOR,CHEST,CHESTOPEN,CHARSPRITE,BLUESLIME,KEY,POT,BATSKELETON,DOOROPEN,BLUESLIMESIDE, OOB = -1}
+enum DAMAGETYPE{PHYSICAL,MAGICAL}
 
 var coordinates
 var direction
@@ -82,7 +83,7 @@ func updatePos(d):
 func entityCollision():
 	for monster in level.monsters:
 		if monster.entRect.has_point(coordinates/16):
-			monster.changeHealth(-damage)
+			monster.getHit(damage, DAMAGETYPE.PHYSICAL)
 			queue_free()
 			return
 	for pot in level.pots.values():
