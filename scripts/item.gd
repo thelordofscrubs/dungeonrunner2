@@ -3,10 +3,13 @@ class_name GroundItem
 
 var coordinates
 var spriteFrames = []
+var rect
+
 
 func _init(cc, spriteIndexStartEnd):
 	coordinates = cc
 	spriteFrames = spriteIndexStartEnd
+	rect = Rect2(coordinates, Vector2(1,1))
 
 func _ready():
 	var grabber = AtlasHandler.new()

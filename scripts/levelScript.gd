@@ -22,6 +22,7 @@ var doors = {}
 var projectiles = []
 var monsters = []
 var pots = {}
+var coins = []
 var uiTheme
 var spriteAtlas = preload("res://sprites/spriteAtlas.png")
 
@@ -143,6 +144,13 @@ func spawnPot(cc):
 func breakPot(cc):
 	pots.erase(cc)
 
+func getCoin(c):
+	player.changeMoney(c.value)
+	coins.delete(c)
+	c.queue_free()
+
+func generateCoin(cc, v):
+	coins.append(Coin.new(cc,v))
 
 func moveMonsters(delta):
 	for monster in monsters:

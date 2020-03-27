@@ -29,6 +29,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://scripts/blueSlime.gd"
 }, {
+"base": "GroundItem",
+"class": "Coin",
+"language": "GDScript",
+"path": "res://scripts/coin.gd"
+}, {
 "base": "Projectile",
 "class": "FireBolt",
 "language": "GDScript",
@@ -84,6 +89,7 @@ _global_script_class_icons={
 "AtlasHandler": "",
 "BatSkeleton": "",
 "BlueSlime": "",
+"Coin": "",
 "FireBolt": "",
 "GroundItem": "",
 "LevelNode": "",
