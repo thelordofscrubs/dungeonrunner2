@@ -74,7 +74,7 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://scripts/playerCam.gd"
 }, {
-"base": "AnimatedSprite",
+"base": "GroundItem",
 "class": "Pot",
 "language": "GDScript",
 "path": "res://scripts/pot.gd"
