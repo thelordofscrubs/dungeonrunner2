@@ -6,6 +6,7 @@ enum TILE{FLOOR,WALL,FINISH,DOOR,CHEST,CHESTOPEN,CHARSPRITE,BLUESLIME,KEY,POT,BA
 enum DIR{F,R,B,L,FR,BR,BL,FL}
 enum MONST{BLUESLIME,BATSKELE,ENT,WEARWOLF,GARBAGE,PINKSLIME}
 enum LOOT{ARROW,GELD}
+enum POTLOOT{COINX2}
 # Declare member variables here. Examples:
 # var a = 2
 # var b = "text"
@@ -20,6 +21,7 @@ var levelGrid = {}
 var doors = {}
 var projectiles = []
 var monsters = []
+var pots = {}
 var uiTheme
 var spriteAtlas = preload("res://sprites/spriteAtlas.png")
 
@@ -109,7 +111,7 @@ func startLevel(id):
 					set_cellv(cc,0)
 				9: #potSpawn
 					levelGrid[cc] = TILE.POT
-					#spawnPot(cc)
+					spawnPot(cc)
 					set_cellv(cc,0)
 				10: #batSkeletonSpawn
 					levelGrid[cc] = TILE.FLOOR
@@ -133,6 +135,9 @@ func openDoor(vecC):
 	doors[vecC] = true
 	set_cellv(vecC, TILE.DOOROPEN)
 	levelGrid[vecC] = TILE.DOOROPEN
+
+func spawnPot(cc):
+	pots[cc] = POTLOOT.COINX2
 
 func moveMonsters(delta):
 	for monster in monsters:
