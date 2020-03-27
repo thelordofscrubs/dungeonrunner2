@@ -137,7 +137,12 @@ func openDoor(vecC):
 	levelGrid[vecC] = TILE.DOOROPEN
 
 func spawnPot(cc):
-	pots[cc] = POTLOOT.COINX2
+	pots[cc] = Pot.new(cc, POTLOOT.COINX2)
+	add_child(pots[cc])
+
+func breakPot(cc):
+	pots.erase(cc)
+
 
 func moveMonsters(delta):
 	for monster in monsters:

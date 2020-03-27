@@ -34,6 +34,7 @@ func _ready():
 func initSprite(spriteScene):
 	sprite = spriteScene.instance()
 	sprite.set_position((coordinates)*Vector2(16,16))
+	sprite.set_z_index(1)
 	get_parent().add_child(sprite)
 	healthBar = MonsterHealthBar.new(maxHealth,health)
 	sprite.add_child(healthBar)
