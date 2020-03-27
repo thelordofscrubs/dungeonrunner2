@@ -143,6 +143,7 @@ func spawnPot(cc):
 
 func breakPot(cc):
 	pots.erase(cc)
+	generateCoin(cc, 2)
 
 func getCoin(c):
 	player.changeMoney(c.value)
@@ -150,7 +151,10 @@ func getCoin(c):
 	c.queue_free()
 
 func generateCoin(cc, v):
-	coins.append(Coin.new(cc,v))
+	var newCoin = Coin.new(cc,v)
+	coins.append(newCoin)
+	add_child(newCoin)
+
 
 func moveMonsters(delta):
 	for monster in monsters:

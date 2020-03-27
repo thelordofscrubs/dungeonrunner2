@@ -17,7 +17,6 @@ func _ready():
 	for x in range(spriteFrames[0],spriteFrames[1]+1):
 		frames.add_frame("default",grabber.grab(x))
 	frames.set_animation_loop("default",false)
-	frames.set_animation_speed("default",16)
 	set_sprite_frames(frames)
 	set_position(coordinates*16)
 	set_centered(false)

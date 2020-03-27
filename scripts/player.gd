@@ -312,6 +312,24 @@ func stopMoving():
 	elif(abs(facing.angle_to(Vector2(1,0))) <= PI/4):
 		sprite.play(animations[3])
 
+#func matchTiles(testC):
+#	match level.levelGrid[mvp]:
+#		-1:
+#			moveVector[0] = 0
+#		TILE.WALL:
+#			moveVector[0] = 0
+#		TILE.CHEST:
+#			openChest(mvp)
+#			level.levelGrid[mvp] = TILE.CHESTOPEN
+#		TILE.DOOR:
+#			if level.doors[mvp]:
+#				continue
+#			if keys > 0:
+#				level.openDoor(mvp)
+#				changeKeys(-1)
+#				continue
+#			moveVector[0] = 0
+
 func move(vec,d):
 	moveVector = vec*Vector2(d,d)*5
 	pc = coordinates+Vector2(.5,.5)
@@ -323,22 +341,7 @@ func move(vec,d):
 		#level.setPointsForDrawLine(pc,ec)
 		var mvp = (ec+pv*collisionLen+moveVector).floor()
 		var mvn = (ec-pv*collisionLen+moveVector).floor()
-		match level.levelGrid[mvp]:
-			-1:
-				moveVector[0] = 0
-			TILE.WALL:
-				moveVector[0] = 0
-			TILE.CHEST:
-				openChest(mvp)
-				level.levelGrid[mvp] = TILE.CHESTOPEN
-			TILE.DOOR:
-				if level.doors[mvp]:
-					continue
-				if keys > 0:
-					level.openDoor(mvp)
-					changeKeys(-1)
-					continue
-				moveVector[0] = 0
+		
 		match level.levelGrid[mvn]:
 			-1:
 				moveVector[0] = 0
