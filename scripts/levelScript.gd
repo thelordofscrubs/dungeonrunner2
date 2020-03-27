@@ -147,7 +147,7 @@ func breakPot(cc):
 
 func getCoin(c):
 	player.changeMoney(c.value)
-	coins.delete(c)
+	coins.erase(c)
 	c.queue_free()
 
 func generateCoin(cc, v):

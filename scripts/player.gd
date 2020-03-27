@@ -312,23 +312,30 @@ func stopMoving():
 	elif(abs(facing.angle_to(Vector2(1,0))) <= PI/4):
 		sprite.play(animations[3])
 
-#func matchTiles(testC):
-#	match level.levelGrid[mvp]:
-#		-1:
-#			moveVector[0] = 0
-#		TILE.WALL:
-#			moveVector[0] = 0
-#		TILE.CHEST:
-#			openChest(mvp)
-#			level.levelGrid[mvp] = TILE.CHESTOPEN
-#		TILE.DOOR:
-#			if level.doors[mvp]:
-#				continue
-#			if keys > 0:
-#				level.openDoor(mvp)
-#				changeKeys(-1)
-#				continue
-#			moveVector[0] = 0
+func checkForItems():
+	for coin in level.coins:
+		if coin.rect.intersects(playerRect):
+			level.getCoin(coin)
+
+func canMoveTo(testC):
+	match level.levelGrid[testC]:
+		-1:
+			return false
+		TILE.WALL:
+			return false
+		TILE.CHEST:
+			openChest(testC)
+			level.levelGrid[testC] = TILE.CHESTOPEN
+			return true
+		TILE.DOOR:
+			if level.doors[testC]:
+				return true
+			if keys > 0:
+				level.openDoor(testC)
+				changeKeys(-1)
+				return true
+			return false
+	return true
 
 func move(vec,d):
 	moveVector = vec*Vector2(d,d)*5
@@ -341,97 +348,29 @@ func move(vec,d):
 		#level.setPointsForDrawLine(pc,ec)
 		var mvp = (ec+pv*collisionLen+moveVector).floor()
 		var mvn = (ec-pv*collisionLen+moveVector).floor()
-		
-		match level.levelGrid[mvn]:
-			-1:
-				moveVector[0] = 0
-			TILE.WALL:
-				moveVector[0] = 0
-			TILE.CHEST:
-				openChest(mvn)
-				level.levelGrid[mvn] = TILE.CHESTOPEN
-			TILE.DOOR:
-				if level.doors[mvn]:
-					continue
-				if keys > 0:
-					level.openDoor(mvn)
-					changeKeys(-1)
-					continue
-				moveVector[0] = 0
+		if !canMoveTo(mvn):
+			moveVector[0] = 0
+		if !canMoveTo(mvp):
+			moveVector[0] = 0
 		ec = pc+Vector2(0,vec[1]).normalized()*.5
 		pv = Vector2(.5,0)
 		mvp = (ec+pv*collisionLen+moveVector).floor()
 		mvn = (ec-pv*collisionLen+moveVector).floor()
-		match level.levelGrid[mvp]:
-			-1:
-				moveVector[1] = 0
-			TILE.WALL:
-				moveVector[1] = 0
-			TILE.CHEST:
-				openChest(mvp)
-				level.levelGrid[mvp] = TILE.CHESTOPEN
-			TILE.DOOR:
-				if level.doors[mvp]:
-					continue
-				if keys > 0:
-					level.openDoor(mvp)
-					changeKeys(-1)
-					continue
-				moveVector[1] = 0
-		match level.levelGrid[mvn]:
-			-1:
-				moveVector[1] = 0
-			TILE.WALL:
-				moveVector[1] = 0
-			TILE.CHEST:
-				openChest(mvn)
-				level.levelGrid[mvn] = TILE.CHESTOPEN
-			TILE.DOOR:
-				if level.doors[mvn]:
-					continue
-				if keys > 0:
-					level.openDoor(mvn)
-					changeKeys(-1)
-					continue
-				moveVector[1] = 0
+		if !canMoveTo(mvn):
+			moveVector[1] = 0
+		if !canMoveTo(mvp):
+			moveVector[1] = 0
 	else:
 		ec = pc+vec*.5
 		pv = Vector2(vec[1],vec[0])*.5
 		var mvp = (ec+pv*collisionLen+moveVector).floor()
 		var mvn = (ec-pv*collisionLen+moveVector).floor()
-		match level.levelGrid[mvp]:
-			-1:
-				return
-			TILE.WALL:
-				return
-			TILE.CHEST:
-				openChest(mvp)
-				level.levelGrid[mvp] = TILE.CHESTOPEN
-			TILE.DOOR:
-				if level.doors[mvp]:
-					continue
-				if keys > 0:
-					level.openDoor(mvp)
-					changeKeys(-1)
-					continue
-				return
-		match level.levelGrid[mvn]:
-			-1:
-				return
-			TILE.WALL:
-				return
-			TILE.CHEST:
-				openChest(mvn)
-				level.levelGrid[mvn] = TILE.CHESTOPEN
-			TILE.DOOR:
-				if level.doors[mvn]:
-					continue
-				if keys > 0:
-					level.openDoor(mvn)
-					changeKeys(-1)
-					continue
-				return
+		if !canMoveTo(mvn):
+			return
+		if !canMoveTo(mvp):
+			return
 	coordinates += moveVector
+	checkForItems()
 	playerRect.position = coordinates
 	screenCoordinates = coordinates*16+Vector2(8,8)
 	sprite.set_position(screenCoordinates)
