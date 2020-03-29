@@ -54,13 +54,13 @@ func detectWall():
 func isPointInSight(v1,v2):
 	var rd = v1.direction_to(v2)
 	var ray = v1+rd
-	print("casting ray from "+str(v1)+" to "+str(v2)+" with the ray direction being "+str(rd))
+	#print("casting ray from "+str(v1)+" to "+str(v2)+" with the ray direction being "+str(rd))
 	while v2.distance_to(ray) > 1:
 		if IMPASSABLE.values().has(level.levelGrid[ray.floor()]):
-			print("wall found at "+str(ray.floor()))
+			#print("wall found at "+str(ray.floor()))
 			return false
 		ray += rd*0.5
-	print("ray has reached player")
+	#print("ray has reached player")
 	return true
 			
 func attack():
