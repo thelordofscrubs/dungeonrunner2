@@ -64,7 +64,7 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://scripts/levelScript.gd"
 }, {
-"base": "Node",
+"base": "AnimatedSprite",
 "class": "Monster",
 "language": "GDScript",
 "path": "res://scripts/Monster.gd"
@@ -73,6 +73,11 @@ _global_script_classes=[ {
 "class": "MonsterHealthBar",
 "language": "GDScript",
 "path": "res://scripts/monsterHealthBar.gd"
+}, {
+"base": "Button",
+"class": "PButton",
+"language": "GDScript",
+"path": "res://scripts/pButton.gd"
 }, {
 "base": "CanvasLayer",
 "class": "PauseMenu",
@@ -113,6 +118,7 @@ _global_script_class_icons={
 "LevelNode": "",
 "Monster": "",
 "MonsterHealthBar": "",
+"PButton": "",
 "PauseMenu": "",
 "Player": "",
 "PlayerCam": "",

@@ -46,26 +46,6 @@ func openSettings():
 func exitLevel():
 	get_parent().openMainMenu()
 
-class PButton:
-	extends Button
-	
-	var pressFun
-	var pos
-	
-	func _init(p):
-		pos = p
-	
-	func _ready():
-		var vp = get_viewport()
-		rect_position = Vector2(vp.size[0]/2-100,vp.size[1]/6*pos)
-		rect_size = Vector2(200,vp.size[1]/6-50)
-	
-	func connectTo(f):
-		pressFun = f
-	
-	func _pressed():
-		get_parent().call(pressFun)
-
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta):
 #	pass
