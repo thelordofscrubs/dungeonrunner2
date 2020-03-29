@@ -11,6 +11,9 @@ var currentLevel
 var inGame = false
 var pauseMenu
 var paused = false
+var inMenu = false
+var fMenu
+var dMenu
 #var currentLevelP
 
 # Called when the node enters the scene tree for the first time.
@@ -22,10 +25,36 @@ func _ready():
 func openMainMenu():
 	if paused:
 		unPause()
+	if fMenu:
+		print("freeing f menu")
+		fMenu.queue_free()
+	inMenu = false
 	inGame = false
 	currentLevel.queue_free()
 	mainMenu = mainMenuScene.instance()
 	add_child(mainMenu)
+
+func die():
+	inGame = false
+	inMenu = true
+	paused = true
+	currentLevel.darken(.4)
+	for control in currentLevel.get_node("uiContainer").get_children():
+		control.set_theme(Theme.new())
+	get_tree().paused = true
+	dMenu = DeathMenu.new()
+	add_child(dMenu)
+
+func finishLevel():
+	inGame = false
+	inMenu = true
+	paused = true
+	currentLevel.darken(.4)
+	for control in currentLevel.get_node("uiContainer").get_children():
+		control.set_theme(Theme.new())
+	get_tree().paused = true
+	fMenu = EndLevelMenu.new()
+	add_child(fMenu)
 
 func pauseGame():
 	inGame = false
@@ -46,7 +75,16 @@ func unPause():
 	inGame = true
 	currentLevel.darken(1)
 	get_tree().paused = false
-	pauseMenu.queue_free()
+	if pauseMenu:
+		pauseMenu.queue_free()
+	if dMenu:
+		dMenu.queue_free()
+	if fMenu:
+		print("freeing f menu")
+		fMenu.queue_free()
+	else:
+		print(str(fMenu))
+
 
 func beginLevel(id):
 	mainMenu.queue_free()
@@ -58,6 +96,8 @@ func beginLevel(id):
 	
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
+	if inMenu:
+		return
 	if Input.is_action_just_pressed("pause"):
 		if paused:
 			unPause()

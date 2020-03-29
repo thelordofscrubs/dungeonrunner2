@@ -211,7 +211,7 @@ class drawingStuff:
 		draw_line(v1,v2,Color(0,250,250), 1.3)
 
 func die():
-	get_parent().openMainMenu()
+	get_parent().die()
 
 func movePlayer(dir, delta):
 	match dir:

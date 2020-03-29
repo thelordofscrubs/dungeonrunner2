@@ -323,8 +323,6 @@ func checkForItems():
 
 func canMoveTo(testC):
 	match level.levelGrid[testC]:
-		-1:
-			return false
 		TILE.WALL:
 			return false
 		TILE.CHEST:
@@ -339,6 +337,8 @@ func canMoveTo(testC):
 				changeKeys(-1)
 				return true
 			return false
+		TILE.FINISH:
+			get_parent().get_parent().finishLevel()
 	return true
 
 func move(vec,d):
@@ -397,7 +397,6 @@ func castSpell(vin):
 	#sprite.set_texture(load("res://sprites/charSprite.png"))
 	if mana == 0:
 		return
-#	var spell
 	match spells[currentSpell]:
 		"firebolt":
 			attackTimer(.5)
