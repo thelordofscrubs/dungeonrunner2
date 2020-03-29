@@ -57,8 +57,8 @@ class PButton:
 	
 	func _ready():
 		var vp = get_viewport()
-		rect_position = Vector2(vp.size[0]/2-100,vp.size[1]/5*pos)
-		rect_size = Vector2(200,vp.size[1]/5-50)
+		rect_position = Vector2(vp.size[0]/2-100,vp.size[1]/6*pos)
+		rect_size = Vector2(200,vp.size[1]/6-50)
 	
 	func connectTo(f):
 		pressFun = f
