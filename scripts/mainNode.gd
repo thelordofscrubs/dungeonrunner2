@@ -37,6 +37,10 @@ func pauseGame():
 	pauseMenu = PauseMenu.new()
 	add_child(pauseMenu)
 
+func resetLevel():
+	openMainMenu()
+	beginLevel(0)
+
 func unPause():
 	paused = false
 	inGame = true

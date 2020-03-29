@@ -51,11 +51,25 @@ func detectWall():
 			TILE.DOOR:
 				return true
 
+func isPointInSight(v1,v2):
+	var rd = v1.direction_to(v2)
+	var ray = v1+rd
+	print("casting ray from "+str(v1)+" to "+str(v2)+" with the ray direction being "+str(rd))
+	while v2.distance_to(ray) > 1:
+		if IMPASSABLE.values().has(level.levelGrid[ray.floor()]):
+			print("wall found at "+str(ray.floor()))
+			return false
+		ray += rd*0.5
+	print("ray has reached player")
+	return true
+			
 func attack():
 	if player.playerRect.intersects(entRect):
 		player.takeDamage(damage)
 	
 
 func fireFireBolt():
+	if !isPointInSight(coordinates, player.coordinates+Vector2(.5,.5)):
+		return
 	var dtp = coordinates.direction_to(player.coordinates+Vector2(.5,.5)+player.lastMoveVector.normalized())
 	level.add_child(EnemyFireBolt.new(coordinates*16 +dtp*3,dtp,level.projectiles.size(),damage))

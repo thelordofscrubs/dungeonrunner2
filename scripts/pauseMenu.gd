@@ -8,6 +8,7 @@ class_name PauseMenu
 var resumeB
 var exitB
 var settingsB
+var resetB
 
 #func _init():
 #	pause_mode = Node.PAUSE_MODE_PROCESS
@@ -23,10 +24,18 @@ func _ready():
 	settingsB.text = "Settings"
 	settingsB.connectTo("openSettings")
 	add_child(settingsB)
-	exitB = PButton.new(3)
+	resetB = PButton.new(3)
+	resetB.text = "Reset Level"
+	resetB.connectTo("resetLevel")
+	add_child(resetB)
+	exitB = PButton.new(4)
 	exitB.text = "Exit To Main Menu"
 	exitB.connectTo("exitLevel")
 	add_child(exitB)
+
+
+func resetLevel():
+	get_parent().resetLevel()
 
 func resume():
 	get_parent().unPause()
