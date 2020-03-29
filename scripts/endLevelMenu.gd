@@ -13,7 +13,7 @@ var backToMenuB
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	set_layer(5)
-	backToMenuB = PButton.new(1)
+	backToMenuB = PButton.new(1,1)
 	backToMenuB.text = "Back To Main Menu"
 	backToMenuB.connectTo("exitLevel")
 	add_child(backToMenuB)

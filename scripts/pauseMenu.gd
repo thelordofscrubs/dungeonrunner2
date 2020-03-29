@@ -16,19 +16,19 @@ var resetB
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	set_layer(5)
-	resumeB = PButton.new(1)
+	resumeB = PButton.new(1,4)
 	resumeB.text = "Resume Game"
 	resumeB.connectTo("resume")
 	add_child(resumeB)
-	settingsB = PButton.new(2)
+	settingsB = PButton.new(2,4)
 	settingsB.text = "Settings"
 	settingsB.connectTo("openSettings")
 	add_child(settingsB)
-	resetB = PButton.new(3)
+	resetB = PButton.new(3,4)
 	resetB.text = "Reset Level"
 	resetB.connectTo("resetLevel")
 	add_child(resetB)
-	exitB = PButton.new(4)
+	exitB = PButton.new(4,4)
 	exitB.text = "Exit To Main Menu"
 	exitB.connectTo("exitLevel")
 	add_child(exitB)
