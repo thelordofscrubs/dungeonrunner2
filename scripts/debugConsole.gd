@@ -23,6 +23,7 @@ func _ready():
 	inputField.rect_position = Vector2(50,30)
 	inputField.rect_size = Vector2(get_viewport().get_size()[0]-100,20)
 	inputField.connect("text_entered", self, "debugCommand")
+	inputField.grab_focus()
 
 func debugCommand(s):
 	print("input field has emitted text_entered")
