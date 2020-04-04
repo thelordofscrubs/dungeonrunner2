@@ -39,7 +39,7 @@ func attemptMove(delta):
 	moveChecks[1] = (ec-pv*.9+moveVector).floor()
 	if detectWall(moveChecks):
 		facing = facing.rotated(90*PI/180)#Convert to raidian 
-	moveVector = facing*delta
+	moveVector = facing*delta*.75
 	move(Vector2(moveVector))
 
 func attack():
@@ -48,3 +48,5 @@ func attack():
 
 func fireAcidBolt():
 	level.add_child(EnemyAcidBolt.new(coordinates*16 + Vector2(8,8) + facing*5,facing,level.projectiles.size(),damage))
+	level.add_child(EnemyAcidBolt.new(coordinates*16 + Vector2(8,8) + facing*5,facing.rotated(30*PI/180),level.projectiles.size(),damage))
+	level.add_child(EnemyAcidBolt.new(coordinates*16 + Vector2(8,8) + facing*5,facing.rotated(-30*PI/180),level.projectiles.size(),damage))

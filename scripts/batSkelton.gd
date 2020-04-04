@@ -60,5 +60,5 @@ func attack():
 func fireFireBolt():
 	if !isPointInSight(coordinates, player.coordinates+Vector2(.5,.5)):
 		return
-	var dtp = coordinates.direction_to(player.coordinates+Vector2(.5,.5)+player.lastMoveVector.normalized())
+	var dtp = coordinates.direction_to(player.coordinates+player.lastMoveVector.normalized())
 	level.add_child(EnemyFireBolt.new(coordinates*16 + Vector2(8,8) +dtp*3,dtp,level.projectiles.size(),damage))

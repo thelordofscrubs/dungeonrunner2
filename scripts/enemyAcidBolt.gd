@@ -1,7 +1,7 @@
 extends Projectile
 class_name EnemyAcidBolt
 
-func _init(a,b,c,e).(a,b,c,20,e):
+func _init(a,b,c,e).(a,b,c,60,e):
 	pass
 
 func checkForTerrain():
@@ -23,3 +23,4 @@ func _ready():
 	frames.add_frame("default",grabber.grab(0))
 	frames.add_frame("default",grabber.grab(1))
 	set_sprite_frames(frames)
+	play()
