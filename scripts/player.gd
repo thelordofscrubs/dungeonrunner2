@@ -45,7 +45,6 @@ var arrowDamage = 8
 var arrowDDisplay
 var magicPower = 1
 var animations = ["faceForeward","faceUpward","faceLeft","faceRight","goForeward","goUpward","goLeft","goRight","bow","die"]
-var spriteFlipped = false
 var godMode = false
 
 func _ready():
