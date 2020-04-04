@@ -295,6 +295,10 @@ func _process(delta):
 	moveMonsters(delta)
 	if Input.is_action_just_pressed("debug"):
 		toggleDebug()
+	if (player.moving):
+		player.stopMoving()
+	if debugMenuOpen:
+		return
 	if Input.is_action_just_released("chgw"):
 		player.changeWeapon()
 	if Input.is_action_pressed("forw") and Input.is_action_pressed("left"):
@@ -321,5 +325,3 @@ func _process(delta):
 	if Input.is_action_pressed("right"):
 		movePlayer(1,delta)
 		return
-	if (player.moving):
-		player.stopMoving()

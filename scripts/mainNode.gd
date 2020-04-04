@@ -84,7 +84,7 @@ func beginLevel(id):
 
 func goToMenu(menuType):
 	if inGame:
-		currentLevel.darken(.4)
+		toggleDarkScreen()
 	var menu
 	match menuType:
 		MENUTYPE.MAIN:
@@ -117,7 +117,32 @@ func popMenuStack():
 		goToMenu(menuTypeStack[-1])
 	else:
 		if inGame:
-			currentLevel.darken(1)
+			toggleDarkScreen()
+
+var darkened
+var darkScreen
+
+func toggleDarkScreen():
+	if darkened:
+		darkScreen.queue_free()
+		darkened = false
+	else:
+		darkScreen = DarkScreen.new()
+		add_child(darkScreen)
+		darkened = true
+
+class DarkScreen:
+	extends CanvasLayer
+
+	var bs
+
+	func _ready():
+		bs = Sprite.new()
+		bs.set_texture(load("res://otherArt/blackPixel.png"))
+		bs.set_modulate(Color(1,1,1,0.4))
+		bs.set_scale(Vector2(16000,16000))
+		add_child(bs)
+
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
