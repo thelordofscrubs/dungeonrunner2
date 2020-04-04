@@ -49,22 +49,14 @@ var spriteFlipped = false
 var godMode = false
 
 func _ready():
-	print("player ready function")
 	level = get_parent()
 	genSprite()
-	#print("intial player coordinates are "+str(initialCoordinates))
 	camera = PlayerCam.new()
-	#print("dividing Vector2(400, 900) by 2 = " + str(Vector2(400,900)/2))
 	add_child(camera)
 	var uic = get_node("../uiContainer")
 	var uib = uic.get_child(0)
 	uib.rect_position = Vector2(get_viewport().size[0]/2 - uib.rect_size[0]/2,30)
-#	sprite = spriteScene.instance()
-#	set_z_index(5)
-#	get_parent().add_child(sprite)
-#	print("charSprite should have been generated")
 	healthBar = uic.get_node("uiBackground1/healthBar")
-	#healthBar = uic.get_node("bowDrawBG/healthBar2")
 	manaBar = uic.get_node("uiBackground1/manaBar")
 	moneyDisplay = uic.get_node("uiBackground1/moneyDisplay")
 	keyDisplay = uic.get_node("uiBackground1/keyDisplay")
