@@ -147,7 +147,7 @@ class DarkScreen:
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
+func _process(_delta):
 	if inMenu:
 		return
 	if !inGame:

@@ -1,4 +1,4 @@
-extends Node
+extends AnimatedSprite
 class_name Player
 
 enum TILE{FLOOR,WALL,FINISH,DOOR,CHEST,CHESTOPEN,CHARSPRITE,BLUESLIME,KEY,POT,BATSKELETON,DOOROPEN,BLUESLIMESIDE, OOB = -1}
@@ -13,7 +13,6 @@ var coordinates
 var screenCoordinates
 var initialCoordinates
 var isAttacking = false
-var sprite
 var facing = Vector2(0,1)
 var keys = 5
 var money = 0
@@ -56,12 +55,12 @@ func _ready():
 	#print("intial player coordinates are "+str(initialCoordinates))
 	camera = PlayerCam.new()
 	#print("dividing Vector2(400, 900) by 2 = " + str(Vector2(400,900)/2))
-	sprite.add_child(camera)
+	add_child(camera)
 	var uic = get_node("../uiContainer")
 	var uib = uic.get_child(0)
 	uib.rect_position = Vector2(get_viewport().size[0]/2 - uib.rect_size[0]/2,30)
 #	sprite = spriteScene.instance()
-#	sprite.set_z_index(5)
+#	set_z_index(5)
 #	get_parent().add_child(sprite)
 #	print("charSprite should have been generated")
 	healthBar = uic.get_node("uiBackground1/healthBar")
@@ -148,20 +147,18 @@ func genSprite():
 		frames.add_frame(animations[5],grabber.grab(x))
 	frames.set_animation_speed(animations[4],12)
 	frames.set_animation_speed(animations[5],12)
-	sprite = AnimatedSprite.new()
-	sprite.set_sprite_frames(frames)
-	sprite.set_position(screenCoordinates)
-	sprite.set_z_index(5)
-	sprite.play("faceForeward")
-	level.add_child(sprite)
+	set_sprite_frames(frames)
+	set_position(screenCoordinates)
+	set_z_index(5)
+	play("faceForeward")
 
 func toggleGodMode():
 	if godMode:
 		godMode = false
-		sprite.set_modulate(Color(1,1,1,1))
+		set_modulate(Color(1,1,1,1))
 	else:
 		godMode = true
-		sprite.set_modulate(Color(1,.5,1,1))
+		set_modulate(Color(1,.5,1,1))
 
 func regenMana():
 	if mana < 100:
@@ -203,12 +200,12 @@ func takeDamage(d):
 
 #testcomment
 func deathAnimation():
-#	sprite.set_texture(load("res://sprites/charDeath"+str(deathAnimationFrame+1)+".tres"))
+#	set_texture(load("res://sprites/charDeath"+str(deathAnimationFrame+1)+".tres"))
 #	if deathAnimationFrame < 3:
 #		deathAnimationFrame += 1
 #	else:
 #		get_node("playerDeathAnimationTimer").stop()
-	sprite.play("die")
+	play("die")
 
 func die():
 	deathAnimation()
@@ -261,7 +258,7 @@ func incBowDamage():
 		arrowDDisplay.value = arrowDamage
 
 func drawBow():
-	sprite.play("bow")
+	play("bow")
 	bowDrawTimer = Timer.new()
 	bowDrawTimer.connect("timeout", self, "incBowDamage")
 	add_child(bowDrawTimer)
@@ -302,15 +299,15 @@ var moving = false
 func stopMoving():
 	lastMoveVector = Vector2(0,0)
 	moving = false
-	sprite.play(animations[0])
+	play(animations[0])
 	if (abs(facing.angle_to(Vector2(0,-1))) <= PI/4):
-		sprite.play(animations[0])
+		play(animations[0])
 	elif(abs(facing.angle_to(Vector2(0,1))) <= PI/4):
-		sprite.play(animations[1])
+		play(animations[1])
 	elif(abs(facing.angle_to(Vector2(-1,0))) <= PI/4):
-		sprite.play(animations[2])
+		play(animations[2])
 	elif(abs(facing.angle_to(Vector2(1,0))) <= PI/4):
-		sprite.play(animations[3])
+		play(animations[3])
 
 func checkForItems():
 	for coin in level.coins:
@@ -373,24 +370,24 @@ func move(vec,d):
 	checkForItems()
 	playerRect.position = coordinates
 	screenCoordinates = coordinates*16+Vector2(8,8)
-	sprite.set_position(screenCoordinates)
+	set_position(screenCoordinates)
 	facing = vec
 	if !(sign(lastMoveVector[0]) == sign(moveVector[0]) and sign(lastMoveVector[1]) == sign(moveVector[1])) or moving == false or bowDrawn:
 		if (abs(facing.angle_to(Vector2(0,1))) <= PI/4):
-			sprite.play(animations[4])
+			play(animations[4])
 		elif(abs(facing.angle_to(Vector2(0,-1))) <= PI/4):
-			sprite.play(animations[5])
+			play(animations[5])
 		elif(abs(facing.angle_to(Vector2(-1,0))) <= PI/4):
-			sprite.play(animations[6])
+			play(animations[6])
 		elif(abs(facing.angle_to(Vector2(1,0))) <= PI/4):
-			sprite.play(animations[7])
+			play(animations[7])
 	moving = true
 	lastMoveVector = moveVector
 
 func castSpell(vin):
 	if isAttacking == true:
 		return
-	#sprite.set_texture(load("res://sprites/charSprite.png"))
+	#set_texture(load("res://sprites/charpng"))
 	if mana == 0:
 		return
 	match spells[currentSpell]:
