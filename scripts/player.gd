@@ -47,6 +47,7 @@ var arrowDDisplay
 var magicPower = 1
 var animations = ["faceForeward","faceUpward","faceLeft","faceRight","goForeward","goUpward","goLeft","goRight","bow","die"]
 var spriteFlipped = false
+var godMode = false
 
 func _ready():
 	print("player ready function")
@@ -153,6 +154,14 @@ func genSprite():
 	sprite.set_z_index(5)
 	sprite.play("faceForeward")
 	level.add_child(sprite)
+
+func toggelGodMode():
+	if godMode:
+		godMode = false
+		sprite.set_modulate(Color(1,1,1,1))
+	else:
+		godMode = true
+		sprite.set_modulate(Color(1,.5,1,1))
 
 func regenMana():
 	if mana < 100:

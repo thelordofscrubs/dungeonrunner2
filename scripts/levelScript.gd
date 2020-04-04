@@ -26,6 +26,8 @@ var pots = {}
 var coins = []
 var uiTheme
 var spriteAtlas = preload("res://sprites/spriteAtlas.png")
+var debugMenuOpen = false
+var debugMenu
 
 # Called when the node enters the scene tree for the first time.
 #func _ready():
@@ -46,7 +48,7 @@ func darken(a):
 func startLevel(id):
 	print("id:"+str(id))
 	levelID = int(id)
-	name = "level"+str(levelID)
+	name = "currentLevelNode"
 	set_pause_mode(1)
 	var levelName = "res://maps/map"+str(levelID)+"TileMap.tscn"
 	print(levelName)
@@ -267,6 +269,57 @@ func _input(event):
 		p = p.normalized()
 		player.castSpell(p)
 	
+func toggleDebug():
+	if debugMenuOpen:
+		closeDebug()
+	else:
+		openDebug()
+
+func closeDebug():
+	debugMenu.queue_free()
+	debugMenuOpen = false		
+
+func openDebug():
+	debugMenu = DebugMenu.new()
+	get_parent().add_child(debugMenu)
+	debugMenuOpen = true
+
+func debugCommand(commandString):
+	match commandString:
+		"godMode":
+			player.toggleGodMode()
+
+
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	moveMonsters(delta)
+	if Input.is_action_just_pressed("debug"):
+		toggleDebug()
+	if Input.is_action_just_released("chgw"):
+		player.changeWeapon()
+	if Input.is_action_pressed("forw") and Input.is_action_pressed("left"):
+		movePlayer(7,delta)
+		return
+	if Input.is_action_pressed("back") and Input.is_action_pressed("left"):
+		movePlayer(6,delta)
+		return
+	if Input.is_action_pressed("back") and Input.is_action_pressed("right"):
+		movePlayer(5,delta)
+		return
+	if Input.is_action_pressed("forw") and Input.is_action_pressed("right"):
+		movePlayer(4,delta)
+		return
+	if Input.is_action_pressed("forw"):
+		movePlayer(0,delta)
+		return
+	if Input.is_action_pressed("back"):
+		movePlayer(2,delta)
+		return
+	if Input.is_action_pressed("left"):
+		movePlayer(3,delta)
+		return
+	if Input.is_action_pressed("right"):
+		movePlayer(1,delta)
+		return
+	if (player.moving):
+		player.stopMoving()
