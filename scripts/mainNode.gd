@@ -7,9 +7,9 @@ extends Control
 var mainMenuScene = preload("res://mainMenu.tscn")
 var levelScene = preload("res://lvlScene.tscn")
 var currentLevel
-var inGame = false
+var inGame = false#For checking if in a level
 var paused = false
-var inMenu = false
+var inMenu = false#for every menu expect pause button, so that you can't pause in other menus
 #var currentLevelP
 var menuStack = []
 var menuTypeStack = []
@@ -148,13 +148,13 @@ class DarkScreen:
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
+	if inMenu:
+		return
+	if !inGame:
+		return
 	if Input.is_action_just_pressed("pause"):
 		if paused:
 			unPause()
 		else:
 			pauseGame()
-	if inMenu:
-		return
-	if inGame == false:
-		return
 	
