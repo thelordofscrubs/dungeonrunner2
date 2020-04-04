@@ -290,15 +290,16 @@ var moving = false
 func stopMoving():
 	lastMoveVector = Vector2(0,0)
 	moving = false
-	play(animations[0])
-	if (abs(facing.angle_to(Vector2(0,-1))) <= PI/4):
+	if !bowDrawn:
 		play(animations[0])
-	elif(abs(facing.angle_to(Vector2(0,1))) <= PI/4):
-		play(animations[1])
-	elif(abs(facing.angle_to(Vector2(-1,0))) <= PI/4):
-		play(animations[2])
-	elif(abs(facing.angle_to(Vector2(1,0))) <= PI/4):
-		play(animations[3])
+		if (abs(facing.angle_to(Vector2(0,-1))) <= PI/4):
+			play(animations[0])
+		elif(abs(facing.angle_to(Vector2(0,1))) <= PI/4):
+			play(animations[1])
+		elif(abs(facing.angle_to(Vector2(-1,0))) <= PI/4):
+			play(animations[2])
+		elif(abs(facing.angle_to(Vector2(1,0))) <= PI/4):
+			play(animations[3])
 
 func checkForItems():
 	for coin in level.coins:
@@ -363,7 +364,8 @@ func move(vec,d):
 	screenCoordinates = coordinates*16+Vector2(8,8)
 	set_position(screenCoordinates)
 	facing = vec
-	if !(sign(lastMoveVector[0]) == sign(moveVector[0]) and sign(lastMoveVector[1]) == sign(moveVector[1])) or moving == false or bowDrawn:
+	print(lastMoveVector[0], " compared to ",moveVector[0],"\n",lastMoveVector[1], " compared to ", moveVector[1])
+	if (!(sign(lastMoveVector[0]) == sign(moveVector[0]) && sign(lastMoveVector[1]) == sign(moveVector[1])) || moving) && !bowDrawn:
 		if (abs(facing.angle_to(Vector2(0,1))) <= PI/4):
 			play(animations[4])
 		elif(abs(facing.angle_to(Vector2(0,-1))) <= PI/4):
