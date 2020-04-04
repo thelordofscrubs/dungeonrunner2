@@ -14,6 +14,7 @@ func _ready():
     darkenSprite.set_modulate(Color(1,1,1,0.4))
     add_child(darkenSprite)
     inputContainer = Node2D.new()
+    inputContainer.set_z_index(2)
     add_child(inputContainer)
     inputField = InputField.new()
     inputContainer.add_child(inputField)
@@ -31,6 +32,7 @@ class InputField:
         level = get_node("/root/mainNode/currentLevelNode")
 
     func debugCommand(s):
+        print("input field has emitted text_entered")
         clear()
         level.debugCommand(s)
 

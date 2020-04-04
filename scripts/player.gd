@@ -155,7 +155,7 @@ func genSprite():
 	sprite.play("faceForeward")
 	level.add_child(sprite)
 
-func toggelGodMode():
+func toggleGodMode():
 	if godMode:
 		godMode = false
 		sprite.set_modulate(Color(1,1,1,1))
