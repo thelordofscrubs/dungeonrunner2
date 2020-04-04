@@ -28,6 +28,7 @@ func openMainMenu():
 	menuTypeStack.clear()
 	if inGame:
 		currentLevel.queue_free()
+		toggleDarkScreen()
 	inGame = false;
 	inMenu = true;
 	goToMenu(MENUTYPE.MAIN)
@@ -55,6 +56,7 @@ func finishLevel():
 func pauseGame():
 	paused = true
 	inGame = true
+	toggleDarkScreen()
 #	for control in currentLevel.get_node("uiContainer").get_children():
 #		control.set_theme(Theme.new())
 	get_tree().paused = true
@@ -63,9 +65,11 @@ func pauseGame():
 func resetLevel():
 	if inGame:
 		currentLevel.queue_free()
+		toggleDarkScreen()
 	beginLevel(0)
 
 func unPause():
+	toggleDarkScreen()
 	paused = false
 	inGame = true
 	get_tree().paused = false
@@ -85,8 +89,6 @@ func beginLevel(id):
 	get_tree().paused = false
 
 func goToMenu(menuType):
-	if inGame:
-		toggleDarkScreen()
 	var menu
 	match menuType:
 		MENUTYPE.MAIN:
@@ -117,14 +119,12 @@ func popMenuStack():
 	menuTypeStack.pop_back()
 	if menuStack.size() > 0: 
 		goToMenu(menuTypeStack[-1])
-	else:
-		if inGame:
-			toggleDarkScreen()
 
 var darkened
 var darkScreen
 
 func toggleDarkScreen():
+	print("toggling darkened mode")
 	if darkened:
 		darkScreen.queue_free()
 		darkened = false
@@ -141,7 +141,7 @@ class DarkScreen:
 	func _ready():
 		bs = Sprite.new()
 		bs.set_texture(load("res://otherArt/blackPixel.png"))
-		bs.set_modulate(Color(1,1,1,0.4))
+		bs.set_modulate(Color(1,1,1,0.6))
 		bs.set_scale(Vector2(16000,16000))
 		add_child(bs)
 
