@@ -257,7 +257,7 @@ func _input(event):
 	if debugMenuOpen:
 		return
 	if event is InputEventMouseButton and event.pressed == true and event.button_index == 1:
-		player.attack()
+		player.drawBow()
 	if event is InputEventMouseButton and event.pressed == false and event.button_index == 1:
 		ws = get_viewport_rect().size
 		p = event.position/2
@@ -300,7 +300,7 @@ func _process(delta):
 	if debugMenuOpen:
 		return
 	if Input.is_action_just_released("chgw"):
-		player.changeWeapon()
+		player.changeWeapon(1)
 	if Input.is_action_pressed("forw") and Input.is_action_pressed("left"):
 		movePlayer(7,delta)
 		return

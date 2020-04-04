@@ -10,7 +10,7 @@ class_name PlayerCam
 #func _init(c):
 #	tp=c
 
-const ZOOMYWOOMY = .5
+const ZOOMYWOOMY = .25
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	#print("setting cam position to "+str(tp))

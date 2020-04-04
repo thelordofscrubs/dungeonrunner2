@@ -174,28 +174,12 @@ func takeDamage(d):
 	if health > 100:
 		health = 100
 	if health <= 0:
-#		var deathTimer = Timer.new()
 		isDead = true
-#		deathTimer.set_one_shot(true)
-#		deathTimer.connect("timeout",self,"die")
-#		add_child(deathTimer)
-#		deathTimer.start(3)
-#		var deathAnimTimer = Timer.new()
-#		deathAnimTimer.connect("timeout",self,"deathAnimation")
-#		deathAnimTimer.set_name("playerDeathAnimationTimer")
-#		add_child(deathAnimTimer)
-#		deathAnimTimer.start(.8)
-#		deathAnimation()
 		die()
 
 
 #testcomment
 func deathAnimation():
-#	set_texture(load("res://sprites/charDeath"+str(deathAnimationFrame+1)+".tres"))
-#	if deathAnimationFrame < 3:
-#		deathAnimationFrame += 1
-#	else:
-#		get_node("playerDeathAnimationTimer").stop()
 	play("die")
 
 func die():
@@ -221,13 +205,9 @@ func attack(vin = Vector2(0,0)):
 		return
 	match weapons[currentWeapon]:
 		"sword":
-			level.add_child(SwordProjectile.new(screenCoordinates + vin* 5, vin, 0,20, lastMoveVector))
+			add_child(SwordProjectile.new(screenCoordinates + vin* 3, vin, 0,20, lastMoveVector))
 		"bow":
 			if arrows == 0:
-				return
-			if vin == Vector2(0,0):
-				drawBow()
-				bowDrawn = true
 				return
 			if bowDrawn == false:
 				return
@@ -249,6 +229,11 @@ func incBowDamage():
 		arrowDDisplay.value = arrowDamage
 
 func drawBow():
+	if currentWeapon != 1:
+		return
+	if arrows == 0:
+		return
+	bowDrawn = true
 	play("bow")
 	bowDrawTimer = Timer.new()
 	bowDrawTimer.connect("timeout", self, "incBowDamage")
@@ -364,8 +349,8 @@ func move(vec,d):
 	screenCoordinates = coordinates*16+Vector2(8,8)
 	set_position(screenCoordinates)
 	facing = vec
-	print(lastMoveVector[0], " compared to ",moveVector[0],"\n",lastMoveVector[1], " compared to ", moveVector[1])
-	if (!(sign(lastMoveVector[0]) == sign(moveVector[0]) && sign(lastMoveVector[1]) == sign(moveVector[1])) || moving) && !bowDrawn:
+	#print(lastMoveVector[0], " compared to ",moveVector[0],"\n",lastMoveVector[1], " compared to ", moveVector[1])
+	if (!(sign(lastMoveVector[0]) == sign(moveVector[0]) && sign(lastMoveVector[1]) == sign(moveVector[1]))) && !bowDrawn:
 		if (abs(facing.angle_to(Vector2(0,1))) <= PI/4):
 			play(animations[4])
 		elif(abs(facing.angle_to(Vector2(0,-1))) <= PI/4):

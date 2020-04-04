@@ -24,7 +24,7 @@ var atlas
 func _ready():
 	scale = Vector2(1,1)
 	z_index = 50
-	level = get_parent()
+	level = get_node("/root/mainControlNode/currentLevelNode")
 	atlas = level.spriteAtlas
 	invisibleBoi()
 
