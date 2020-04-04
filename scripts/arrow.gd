@@ -22,4 +22,6 @@ func checkForPlayer():
 	pass
 func _ready():
 	var grabber = AtlasHandler.new()
-	texture = grabber.grab(2)
+	var frames = SpriteFrames.new()
+	frames.add_frame("default",grabber.grab(2))
+	set_sprite_frames(frames)
