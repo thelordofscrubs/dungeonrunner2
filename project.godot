@@ -45,6 +45,11 @@ _global_script_classes=[ {
 "path": "res://scripts/endLevelMenu.gd"
 }, {
 "base": "Projectile",
+"class": "EnemyAcidBolt",
+"language": "GDScript",
+"path": "res://scripts/enemyAcidBolt.gd"
+}, {
+"base": "Projectile",
 "class": "EnemyFireBolt",
 "language": "GDScript",
 "path": "res://scripts/enemyFireBolt.gd"
@@ -53,6 +58,11 @@ _global_script_classes=[ {
 "class": "FireBolt",
 "language": "GDScript",
 "path": "res://scripts/fireBolt.gd"
+}, {
+"base": "Monster",
+"class": "GarbageMonster",
+"language": "GDScript",
+"path": "res://scripts/garbageMonster.gd"
 }, {
 "base": "AnimatedSprite",
 "class": "GroundItem",
@@ -112,8 +122,10 @@ _global_script_class_icons={
 "Coin": "",
 "DeathMenu": "",
 "EndLevelMenu": "",
+"EnemyAcidBolt": "",
 "EnemyFireBolt": "",
 "FireBolt": "",
+"GarbageMonster": "",
 "GroundItem": "",
 "LevelNode": "",
 "Monster": "",
