@@ -28,6 +28,8 @@ func openMainMenu():
 	menuTypeStack.clear()
 	if inGame:
 		currentLevel.queue_free()
+	inGame = false;
+	inMenu = true;
 	goToMenu(MENUTYPE.MAIN)
 
 func die():
