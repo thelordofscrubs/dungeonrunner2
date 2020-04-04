@@ -179,7 +179,7 @@ func setAttacking(b):
 	isAttacking = b
 
 func takeDamage(d):
-	if isDead == true:
+	if isDead || godMode:
 		return
 	health -= d
 	healthBar.set_value(health)
@@ -233,19 +233,6 @@ func attack(vin = Vector2(0,0)):
 		return
 	match weapons[currentWeapon]:
 		"sword":
-#			if attackTimer(1) == false:
-#				return
-#			sprite.set_texture(load("res://sprites/attackingSwordSprite.tres"))
-#			var monsterCoords = []
-#			for monster in level.monsters:
-#				monsterCoords.append(monster.coordinates)
-#			if monsterCoords.has(coordinates):
-##				var hit = level.hitMonster(coordinates,float(totalDamage)/2,"melee")
-#				print("dealt "+str(float(totalDamage)/2)+" damage to monster at " +str(coordinates))
-#				return
-#			if monsterCoords.has(coordinates+facing):
-##				var hit = level.hitMonster(coordinates+facing,totalDamage,"melee")
-#				print("dealt "+str(totalDamage)+" damage to monster at " +str(coordinates))
 			pass
 		"bow":
 			if arrows == 0:
@@ -413,13 +400,15 @@ func castSpell(vin):
 				return
 			#spell = FireBolt.new(coordinates, facing)
 			level.add_child(FireBolt.new(screenCoordinates + vin* 5, vin, level.projectiles.size(), 5 * magicPower))
-			mana -= 10
+			if !godMode:
+				mana -= 10
 			manaBar.value = mana
 		"speed buff":
 			attackTimer(1)
 			if mana < 50:
 				return
-			mana -= 50
+			if !godMode:		
+				mana -= 50
 			attackSpeed *= 4
 			#print("attackSpeed is"+String(attackSpeed))
 			var timer = Timer.new()
