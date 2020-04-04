@@ -20,6 +20,20 @@ func checkForTerrain():
 
 func checkForPlayer():
 	pass
+
+func entityCollision():
+	for monster in level.monsters:
+		if monster.entRect.has_point(coordinates/16):
+			monster.getHit(damage, DAMAGETYPE.PHYSICAL)
+			queue_free()
+			return
+	for pot in level.pots.values():
+		if pot.rect.has_point(coordinates/16):
+			pot.hit()
+			queue_free()
+			return
+	checkForPlayer()
+
 func _ready():
 	var grabber = AtlasHandler.new()
 	var frames = SpriteFrames.new()

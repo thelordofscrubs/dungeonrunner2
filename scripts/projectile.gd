@@ -86,11 +86,6 @@ func entityCollision():
 			monster.getHit(damage, DAMAGETYPE.PHYSICAL)
 			queue_free()
 			return
-	for pot in level.pots.values():
-		if pot.rect.has_point(coordinates/16):
-			pot.hit()
-			queue_free()
-			return
 	checkForPlayer()
 
 func checkForPlayer():
