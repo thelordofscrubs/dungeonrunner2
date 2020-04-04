@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/garbageMonster.png-f36fcf97ea2198f04c0f297992935dee.stex"
+path="res://.import/garbageMonster.png-3c5acd5003c5cbd8530c67a831285b18.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://sprites/garbageMonster.png"
-dest_files=[ "res://.import/garbageMonster.png-f36fcf97ea2198f04c0f297992935dee.stex" ]
+source_file="res://mapTiles/garbageMonster.png"
+dest_files=[ "res://.import/garbageMonster.png-3c5acd5003c5cbd8530c67a831285b18.stex" ]
 
 [params]
 
