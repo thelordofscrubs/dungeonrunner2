@@ -20,7 +20,7 @@ func _ready():
 	attackTimer = Timer.new()
 	add_child(attackTimer)
 	attackTimer.connect("timeout",self,"attack")
-	attackTimer.start(.5)
+	attackTimer.start(2)
 
 func detectWall(moveChecks):
 	for v in moveChecks:
@@ -37,18 +37,14 @@ func attemptMove(delta):
 	var moveChecks = [Vector2(0,0),Vector2(0,0)]
 	moveChecks[0] = (ec+pv*.9+moveVector).floor()
 	moveChecks[1] = (ec-pv*.9+moveVector).floor()
-	facing = facing.rotated(.03)
-	moveVector = facing*delta*2
 	if detectWall(moveChecks):
-		return
+		facing = facing.rotated(90*PI/180)#Convert to raidian 
+	moveVector = facing*delta
 	move(Vector2(moveVector))
 
 func attack():
 	if player.playerRect.intersects(entRect):
 		player.takeDamage(damage)
 
-func fireFireBolt():
-	if !isPointInSight(coordinates, player.coordinates+Vector2(.5,.5)):
-		return
-	var dtp = coordinates.direction_to(player.coordinates+Vector2(.5,.5)+player.lastMoveVector.normalized())
-	level.add_child(EnemyAcidBolt.new(coordinates*16 +dtp*3,dtp,level.projectiles.size(),damage))
+func fireAcidBolt():
+	level.add_child(EnemyAcidBolt.new(coordinates*16 + Vector2(8,8) + facing*5,facing,level.projectiles.size(),damage))
