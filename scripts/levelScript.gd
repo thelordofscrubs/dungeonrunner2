@@ -103,7 +103,7 @@ func startLevel(id):
 				7: #blueSlimeSpawn
 					levelGrid[cc] = TILE.FLOOR
 					var facing = Vector2(0,-1)
-					var monster = buildingAMonter(MONST.BLUESLIME,cc,facing)
+					var monster = buildingAMonster(MONST.BLUESLIME,cc,facing)
 					addMonster(monster)
 					#spawnMonster("blueSlime",cc,initPlayerCoords,facing)
 					set_cellv(cc,0)
@@ -118,16 +118,22 @@ func startLevel(id):
 				10: #batSkeletonSpawn
 					levelGrid[cc] = TILE.FLOOR
 					var facing = Vector2(0,-1)
-					var monster = buildingAMonter(MONST.BATSKELE,cc,facing)
+					var monster = buildingAMonster(MONST.BATSKELE,cc,facing)
 					addMonster(monster)
 					#spawnMonster("batSkeleton",cc,initPlayerCoords,facing)
 					set_cellv(cc,0)
 				12:
 					levelGrid[cc] = TILE.FLOOR
 					var facing = Vector2(1,0)
-					var monster = buildingAMonter(MONST.BLUESLIME,cc,facing)
+					var monster = buildingAMonster(MONST.BLUESLIME,cc,facing)
 					addMonster(monster)
 					#spawnMonster("blueSlime",cc,initPlayerCoords,facing)
+					set_cellv(cc,0)
+				13:
+					levelGrid[cc] = TILE.FLOOR
+					var facing = Vector2(0,-1)
+					var monster = buildingAMonster(MONST.GARBAGE,cc,facing)
+					addMonster(monster)
 					set_cellv(cc,0)
 	for monster in monsters:
 		monster.getMap(levelGrid)
@@ -165,12 +171,14 @@ func addMonster(monster):
 	monsters.append(monster)
 	add_child(monster)
 
-func buildingAMonter(monst, cc,facing):
+func buildingAMonster(monst, cc, facing):
 	match monst:
 		MONST.BLUESLIME:
 			return BlueSlime.new(monsters.size(),player,cc,facing)
 		MONST.BATSKELE:
 			return BatSkeleton.new(monsters.size(),player,cc,facing)
+		MONST.GARBAGE:
+			return GarbageMonster.new(monsters.size(),player,cc,facing)
 
 func spawnChest(loot, cc):
 	chests[cc] = [loot,false]
