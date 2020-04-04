@@ -254,6 +254,8 @@ var p
 var ws
 
 func _input(event):
+	if debugMenuOpen:
+		return
 	if event is InputEventMouseButton and event.pressed == true and event.button_index == 1:
 		player.attack()
 	if event is InputEventMouseButton and event.pressed == false and event.button_index == 1:
