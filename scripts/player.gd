@@ -414,16 +414,10 @@ func speedBuffTimeout():
 
 func changeWeapon(d):
 	currentWeapon += d
-	if currentWeapon == -1:
-		currentWeapon = weapons.size()-1
-	if currentWeapon == weapons.size():
-		currentWeapon = 0
+	currentWeapon %= weapons.size()
 	weaponDisplay.set_text("Current Weapon:\n"+weapons[currentWeapon].capitalize())
 
 func changeSpell(d):
 	currentSpell += d
-	if currentSpell == -1:
-		currentSpell = spells.size()-1
-	if currentSpell == spells.size():
-		currentSpell = 0
+	currentSpell %= spells.size()
 	spellDisplay.set_text("Current Spell:\n"+spells[currentSpell].capitalize())
