@@ -89,6 +89,9 @@ func beginLevel(id):
 	inMenu = false
 	get_tree().paused = false
 
+func openSettingsMenu():
+	goToMenu(MENUTYPE.SETTINGS)
+
 func goToMenu(menuType):
 	var menu
 	match menuType:
@@ -101,7 +104,7 @@ func goToMenu(menuType):
 		MENUTYPE.DEATH:
 			menu = DeathMenu.new()
 		MENUTYPE.SETTINGS:
-			menu = PauseMenu.new()#Settings Menu doesn't exist yet
+			menu = SettingsMenu.new()
 	if menuStack.size() > 0:
 		menuStack[-1].queue_free()
 	pushMenuStack(menu,menuType)
@@ -110,13 +113,16 @@ func goToMenu(menuType):
 func removeMenu(menu):
 	menu.queue_free()
 
+
 func pushMenuStack(menu,menuType):
 	menuStack.append(menu)
+	print("appending "+str(menu)+" to menuStack, which now contains "+ str(menuStack))
 	menuTypeStack.append(menuType)
 
 func popMenuStack():
 	removeMenu(menuStack[-1])
 	menuStack.pop_back()
+	print(str(menuStack))
 	menuTypeStack.pop_back()
 	if menuStack.size() > 0: 
 		goToMenu(menuTypeStack[-1])

@@ -41,7 +41,7 @@ func resume():
 	get_parent().unPause()
 
 func openSettings():
-	pass
+	get_parent().openSettingsMenu()
 
 func exitLevel():
 	get_parent().openMainMenu()
