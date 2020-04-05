@@ -399,6 +399,8 @@ func speedBuffTimeout():
 	removeBuff("atkSpeedUp")
 
 func changeWeapon(d):
+	if bowDrawn:
+		return
 	currentWeapon += d
 	currentWeapon %= weapons.size()
 	weaponDisplay.set_text("Current Weapon:\n"+weapons[currentWeapon].capitalize())
