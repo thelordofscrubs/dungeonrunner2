@@ -80,7 +80,7 @@ func getHit(d, type):
 	iFrameTimer.set_one_shot(true)
 	iFrameTimer.connect("timeout", self, "iFrameTimeout")
 	add_child(iFrameTimer)
-	iFrameTimer.start(0.5)
+	iFrameTimer.start(0.3)
 	if flying == true && type == DAMAGETYPE.PHYSICAL:
 		if rng.randf() < .2:
 			changeHealth("Dodged!")
