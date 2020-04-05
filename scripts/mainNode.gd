@@ -11,7 +11,7 @@ var inGame = false#For checking if in a level
 var paused = false
 var inMenu = false#for every menu expect pause button, so that you can't pause in other menus
 #var currentLevelP
-var menuStack = []
+var currentMenu
 var menuTypeStack = []
 enum MENUTYPE{MAIN,PAUSE,DEATH,ENDLEVEL,SETTINGS}
 
@@ -23,8 +23,7 @@ func _ready():
 	goToMenu(MENUTYPE.MAIN)
 
 func openMainMenu():
-	menuStack[-1].queue_free()
-	menuStack.clear()
+	currentMenu.free()
 	menuTypeStack.clear()
 	if inGame:
 		currentLevel.queue_free()
@@ -80,7 +79,7 @@ func unPause():
 func beginLevel(id):
 	popMenuStack()
 	menuTypeStack.clear()
-	menuStack.clear()
+	currentMenu.queue_free()
 	currentLevel = levelScene.instance()
 	add_child(currentLevel)
 	currentLevel.startLevel(id)
@@ -105,26 +104,18 @@ func goToMenu(menuType):
 			menu = DeathMenu.new()
 		MENUTYPE.SETTINGS:
 			menu = SettingsMenu.new()
-	if menuStack.size() > 0:
-		menuStack[-1].queue_free()
-	pushMenuStack(menu,menuType)
-	add_child(menuStack[-1])
+	if currentMenu:
+		currentMenu.queue_free()
+	currentMenu = menu
+	pushMenuStack(menuType)
+	add_child(currentMenu)
 
-func removeMenu(menu):
-	menu.queue_free()
-
-
-func pushMenuStack(menu,menuType):
-	menuStack.append(menu)
-	print("appending "+str(menu)+" to menuStack, which now contains "+ str(menuStack))
+func pushMenuStack(menuType):
 	menuTypeStack.append(menuType)
 
 func popMenuStack():
-	removeMenu(menuStack[-1])
-	menuStack.pop_back()
-	print(str(menuStack))
 	menuTypeStack.pop_back()
-	if menuStack.size() > 0: 
+	if menuTypeStack.size() > 0: 
 		goToMenu(menuTypeStack[-1])
 
 var darkened

@@ -160,6 +160,7 @@ _global_script_class_icons={
 
 config/name="Dungeon Runner 2"
 run/main_scene="res://main.tscn"
+config/icon="res://icon.png"
 
 [display]
 
@@ -223,3 +224,4 @@ debug={
 quality/driver/driver_name="GLES2"
 vram_compression/import_etc=true
 vram_compression/import_etc2=false
+environment/default_environment="res://default_env.tres"
