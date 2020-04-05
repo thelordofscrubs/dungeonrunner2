@@ -6,6 +6,7 @@ var player
 var rect
 var circlePos
 var initCirclePos
+var circleRadius = .75 #1 is standard
 
 func _init(a,b,c,e,d).(a,b,c,3,e,d):
 	coordinates = Vector2(0,0)
@@ -30,7 +31,7 @@ func updatePos(d):
 	if abs(circlePos - initCirclePos) > PI/2:
 		queue_free()
 	circlePos += d*pixelPerSecond
-	coordinates = Vector2(cos(circlePos), sin(circlePos))
+	coordinates = Vector2(cos(circlePos)*circleRadius, sin(circlePos)*circleRadius)
 	set_position(coordinates*16)
 	entityCollision()
 	set_rotation(circlePos+PI/2)
@@ -40,6 +41,9 @@ func entityCollision():
 	for monster in level.monsters:
 		if monster.entRect.intersects(rect):
 			monster.getHit(damage, DAMAGETYPE.PHYSICAL)
+	for pot in level.pots.values():
+		if pot.rect.intersects(rect):
+			pot.hit()
 
 func _process(delta):
 	if !stopAllMotion:
