@@ -40,7 +40,7 @@ func attemptMove(delta):
 	if detectWall(moveChecks):
 		facing = facing.rotated(90*PI/180)#Convert to raidian 
 	moveVector = facing*delta*.75
-	move(Vector2(moveVector))
+	move(moveVector)
 
 func attack():
 	if player.playerRect.intersects(entRect):

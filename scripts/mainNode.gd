@@ -66,6 +66,7 @@ func resetLevel():
 	if inGame:
 		currentLevel.queue_free()
 		toggleDarkScreen()
+	yield(get_tree(),"idle_frame")
 	beginLevel(0)
 
 func unPause():
@@ -124,7 +125,7 @@ var darkened
 var darkScreen
 
 func toggleDarkScreen():
-	print("toggling darkened mode")
+	#print("toggling darkened mode")
 	if darkened:
 		darkScreen.queue_free()
 		darkened = false

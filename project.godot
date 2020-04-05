@@ -99,7 +99,7 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://scripts/pauseMenu.gd"
 }, {
-"base": "Node",
+"base": "AnimatedSprite",
 "class": "Player",
 "language": "GDScript",
 "path": "res://scripts/player.gd"
@@ -114,7 +114,7 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://scripts/pot.gd"
 }, {
-"base": "Sprite",
+"base": "AnimatedSprite",
 "class": "Projectile",
 "language": "GDScript",
 "path": "res://scripts/projectile.gd"

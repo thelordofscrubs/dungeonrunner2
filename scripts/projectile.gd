@@ -53,7 +53,6 @@ func updatePos(d):
 	coordinates += direction *d * pixelPerSecond
 	set_position(coordinates)
 	entityCollision()
-#	print(str(bounds))
 	if !level.levelGrid.has((coordinates/16.0).floor()):
 		queue_free()
 			#print("deleted arrow")

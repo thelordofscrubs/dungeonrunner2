@@ -71,7 +71,6 @@ func move(vec):
 
 func iFrameTimeout():
 	isInvincible = false
-	print("iframe timer has timed out")
 
 func getHit(d, type):
 	if isInvincible:

@@ -84,7 +84,6 @@ func _init(spawnCoordinates, h = 100, aM = 1):
 	health = h
 	atkM = aM
 	totalDamage = atkS * atkM
-	print("Player has been initiated")
 
 func removeBuff(buffName):
 	currentBuffs.erase(buffName)
