@@ -26,7 +26,6 @@ func _ready():
 	inputField.grab_focus()
 
 func debugCommand(s):
-	print("input field has emitted text_entered")
 	inputField.clear()
 	level.debugCommand(s)
 

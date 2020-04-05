@@ -46,12 +46,12 @@ func darken(a):
 	#print("fired projectile")
 
 func startLevel(id):
-	print("id:"+str(id))
+	#print("id:"+str(id))
 	levelID = int(id)
 	name = "currentLevelNode"
 	set_pause_mode(1)
 	var levelName = "res://maps/map"+str(levelID)+"TileMap.tscn"
-	print(levelName)
+	#print(levelName)
 	levelTileMap = load(levelName).instance()
 	var x
 	var y
@@ -66,7 +66,6 @@ func startLevel(id):
 		i += 1
 	y = i-1
 	levelDimensions = Vector2(x,y)
-	print("level dimensions are"+str(levelDimensions))
 	### NEW X AND Y FROM HERE ###
 	for y in range(levelDimensions[1]):
 		for x in range(levelDimensions[0]):
@@ -139,7 +138,6 @@ func startLevel(id):
 					set_cellv(cc,0)
 	for monster in monsters:
 		monster.getMap(levelGrid)
-	print("initial player coordinates are: "+str(initPlayerCoords[0])+", "+str(initPlayerCoords[1]))
 
 func openDoor(vecC):
 	doors[vecC] = true
@@ -209,7 +207,7 @@ class drawingStuff:
 		v1 = tv1*16
 		v2 = tv2*16
 		z_index = 100
-		print("drawClass has been initiated")
+		#print("drawClass has been initiated")
 	
 	func setPoints(tv1,tv2):
 		v1 = tv1*16
