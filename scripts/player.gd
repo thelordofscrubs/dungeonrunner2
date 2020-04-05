@@ -206,6 +206,7 @@ func attack(vin = Vector2(0,0)):
 	match weapons[currentWeapon]:
 		"sword":
 			add_child(SwordProjectile.new(screenCoordinates + vin* 3, vin, 0,20, lastMoveVector))
+			attackTimer(0.5)
 		"bow":
 			if arrows == 0:
 				return

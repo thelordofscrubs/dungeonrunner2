@@ -21,6 +21,8 @@ var level
 var entRect
 var monsterSize = Vector2(1,1)
 var rng
+var iFrameTimer
+var isInvincible = false
 
 func _init(id_, p, c, f, hp, hpMax, dmg):
 	monsterID = id_
@@ -67,7 +69,18 @@ func move(vec):
 	#facing = vec
 	set_position(coordinates*16)
 
+func iFrameTimeout():
+	isInvincible = false
+	print("iframe timer has timed out")
+
 func getHit(d, type):
+	if isInvincible:
+		return
+	iFrameTimer = Timer.new()
+	iFrameTimer.set_one_shot(true)
+	iFrameTimer.connect("timeout", self, "iFrameTimeout")
+	add_child(iFrameTimer)
+	iFrameTimer.start(0.5)
 	if flying == true && type == DAMAGETYPE.PHYSICAL:
 		if rng.randf() < .2:
 			changeHealth("Dodged!")
@@ -75,6 +88,7 @@ func getHit(d, type):
 			changeHealth(-d)
 	else:
 		changeHealth(-d)
+	isInvincible = true
 
 func spawnDamageLabel(a):
 	var dmgLabel = damageLabel.new()
