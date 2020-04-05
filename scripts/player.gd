@@ -201,10 +201,10 @@ func attackTimer(t):
 	timer.start(time)
 
 func attack(vin = Vector2(0,0)):
-	if isAttacking:
-		return
 	match weapons[currentWeapon]:
 		"sword":
+			if isAttacking:
+				return
 			add_child(SwordProjectile.new(screenCoordinates + vin* 3, vin, 0,5, lastMoveVector))
 			attackTimer(0.4)
 		"bow":
@@ -232,6 +232,9 @@ func incBowDamage():
 func drawBow():
 	if currentWeapon != 1:
 		return
+	if isAttacking:
+		return
+	isAttacking = true
 	if arrows == 0:
 		return
 	bowDrawn = true
