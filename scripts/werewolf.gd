@@ -22,14 +22,26 @@ func _ready():
 func attemptMove(delta):
 	if isPointInSight(coordinates,player.coordinates):
 		facing = coordinates.direction_to(player.coordinates)
+	else:
+		facing = Vector2(0,0)
 	var moveVector = facing*delta
 	var ec = coordinates+Vector2(.5,.5)+facing*.5
 	var pv = Vector2(facing[1],facing[0])*.5
 	var moveChecks = [Vector2(0,0),Vector2(0,0)]
 	moveChecks[0] = (ec+pv*.9+moveVector).floor()
 	moveChecks[1] = (ec-pv*.9+moveVector).floor()
+	if detectWall(moveChecks):
+		return
 	moveVector = facing*delta
 	move(moveVector)
+
+func detectWall(moveChecks):
+	for v in moveChecks:
+		match level.levelGrid[v]:
+			TILE.WALL:
+				return true
+			TILE.DOOR:
+				return true
 
 func attack():
 	if player.playerRect.intersects(entRect):
