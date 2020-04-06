@@ -136,6 +136,12 @@ func startLevel(id):
 					var monster = buildingAMonster(MONST.GARBAGE,cc,facing)
 					addMonster(monster)
 					set_cellv(cc,0)
+				14:
+					levelGrid[cc] = TILE.FLOOR
+					var facing = Vector2(0,-1)
+					var monster = buildingAMonster(MONST.WEARWOLF,cc,facing)
+					addMonster(monster)
+					set_cellv(cc,0)
 	for monster in monsters:
 		monster.getMap(levelGrid)
 
@@ -179,6 +185,8 @@ func buildingAMonster(monst, cc, facing):
 			return BatSkeleton.new(monsters.size(),player,cc,facing)
 		MONST.GARBAGE:
 			return GarbageMonster.new(monsters.size(),player,cc,facing)
+		MONST.WEARWOLF:
+			return Werewolf.new(monsters.size(),player,cc,facing)
 
 func spawnChest(loot, cc):
 	chests[cc] = [loot,false]

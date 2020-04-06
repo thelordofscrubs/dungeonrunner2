@@ -11,7 +11,7 @@ var inGame = false#For checking if in a level
 var paused = false
 var inMenu = false#for every menu expect pause button, so that you can't pause in other menus
 #var currentLevelP
-var currentMenu
+var currentMenu = null
 var menuTypeStack = []
 enum MENUTYPE{MAIN,PAUSE,DEATH,ENDLEVEL,SETTINGS}
 
@@ -23,7 +23,7 @@ func _ready():
 	goToMenu(MENUTYPE.MAIN)
 
 func openMainMenu():
-	currentMenu.queue_free()
+	removeMenu()
 	menuTypeStack.clear()
 	if inGame:
 		currentLevel.queue_free()
@@ -79,7 +79,6 @@ func unPause():
 func beginLevel(id):
 	popMenuStack()
 	menuTypeStack.clear()
-	currentMenu.queue_free()
 	currentLevel = levelScene.instance()
 	add_child(currentLevel)
 	currentLevel.startLevel(id)
@@ -105,7 +104,7 @@ func goToMenu(menuType):
 		MENUTYPE.SETTINGS:
 			menu = SettingsMenu.new()
 	if currentMenu:
-		currentMenu.queue_free()
+		removeMenu()
 	currentMenu = menu
 	pushMenuStack(menuType)
 	add_child(currentMenu)
@@ -113,7 +112,12 @@ func goToMenu(menuType):
 func pushMenuStack(menuType):
 	menuTypeStack.append(menuType)
 
+func removeMenu():
+	currentMenu.queue_free()
+	currentMenu = null
+
 func popMenuStack():
+	removeMenu()
 	menuTypeStack.pop_back()
 	if menuTypeStack.size() > 0: 
 		goToMenu(menuTypeStack[-1])
