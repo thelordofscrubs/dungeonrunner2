@@ -23,7 +23,7 @@ func _ready():
 	goToMenu(MENUTYPE.MAIN)
 
 func openMainMenu():
-	currentMenu.free()
+	currentMenu.queue_free()
 	menuTypeStack.clear()
 	if inGame:
 		currentLevel.queue_free()
