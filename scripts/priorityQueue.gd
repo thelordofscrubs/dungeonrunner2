@@ -5,7 +5,7 @@ var queue = []
 func add(object, priority):
     queue.append(PriorityObject.new(object,priority))
     var curr = queue.size()-1
-    while (queue[curr]> queue[heapParent(curr)]):
+    while (queue[curr].priority < queue[heapParent(curr)].priority && curr != 0):
         var temp = queue[curr]
         queue[curr] = queue[heapParent(curr)]
         queue[heapParent(curr)] = temp
@@ -30,9 +30,9 @@ func minHeapify(i):
     var l = left(i)
     var r = right(i)
     var smallest = i
-    if (queue[l] < queue[i]):
+    if (l < queue.size() && queue[l].priority < queue[i].priority):
         smallest = l
-    if (queue[r] < queue[smallest]):
+    if (r < queue.size() && queue[r].priority < queue[smallest].priority):
         smallest = r
     if (smallest != i):
         var temp = queue[i]
