@@ -90,7 +90,7 @@ func getHit(d, type):
 	isInvincible = true
 
 func spawnDamageLabel(a):
-	var dmgLabel = damageLabel.new()
+	var dmgLabel = DamageLabel.new()
 	dmgLabel.set_align(1)
 	if typeof(a) == TYPE_STRING:
 		dmgLabel.set_text(a)
@@ -128,10 +128,8 @@ func findPath(v1,v2):
 	var firstWall = ipis(v1,v2)
 	if firstWall == true:
 		return v2-v1
-	
 
-
-class damageLabel:
+class DamageLabel:
 	extends Label
 	
 	var age = 0
