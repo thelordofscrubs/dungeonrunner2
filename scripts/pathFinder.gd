@@ -4,26 +4,16 @@ enum IMPASSABLE{WALL = 1, DOOR = 3}
 
 var level
 
-
 func _init(levelNode):
     level = levelNode
 
 func pathTo(from:Vector2, to:Vector2):
-    var points = []
+    var pointHeap = PriorityQueue.new()
     var visitedPoints = []
 
-checkAdjacentTiles(points):
+func checkAdjacentTiles(points, from, to):
     var newPoints
-    for point in points:
-        if !points.has(point+Vector2(0,1)):
-            newPoints.add(point+Vector2(0,1), )
-            
-        if point+Vector2(1,0)
-
-        if point+Vector2(0,-1)
-
-        if point+Vector2(-1,0)
-        checkTile()
+    
     
 
 func lineToWall(from, to):
@@ -53,4 +43,7 @@ class Point:
     func _init(c,dt,df):
         coordinates = c
         distTo = dt
-        distFrom = df
+        distFrom = d
+
+    func add(v):
+        return coordinates + v
