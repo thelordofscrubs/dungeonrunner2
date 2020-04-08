@@ -10,22 +10,32 @@ func _init(levelNode):
 func pathTo(from:Vector2, to:Vector2):
     var pointHeap = PriorityQueue.new()
     var path = []
+    var visitedPoints = []
     var heapObjects = []
     pointHeap.add(Point.new(from, 0, to.distance_to(from), from), 0+to.distance_to(from))
-    
     while true:
         if pointHeap.peek().coords == to:
             break
-        var newTiles = checkAdjacentTiles(pointHeap.pop(), to)    
+        var popped = pointHeap.pop()
+        visitedPoints.append(popped)
+        var newTiles = checkAdjacentTiles(popped, to)
         heapObjects = pointHeap.getObjectsInArray()
         for tile in newTiles:
             for o in heapObjects:
                 if o.coords == tile.coords:
                     if tile.routeCost < o.routeCost:
-                         
-
-        
-    
+                        pointHeap.erase(o)
+                        pointHeap.add(tile, tile.getPrio())
+                        newTiles.erase(tile)
+        for tile in newTiles:
+            pointHeap.add(tile, tile.getPrio())
+    path.append(pointHeap.pop())
+    while path[-1].coords != from:
+        for point in visitedPoints:
+            if point.coords == path[-1].from:
+                path.append(point)
+                break
+    return path
 
 func checkAdjacentTiles(point, to):
     var newPoints = []
@@ -52,6 +62,9 @@ class Point:
         distTo = dt
         routeCost = df
         from = f
+
+    func getPrio():
+        return distTo+routeCost
 
     func add(v):
         return coords + v
