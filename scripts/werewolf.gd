@@ -1,6 +1,12 @@
 extends Monster
 class_name Werewolf
 
+var pointsToVisit = []
+var pathing = false
+var arrivalTimer
+var updatePathTimer
+var inSight = true
+
 func _init(a,b,c,f).(a,b,c,f,30.0,30,15):
 	pass
 	
@@ -18,12 +24,56 @@ func _ready():
 	add_child(attackTimer)
 	attackTimer.connect("timeout",self,"attack")
 	attackTimer.start(2)
+	arrivalTimer = Timer.new()
+	arrivalTimer.connect("timeout", self, "checkForTurn")
+	add_child(arrivalTimer)
+	arrivalTimer.start(0.5)
+	updatePathTimer = Timer.new()
+	updatePathTimer.connect("timeout", self, "updatePath")
+	add_child(updatePathTimer)
+	updatePathTimer.start(1)
 
-func attemptMove(delta):
+func attemptMove1(delta):
 	if isPointInSight(coordinates,player.coordinates):
 		facing = coordinates.direction_to(player.coordinates)
 	else:
 		facing = Vector2(0,0)
+	var moveVector = facing*delta
+	var ec = coordinates+Vector2(.5,.5)+facing*.5
+	var pv = Vector2(facing[1],facing[0])*.5
+	var moveChecks = [Vector2(0,0),Vector2(0,0)]
+	moveChecks[0] = (ec+pv*.9+moveVector).floor()
+	moveChecks[1] = (ec-pv*.9+moveVector).floor()
+	if detectWall(moveChecks):
+		return
+	moveVector = facing*delta
+	move(moveVector)
+
+func findPathTo(c):
+	pointsToVisit = pfClass.pathTo(coordinates.floor(), c.floor())
+	print(pointsToVisit)
+	turnTo(pointsToVisit[0])
+
+func checkForTurn():
+	if pathing and ((facing.sign() + coordinates.direction_to(pointsToVisit[0]).sign()).length_squared() == 0):
+		pointsToVisit.pop_front()
+		turnTo(pointsToVisit[0])
+
+func turnTo(p):
+	facing = coordinates.direction_to(p)
+
+func updatePath():
+	if isPointInSight(coordinates, player.coordinates):
+		pathing = false
+		inSight = true
+	else:
+		findPathTo(player.coordinates.floor())
+		pathing = true
+		inSight = false
+
+func attemptMove(delta):
+	if inSight:
+		facing = coordinates.direction_to(player.coordinates)
 	var moveVector = facing*delta
 	var ec = coordinates+Vector2(.5,.5)+facing*.5
 	var pv = Vector2(facing[1],facing[0])*.5
