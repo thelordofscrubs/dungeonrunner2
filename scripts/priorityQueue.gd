@@ -20,6 +20,12 @@ func pop():
 func peek():
     return queue.front().object
 
+func erase(object):
+    for x in queue.size():
+        if (queue[x].object == object):
+            queue.remove(x)
+            return
+
 static func heapParent(i):
     return floor((i/2))-1
 static func left(i):
