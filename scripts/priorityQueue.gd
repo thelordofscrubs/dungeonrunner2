@@ -17,6 +17,9 @@ func pop():
     minHeapify(1)
     return popped
 
+func peek():
+    return queue.front().object
+
 static func heapParent(i):
     return floor((i/2))-1
 static func left(i):
