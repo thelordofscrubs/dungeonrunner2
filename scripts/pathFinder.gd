@@ -2,48 +2,56 @@ extends Object
 class_name PathFinder
 enum IMPASSABLE{WALL = 1, DOOR = 3}
 
-var level
+var level 
 
 func _init(levelNode):
     level = levelNode
 
 func pathTo(from:Vector2, to:Vector2):
     var pointHeap = PriorityQueue.new()
-    var visitedPoints = []
-
-func checkAdjacentTiles(points, from, to):
-    var newPoints
+    var path = []
+    var heapObjects = []
+    pointHeap.add(Point.new(from, 0, to.distance_to(from), from), 0+to.distance_to(from))
     
-    
-
-func lineToWall(from, to):
-    var curTile = from
-    var lastTile = from
     while true:
-        curTile = advanceTile(curTile, to)
-        if curTile == lastTile:
-            return curTile
-        lastTile = curTile
+        if pointHeap.peek().coords == to:
+            break
+        var newTiles = checkAdjacentTiles(pointHeap.pop(), to)    
+        heapObjects = pointHeap.getObjectsInArray()
+        for tile in newTiles:
+            for o in heapObjects:
+                if o.coords == tile.coords:
+                    if tile.routeCost < o.routeCost:
+                         
 
-func advanceTile(c, d):
-    var dir = c.direction_to(d)
-    var newT = (c+dir).floor()
-    if checkTile(newT):
-        return newT
-    return c
+        
+    
 
+func checkAdjacentTiles(point, to):
+    var newPoints = []
+    for x in range(-1,1):
+        for y in range(-1,1):
+            if x == 0 and y == 0:
+                continue
+            var newCoordinate = Vector2(point.coords+Vector2(x,y))
+            if checkTile(newCoordinate):
+                newPoints.append(Point.new(newCoordinate, point.routeCost+sqrt(abs(x)+abs(y)), to.distance_to(newCoordinate), point.coords))
+    return newPoints
+    
 func checkTile(vp):
 	return !(IMPASSABLE.values().has(level.levelGrid[vp]))
 
 class Point:
-    var coordinates
+    var coords
     var distTo
-    var distFrom
+    var routeCost
+    var from
 
-    func _init(c,dt,df):
-        coordinates = c
+    func _init(c,dt,df,f):
+        coords = c
         distTo = dt
-        distFrom = d
+        routeCost = df
+        from = f
 
     func add(v):
-        return coordinates + v
+        return coords + v

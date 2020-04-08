@@ -11,6 +11,18 @@ func add(object, priority):
         queue[heapParent(curr)] = temp
         curr = heapParent(curr)
 
+func returnObjectsInArray():
+    var oArray = []
+    for po in queue:
+        oArray.append(po.object)
+    return oArray
+
+func has(t):
+    var oArray = []
+    for po in queue:
+        oArray.append(po.object)
+    return oArray.has(t)
+
 func pop():
     var popped = queue.front().object
     queue[0] = queue.pop_back()
