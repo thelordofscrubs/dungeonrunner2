@@ -1,19 +1,27 @@
 tool
-extends TileMap
+extends Node
 
 export(Vector2) var startingLoc = Vector2(1,1)
 export(Vector2) var endingLoc = Vector2(17,17)
+export(bool) var startPathing = false
+export(bool) var clearPath = false
 
+onready var tm = get_node("TM")
 
-# Called when the node enters the scene tree for the first time.
-func _ready():
-	pass # Replace with function body.
+func clearPath():
+	tm = load("res://maps/pfttm.tscn").instance()
 
+func _run():
+	if startPathing:
+		startPathing = false
+		startPath()
+	if clearPath:
+		clearPath = false
+		clearPath()
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-#func _process(delta):
-#	pass
-
+func startPath():
+	var pfClass = PathFinderT.new(tm)
+	pfClass.pathTo(startingLoc, endingLoc)
 
 class PathFinderT:
 	enum IMPASSABLE{WALL = 1}
@@ -29,6 +37,8 @@ class PathFinderT:
 		var visitedPoints = []
 		var heapObjects = []
 		pointHeap.add(Point.new(from, 0, to.distance_to(from), from), 0+to.distance_to(from))
+		level.set_cellv(from, 4)
+		level.set_cellv(to, 4)
 		while pointHeap.peek().coords != to:
 			var popped = pointHeap.pop()
 			visitedPoints.append(popped)
