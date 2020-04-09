@@ -28,7 +28,7 @@ func stepP(_b):
 	py = py.resume()
 
 func finishP(_b):
-	while py.is_valid():
+	while py:
 		py = py.resume()
 	print(py)
 
@@ -49,7 +49,7 @@ class PathFinderT:
 		level = levelNode
 	
 	func pathTo(from:Vector2, to:Vector2):
-		var pointHeap = PriorityQueue.new()
+		var pointHeap = PQT.new()
 		var path = []
 		var visitedPoints = []
 		var heapObjects = []
@@ -61,6 +61,7 @@ class PathFinderT:
 			level.set_cellv(popped.coords, 5)
 			visitedPoints.append(popped)
 			var newTiles = checkAdjacentTiles(popped, to)
+			print(newTiles)
 			heapObjects = pointHeap.returnObjectsInArray()
 			for tile in newTiles:
 				level.set_cellv(tile.coords, 2)
@@ -86,9 +87,11 @@ class PathFinderT:
 		return cPath
 	
 	func checkAdjacentTiles(point, to):
+		print(point)
 		var newPoints = []
-		for x in range(-1,1):
-			for y in range(-1,1):
+		for x in range(-1,2):
+			for y in range(-1,2):
+				print("(",x,",",y,")")
 				if x == 0 and y == 0:
 					continue
 				var newCoordinate = point.coords+Vector2(x,y)
@@ -97,7 +100,11 @@ class PathFinderT:
 		return newPoints
 		
 	func checkTile(vp):
-		return !(IMPASSABLE.values().has(level.get_cellv(vp)))
+		#print(vp)
+		#print(level.get_cellv(vp))
+		var stupid = (IMPASSABLE.values().has(level.get_cellv(vp)))
+		#print(stupid)
+		return !stupid
 	
 	class Point:
 		var coords
@@ -118,6 +125,8 @@ class PathFinderT:
 	
 		func add(v):
 			return coords + v
+		func _to_string():
+			return "coords = " + str(coords) + ", from = " + str(from)
 
 class PQT:
 	var queue = []

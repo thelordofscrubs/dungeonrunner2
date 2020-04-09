@@ -7,8 +7,9 @@
 
 [node name="Node" type="Node"]
 script = ExtResource( 1 )
+endingLoc = Vector2( 11, 9 )
 
-[node name="TM" type="TileMap" parent="." instance=ExtResource( 4 )]
+[node name="TM2" type="TileMap" parent="." instance=ExtResource( 4 )]
 tile_set = ExtResource( 2 )
 cell_size = Vector2( 16, 16 )
 format = 1
