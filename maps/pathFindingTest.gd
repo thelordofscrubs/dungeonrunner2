@@ -27,7 +27,7 @@ func stepP(_b):
 	py = py.resume()
 
 func finishP(_b):
-	while py:
+	while py is GDScriptFunctionState:
 		py = py.resume()
 	print(py)
 
@@ -57,7 +57,10 @@ class PathFinderT:
 		pq.add(Point.new(from, 0, to.distance_to(from), from), 0+to.distance_to(from))
 		level.set_cellv(from, 4)
 		level.set_cellv(to, 4)
+		var loopC = 0
 		while pq.peek().coords != to:
+			if loopC > 299:
+				return "can't find a viable path under 300 units long"
 			var popped = pq.pop()
 			level.set_cellv(popped.coords, 5)
 			visitedPoints.append(popped)
@@ -66,6 +69,7 @@ class PathFinderT:
 			heapObjects = pq.returnObjectsInArray()
 			var newTiles1 = []
 			for tile in newTiles:
+				var isNew = true
 				if level.get_cellv(tile.coords) == 0:
 					level.set_cellv(tile.coords, 2)
 				for o in heapObjects:
@@ -73,10 +77,17 @@ class PathFinderT:
 						if tile.routeCost < o.routeCost:
 							pq.erase(o)
 							pq.add(tile, tile.getPrio())
-							continue
-				newTiles1.append(tile)
+							isNew = false
+							break
+				for t in visitedPoints:
+					if t.coords == tile.coords:
+						isNew = false
+						break
+				if isNew:
+					newTiles1.append(tile)
 			for tile in newTiles1:
 				pq.add(tile, tile.getPrio())
+			loopC += 1
 			yield()
 		path.append(pq.pop())
 		while path[-1].coords != from:
