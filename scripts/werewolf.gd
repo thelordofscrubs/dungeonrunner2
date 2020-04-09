@@ -24,10 +24,10 @@ func _ready():
 	add_child(attackTimer)
 	attackTimer.connect("timeout",self,"attack")
 	attackTimer.start(2)
-	arrivalTimer = Timer.new()
-	arrivalTimer.connect("timeout", self, "checkForTurn")
-	add_child(arrivalTimer)
-	arrivalTimer.start(0.5)
+	#arrivalTimer = Timer.new()
+	#arrivalTimer.connect("timeout", self, "checkForTurn")
+	#add_child(arrivalTimer)
+	#arrivalTimer.start(0.5)
 	updatePathTimer = Timer.new()
 	updatePathTimer.connect("timeout", self, "updatePath")
 	add_child(updatePathTimer)
@@ -74,12 +74,14 @@ func updatePath():
 func attemptMove(delta):
 	if inSight:
 		facing = coordinates.direction_to(player.coordinates)
+	if pathing:
+		checkForTurn()
 	var moveVector = facing*delta
 	var ec = coordinates+Vector2(.5,.5)+facing*.5
 	var pv = Vector2(facing[1],facing[0])*.5
 	var moveChecks = [Vector2(0,0),Vector2(0,0)]
-	moveChecks[0] = (ec+pv*.9+moveVector).floor()
-	moveChecks[1] = (ec-pv*.9+moveVector).floor()
+	moveChecks[0] = (ec+pv*.8+moveVector).floor()
+	moveChecks[1] = (ec-pv*.8+moveVector).floor()
 	if detectWall(moveChecks):
 		return
 	moveVector = facing*delta

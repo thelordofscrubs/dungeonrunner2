@@ -13,9 +13,7 @@ func pathTo(from:Vector2, to:Vector2):
 	var visitedPoints = []
 	var heapObjects = []
 	pointHeap.add(Point.new(from, 0, to.distance_to(from), from), 0+to.distance_to(from))
-	while true:
-		if pointHeap.peek().coords == to:
-			break
+	while pointHeap.peek().coords != to:
 		var popped = pointHeap.pop()
 		visitedPoints.append(popped)
 		var newTiles = checkAdjacentTiles(popped, to)
@@ -47,7 +45,7 @@ func checkAdjacentTiles(point, to):
 		for y in range(-1,1):
 			if x == 0 and y == 0:
 				continue
-			var newCoordinate = Vector2(point.coords+Vector2(x,y))
+			var newCoordinate = point.coords+Vector2(x,y)
 			if checkTile(newCoordinate):
 				newPoints.append(Point.new(newCoordinate, point.routeCost+sqrt(abs(x)+abs(y)), to.distance_to(newCoordinate), point.coords))
 	return newPoints
