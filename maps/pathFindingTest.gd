@@ -7,8 +7,7 @@ export(bool) var startPathing = false setget startP
 export(bool) var stepPath = false setget stepP
 export(bool) var finishPath = false setget finishP
 export(bool) var clearPath = false setget clearPathf
-
-
+var pq
 onready var tm = get_child(0)
 var py
 
@@ -37,44 +36,49 @@ func startP(_b):
 
 func startPath():
 	clearPathf(false)
-	var pfClass = PathFinderT.new(tm)
+	pq = PQT.new()
+	var pfClass = PathFinderT.new(tm, pq)
 	py = pfClass.pathTo(startingLoc, endingLoc)
 
 class PathFinderT:
 	enum IMPASSABLE{WALL = 1}
 	
 	var level 
-	
-	func _init(levelNode):
+	var pq
+
+	func _init(levelNode, pq1):
 		level = levelNode
+		pq = pq1
 	
 	func pathTo(from:Vector2, to:Vector2):
-		var pointHeap = PQT.new()
 		var path = []
 		var visitedPoints = []
 		var heapObjects = []
-		pointHeap.add(Point.new(from, 0, to.distance_to(from), from), 0+to.distance_to(from))
+		pq.add(Point.new(from, 0, to.distance_to(from), from), 0+to.distance_to(from))
 		level.set_cellv(from, 4)
 		level.set_cellv(to, 4)
-		while pointHeap.peek().coords != to:
-			var popped = pointHeap.pop()
+		while pq.peek().coords != to:
+			var popped = pq.pop()
 			level.set_cellv(popped.coords, 5)
 			visitedPoints.append(popped)
 			var newTiles = checkAdjacentTiles(popped, to)
 			print(newTiles)
-			heapObjects = pointHeap.returnObjectsInArray()
+			heapObjects = pq.returnObjectsInArray()
+			var newTiles1 = []
 			for tile in newTiles:
-				level.set_cellv(tile.coords, 2)
+				if level.get_cellv(tile.coords) == 0:
+					level.set_cellv(tile.coords, 2)
 				for o in heapObjects:
 					if o.coords == tile.coords:
 						if tile.routeCost < o.routeCost:
-							pointHeap.erase(o)
-							pointHeap.add(tile, tile.getPrio())
-							newTiles.erase(tile)
-			for tile in newTiles:
-				pointHeap.add(tile, tile.getPrio())
+							pq.erase(o)
+							pq.add(tile, tile.getPrio())
+							continue
+				newTiles1.append(tile)
+			for tile in newTiles1:
+				pq.add(tile, tile.getPrio())
 			yield()
-		path.append(pointHeap.pop())
+		path.append(pq.pop())
 		while path[-1].coords != from:
 			for point in visitedPoints:
 				if point.coords == path[-1].from:
@@ -91,7 +95,7 @@ class PathFinderT:
 		var newPoints = []
 		for x in range(-1,2):
 			for y in range(-1,2):
-				print("(",x,",",y,")")
+				#print("(",x,",",y,")")
 				if x == 0 and y == 0:
 					continue
 				var newCoordinate = point.coords+Vector2(x,y)
@@ -129,7 +133,10 @@ class PathFinderT:
 			return "coords = " + str(coords) + ", from = " + str(from)
 
 class PQT:
-	var queue = []
+	export(Array) var queue = [] setget q
+
+	func q(_b):
+		pass
 
 	func add(object, priority):
 		queue.append(PriorityObject.new(object,priority))
@@ -164,7 +171,7 @@ class PQT:
 
 	func erase(object):
 		for x in queue.size():
-			if (queue[x].object == object):
+			if (queue[x].object.coords == object.coords):
 				queue.remove(x)
 				return
 

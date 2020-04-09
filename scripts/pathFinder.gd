@@ -72,3 +72,7 @@ class Point:
 
 	func add(v):
 		return coords + v
+
+class PriorityQueuePF:
+	extends PriorityQueue
+	
