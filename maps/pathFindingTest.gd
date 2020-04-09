@@ -3,25 +3,42 @@ extends Node
 
 export(Vector2) var startingLoc = Vector2(1,1)
 export(Vector2) var endingLoc = Vector2(17,17)
-export(bool) var startPathing = false
-export(bool) var clearPath = false
+export(bool) var startPathing = false setget startP
+export(bool) var stepPath = false setget stepP
+export(bool) var finishPath = false setget finishP
+export(bool) var clearPath = false setget clearPathf
 
-onready var tm = get_node("TM")
 
-func clearPath():
-	tm = load("res://maps/pfttm.tscn").instance()
+onready var tm = get_child(0)
+var py
 
-func _run():
-	if startPathing:
-		startPathing = false
-		startPath()
-	if clearPath:
-		clearPath = false
-		clearPath()
+func clearPathf(_b):
+	if !tm:
+		tm = get_child(0)
+	tm.queue_free()
+	var t = load("res://maps/pfttm.tscn").instance()
+	add_child(t)
+	t.set_owner(self)
+	tm = t
+
+func stepP(_b):
+	if !py:
+		print("Path has not been started")
+		return
+	py = py.resume()
+
+func finishPath(_b)
+	while py is GDScriptFunction && py.is_valid():
+		py = py.resume()
+	print(py)
+
+func startP(_b):
+	startPath()
 
 func startPath():
+	clearPathf()
 	var pfClass = PathFinderT.new(tm)
-	pfClass.pathTo(startingLoc, endingLoc)
+	py = pfClass.pathTo(startingLoc, endingLoc)
 
 class PathFinderT:
 	enum IMPASSABLE{WALL = 1}
@@ -41,10 +58,12 @@ class PathFinderT:
 		level.set_cellv(to, 4)
 		while pointHeap.peek().coords != to:
 			var popped = pointHeap.pop()
+			level.set_cellv(popped.coords, 5)
 			visitedPoints.append(popped)
 			var newTiles = checkAdjacentTiles(popped, to)
 			heapObjects = pointHeap.returnObjectsInArray()
 			for tile in newTiles:
+				level.set_cellv(tile.coords, 2)
 				for o in heapObjects:
 					if o.coords == tile.coords:
 						if tile.routeCost < o.routeCost:
@@ -53,6 +72,7 @@ class PathFinderT:
 							newTiles.erase(tile)
 			for tile in newTiles:
 				pointHeap.add(tile, tile.getPrio())
+			yield()
 		path.append(pointHeap.pop())
 		while path[-1].coords != from:
 			for point in visitedPoints:
