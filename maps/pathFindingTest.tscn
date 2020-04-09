@@ -7,10 +7,6 @@
 
 [node name="Node" type="Node"]
 script = ExtResource( 1 )
-startingLoc = Vector2( 1, 1 )
-endingLoc = Vector2( 17, 17 )
-startPathing = false
-clearPath = false
 
 [node name="TM" type="TileMap" parent="." instance=ExtResource( 4 )]
 tile_set = ExtResource( 2 )

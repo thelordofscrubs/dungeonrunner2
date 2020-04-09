@@ -27,8 +27,8 @@ func stepP(_b):
 		return
 	py = py.resume()
 
-func finishPath(_b)
-	while py is GDScriptFunction && py.is_valid():
+func finishP(_b):
+	while py.is_valid():
 		py = py.resume()
 	print(py)
 
@@ -36,7 +36,7 @@ func startP(_b):
 	startPath()
 
 func startPath():
-	clearPathf()
+	clearPathf(false)
 	var pfClass = PathFinderT.new(tm)
 	py = pfClass.pathTo(startingLoc, endingLoc)
 
@@ -97,7 +97,7 @@ class PathFinderT:
 		return newPoints
 		
 	func checkTile(vp):
-		return !(IMPASSABLE.values().has(level.get_cell_v(vp)))
+		return !(IMPASSABLE.values().has(level.get_cellv(vp)))
 	
 	class Point:
 		var coords
