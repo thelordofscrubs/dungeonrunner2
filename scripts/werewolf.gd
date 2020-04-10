@@ -87,8 +87,7 @@ func attemptMove(delta):
 	#moveVector = facing*delta
 	#move(moveVector)
 
-func detectWall(moveChecks):
-	for v in moveChecks:
+func detectWall(v):
 		match level.levelGrid[v]:
 			TILE.WALL:
 				return true
