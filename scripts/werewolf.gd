@@ -28,31 +28,14 @@ func _ready():
 	#arrivalTimer.connect("timeout", self, "checkForTurn")
 	#add_child(arrivalTimer)
 	#arrivalTimer.start(0.5)
-	updatePathTimer = Timer.new()
-	updatePathTimer.connect("timeout", self, "updatePath")
-	add_child(updatePathTimer)
-	updatePathTimer.start(1)
-
-func attemptMove1(delta):
-	if isPointInSight(coordinates,player.coordinates):
-		facing = coordinates.direction_to(player.coordinates)
-	else:
-		facing = Vector2(0,0)
-	var moveVector = facing*delta
-	var ec = coordinates+Vector2(.5,.5)+facing*.5
-	var pv = Vector2(facing[1],facing[0])*.5
-	var moveChecks = [Vector2(0,0),Vector2(0,0)]
-	moveChecks[0] = (ec+pv*.9+moveVector).floor()
-	moveChecks[1] = (ec-pv*.9+moveVector).floor()
-	if detectWall(moveChecks):
-		return
-	moveVector = facing*delta
-	move(moveVector)
+	#updatePathTimer = Timer.new()
+	#updatePathTimer.connect("timeout", self, "updatePath")
+	#add_child(updatePathTimer)
+	#updatePathTimer.start(1)
 
 func findPathTo(c):
 	pointsToVisit = pfClass.pathTo(coordinates.floor(), c.floor())
 	print(pointsToVisit)
-	turnTo(pointsToVisit[-1])
 
 func checkForTurn():
 	if pathing and ((facing.sign() + coordinates.direction_to(pointsToVisit[0]).sign()).length_squared() == 0):
@@ -70,22 +53,39 @@ func updatePath():
 		findPathTo(player.coordinates.floor())
 		pathing = true
 		inSight = false
+var pathingTime = 0.0
+func moveInPath(delta):
+	pathingTime += delta
+	if !pathing || pathingTime > 1 || pointsToVisit.size() < 1:
+		findPathTo(player.coordinates.floor())
+		pathingTime = 0.0
+	pathing = true
+	coordinates = coordinates.move_toward(pointsToVisit[-1],delta)
+	entRect.position = coordinates
+	set_position(coordinates*16)
+	if coordinates == pointsToVisit[-1]:
+		pointsToVisit.pop_back()
+
 
 func attemptMove(delta):
-	if inSight:
-		facing = coordinates.direction_to(player.coordinates)
-	if pathing:
-		checkForTurn()
-	var moveVector = facing*delta
-	var ec = coordinates+Vector2(.5,.5)+facing*.5
-	var pv = Vector2(facing[1],facing[0])*.5
-	var moveChecks = [Vector2(0,0),Vector2(0,0)]
-	moveChecks[0] = (ec+pv*.8+moveVector).floor()
-	moveChecks[1] = (ec-pv*.8+moveVector).floor()
-	if detectWall(moveChecks):
+	if isPointInSight(coordinates,player.coordinates):
+		pathing = false
+		coordinates = coordinates.move_toward(player.coordinates,delta)
+		entRect.position = coordinates
+		set_position(coordinates*16)
 		return
-	moveVector = facing*delta
-	move(moveVector)
+	else:
+		moveInPath(delta)
+	#var moveVector = facing*delta
+	#var ec = coordinates+Vector2(.5,.5)+facing*.5
+	#var pv = Vector2(facing[1],facing[0])*.5
+	#var moveChecks = [Vector2(0,0),Vector2(0,0)]
+	#moveChecks[0] = (ec+pv*.8+moveVector).floor()
+	#moveChecks[1] = (ec-pv*.8+moveVector).floor()
+	#if detectWall(moveChecks):
+	#	return
+	#moveVector = facing*delta
+	#move(moveVector)
 
 func detectWall(moveChecks):
 	for v in moveChecks:

@@ -68,7 +68,6 @@ func die():
 func move(vec):
 	coordinates += vec
 	entRect.position = coordinates
-	#facing = vec
 	set_position(coordinates*16)
 
 func iFrameTimeout():
