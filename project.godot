@@ -94,7 +94,7 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://scripts/pButton.gd"
 }, {
-"base": "Object",
+"base": "Reference",
 "class": "PathFinder",
 "language": "GDScript",
 "path": "res://scripts/pathFinder.gd"
