@@ -27,7 +27,7 @@ func pop():
 	var popped = queue.front().object
 	queue[0] = queue[-1]
 	queue.pop_back()
-	minHeapify(1)
+	minHeapify(0)
 	return popped
 
 func peek():
