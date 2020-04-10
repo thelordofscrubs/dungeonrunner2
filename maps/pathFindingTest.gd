@@ -8,11 +8,19 @@ export(bool) var stepPath = false setget stepP
 export(bool) var finishPath = false setget finishP
 export(bool) var clearPath = false setget clearPathf
 export(bool) var printingQueue = false setget printQueue
+export(bool) var autoPath = false setget setTimed
 
 
 var pq
 onready var tm = get_child(0)
 var py
+var pathTimer
+
+func setTimed(_b):
+	pathTimer = Timer.new()
+	add_child(pathTimer)
+	pathTimer.connect("timeout", self, "stepP", [false])
+	pathTimer.start(0.05)
 
 func printQueue(_b):
 	print(pq)
@@ -27,7 +35,9 @@ func clearPathf(_b):
 	tm = t
 
 func stepP(_b):
-	if !py:
+	if !py || py != GDScriptFunctionState:
+		if pathTimer.get_parent() == self:
+			pathTimer.queue_free()
 		print("Path has not been started")
 		return
 	py = py.resume()
@@ -62,12 +72,9 @@ class PathFinderT:
 		pq.add(Point.new(from, 0, to.distance_to(from), from), 0+to.distance_to(from))
 		level.set_cellv(from, 4)
 		level.set_cellv(to, 4)
-		var loopC = 0
 		while pq.peek().coords != to:
-			if loopC > 299:
-				return "can't find a viable path under 300 units long"
 			var popped = pq.pop()
-			print(popped)
+			#print(popped)
 			level.set_cellv(popped.coords, 5)
 			visitedPoints.append(popped)
 			var newTiles = checkAdjacentTiles(popped, to)
@@ -80,7 +87,7 @@ class PathFinderT:
 				for o in heapObjects:
 					if o.coords == tile.coords:
 						isNew = false
-						print("comparing routeCosts:", tile.routeCost, " less than ", o.routeCost, " = ", tile.routeCost < o.routeCost)
+						#print("comparing routeCosts:", tile.routeCost, " less than ", o.routeCost, " = ", tile.routeCost < o.routeCost)
 						if tile.routeCost < o.routeCost:
 							pq.erase(o)
 							pq.add(tile, tile.getPrio())
@@ -93,7 +100,6 @@ class PathFinderT:
 					newTiles1.append(tile)
 			for tile in newTiles1:
 				pq.add(tile, tile.getPrio())
-			loopC += 1
 			#print(pq)
 			yield()
 		path.append(pq.pop())
@@ -106,6 +112,7 @@ class PathFinderT:
 		for p in range(1, path.size()):
 			if path[p].dir != path[p-1].dir:
 				cPath.append(path[p].coords)
+				level.set_cellv(path[p].coords, 3)
 		return cPath
 	
 	func checkAdjacentTiles(point, to):
@@ -142,7 +149,7 @@ class PathFinderT:
 			dir = f.direction_to(c)
 	
 		func getPrio():
-			return distTo+routeCost
+			return pow(distTo,2)+routeCost
 	
 		func add(v):
 			return coords + v
@@ -178,7 +185,7 @@ class PQT:
 		var popped = queue.front().object
 		queue[0] = queue[-1]
 		queue.pop_back()
-		minHeapify(1)
+		minHeapify(0)
 		return popped
 
 	func peek():
