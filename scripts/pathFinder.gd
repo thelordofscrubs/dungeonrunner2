@@ -43,7 +43,7 @@ func pathTo(from:Vector2, to:Vector2):
 	var cPath = []
 	for p in range(1, path.size()-1):
 		if path[p].dir != path[p+1].dir:
-			cPath.append(path[p].coords)
+			cPath.append(path[p].coords)	
 	return cPath
 
 func checkAdjacentTiles(point, to):

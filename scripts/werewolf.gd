@@ -34,8 +34,18 @@ func _ready():
 	#updatePathTimer.start(1)
 
 func findPathTo(c):
-	pointsToVisit = pfClass.pathTo(coordinates.floor(), c.floor())
-	print(pointsToVisit)
+	var basicPath = pfClass.pathTo(coordinates.floor(), c.floor())
+	print("Basic input: ",basicPath)
+	pointsToVisit = []
+	pointsToVisit.append(basicPath[0])
+	var p = 0
+	while p < basicPath.size()-1:
+		var currP = p+1
+		while currP < basicPath.size()-1 && isPointInSight(basicPath[p],basicPath[currP]):
+			currP = currP + 1
+		pointsToVisit.append(basicPath[currP])
+		p = currP
+	print("Simpler output: ",pointsToVisit)	
 
 func checkForTurn():
 	if pathing and ((facing.sign() + coordinates.direction_to(pointsToVisit[0]).sign()).length_squared() == 0):
