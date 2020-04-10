@@ -3,18 +3,18 @@ extends Node
 
 export(Vector2) var startingLoc = Vector2(1,1)
 export(Vector2) var endingLoc = Vector2(17,17)
-export(bool) var startPathing = false setget startP
-export(bool) var stepPath = false setget stepP
-export(bool) var finishPath = false setget finishP
-export(bool) var clearPath = false setget clearPathf
-export(bool) var printingQueue = false setget printQueue
-export(bool) var autoPath = false setget setTimed
+export(bool) var startPathing setget startP
+export(bool) var stepPath setget stepP
+export(bool) var finishPath setget finishP
+export(bool) var clearPath setget clearPathf
+export(bool) var printingQueue setget printQueue
+export(bool) var autoPath setget setTimed
 
 
 var pq
 onready var tm = get_child(0)
 var py
-var pathTimer
+var pathTimer = null
 
 func setTimed(_b):
 	pathTimer = Timer.new()
@@ -35,9 +35,11 @@ func clearPathf(_b):
 	tm = t
 
 func stepP(_b):
-	if !py || py != GDScriptFunctionState:
-		if pathTimer.get_parent() == self:
+	print(str(py))
+	if !(py is GDScriptFunctionState):
+		if pathTimer:
 			pathTimer.queue_free()
+			pathTimer = null
 		print("Path has not been started")
 		return
 	py = py.resume()
@@ -101,6 +103,9 @@ class PathFinderT:
 			for tile in newTiles1:
 				pq.add(tile, tile.getPrio())
 			#print(pq)
+			#heapObjects = pq.returnObjectsInArray()
+			#if heapObjects.size()<2:
+			#	return "Could not find suitable path"
 			yield()
 		path.append(pq.pop())
 		while path[-1].coords != from:

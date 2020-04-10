@@ -35,6 +35,8 @@ func _ready():
 
 func findPathTo(c):
 	var basicPath = pfClass.pathTo(coordinates.floor(), c.floor())
+	if basicPath is String:
+		pointsToVisit = [coordinates]
 	print("Basic input: ",basicPath)
 	pointsToVisit = []
 	pointsToVisit.append(basicPath[0])
@@ -60,14 +62,14 @@ func updatePath():
 		pathing = false
 		inSight = true
 	else:
-		findPathTo(player.coordinates.floor())
+		findPathTo((player.coordinates+Vector2(0.5,0.5)).floor())
 		pathing = true
 		inSight = false
 var pathingTime = 0.0
 func moveInPath(delta):
 	pathingTime += delta
 	if !pathing || pathingTime > 1 || pointsToVisit.size() < 1:
-		findPathTo(player.coordinates.floor())
+		findPathTo((player.coordinates+Vector2(0.5,0.5)).floor())
 		pathingTime = 0.0
 	pathing = true
 	coordinates = coordinates.move_toward(pointsToVisit[-1],delta)

@@ -34,6 +34,9 @@ func pathTo(from:Vector2, to:Vector2):
 				newTiles1.append(tile)
 		for tile in newTiles1:
 			pq.add(tile, tile.getPrio())
+		heapObjects = pq.returnObjectsInArray()
+		if heapObjects.size()<2:
+			return "Could not find suitable path"
 	path.append(pq.pop())
 	while path[-1].coords != from:
 		for point in visitedPoints:
