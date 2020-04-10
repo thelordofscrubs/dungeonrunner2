@@ -40,7 +40,7 @@ func erase(object):
 			return
 
 static func heapParent(i):
-	return floor((i/2))-1
+	return floor((i-1)/2)
 static func left(i):
 	return 2*i+1
 static func right(i):

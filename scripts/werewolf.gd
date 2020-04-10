@@ -52,12 +52,12 @@ func attemptMove1(delta):
 func findPathTo(c):
 	pointsToVisit = pfClass.pathTo(coordinates.floor(), c.floor())
 	print(pointsToVisit)
-	turnTo(pointsToVisit[0])
+	turnTo(pointsToVisit[-1])
 
 func checkForTurn():
 	if pathing and ((facing.sign() + coordinates.direction_to(pointsToVisit[0]).sign()).length_squared() == 0):
-		pointsToVisit.pop_front()
-		turnTo(pointsToVisit[0])
+		pointsToVisit.pop_back()
+		turnTo(pointsToVisit[-1])
 
 func turnTo(p):
 	facing = coordinates.direction_to(p)

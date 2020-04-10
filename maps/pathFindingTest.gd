@@ -7,9 +7,15 @@ export(bool) var startPathing = false setget startP
 export(bool) var stepPath = false setget stepP
 export(bool) var finishPath = false setget finishP
 export(bool) var clearPath = false setget clearPathf
+export(bool) var printingQueue = false setget printQueue
+
+
 var pq
 onready var tm = get_child(0)
 var py
+
+func printQueue(_b):
+	print(pq)
 
 func clearPathf(_b):
 	if !tm:
@@ -53,7 +59,6 @@ class PathFinderT:
 	func pathTo(from:Vector2, to:Vector2):
 		var path = []
 		var visitedPoints = []
-		var heapObjects = []
 		pq.add(Point.new(from, 0, to.distance_to(from), from), 0+to.distance_to(from))
 		level.set_cellv(from, 4)
 		level.set_cellv(to, 4)
@@ -62,11 +67,11 @@ class PathFinderT:
 			if loopC > 299:
 				return "can't find a viable path under 300 units long"
 			var popped = pq.pop()
+			print(popped)
 			level.set_cellv(popped.coords, 5)
 			visitedPoints.append(popped)
 			var newTiles = checkAdjacentTiles(popped, to)
-			print(newTiles)
-			heapObjects = pq.returnObjectsInArray()
+			var heapObjects = pq.returnObjectsInArray()
 			var newTiles1 = []
 			for tile in newTiles:
 				var isNew = true
@@ -74,10 +79,11 @@ class PathFinderT:
 					level.set_cellv(tile.coords, 2)
 				for o in heapObjects:
 					if o.coords == tile.coords:
+						isNew = false
+						print("comparing routeCosts:", tile.routeCost, " less than ", o.routeCost, " = ", tile.routeCost < o.routeCost)
 						if tile.routeCost < o.routeCost:
 							pq.erase(o)
 							pq.add(tile, tile.getPrio())
-							isNew = false
 							break
 				for t in visitedPoints:
 					if t.coords == tile.coords:
@@ -88,6 +94,7 @@ class PathFinderT:
 			for tile in newTiles1:
 				pq.add(tile, tile.getPrio())
 			loopC += 1
+			#print(pq)
 			yield()
 		path.append(pq.pop())
 		while path[-1].coords != from:
@@ -102,7 +109,6 @@ class PathFinderT:
 		return cPath
 	
 	func checkAdjacentTiles(point, to):
-		print(point)
 		var newPoints = []
 		for x in range(-1,2):
 			for y in range(-1,2):
@@ -128,7 +134,7 @@ class PathFinderT:
 		var from
 		var dir
 	
-		func _init(c,dt,df,f):
+		func _init(c,df,dt,f):
 			coords = c
 			distTo = dt
 			routeCost = df
@@ -144,11 +150,9 @@ class PathFinderT:
 			return "coords = " + str(coords) + ", from = " + str(from)
 
 class PQT:
-	export(Array) var queue = [] setget q
-
-	func q(_b):
-		pass
-
+	var queue = []
+	func _to_string():
+		return str(queue)
 	func add(object, priority):
 		queue.append(PriorityObject.new(object,priority))
 		var curr = queue.size()-1
@@ -181,13 +185,15 @@ class PQT:
 		return queue[0].object
 
 	func erase(object):
+		print("erasing: ", object)
 		for x in queue.size():
 			if (queue[x].object.coords == object.coords):
+				print("found ",object," at ",x)
 				queue.remove(x)
 				return
 
 	static func heapParent(i):
-		return floor((i/2))-1
+		return floor((i-1)/2)
 	static func left(i):
 		return 2*i+1
 	static func right(i):
@@ -212,3 +218,5 @@ class PQT:
 		func _init(object_, priority_):
 			object = object_
 			priority = priority_
+		func _to_string():
+			return "priority =" + str(priority) +", object = [" + str(object) + "]"
