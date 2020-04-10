@@ -33,22 +33,6 @@ func _ready():
 	add_child(updatePathTimer)
 	updatePathTimer.start(1)
 
-func attemptMove1(delta):
-	if isPointInSight(coordinates,player.coordinates):
-		facing = coordinates.direction_to(player.coordinates)
-	else:
-		facing = Vector2(0,0)
-	var moveVector = facing*delta
-	var ec = coordinates+Vector2(.5,.5)+facing*.5
-	var pv = Vector2(facing[1],facing[0])*.5
-	var moveChecks = [Vector2(0,0),Vector2(0,0)]
-	moveChecks[0] = (ec+pv*.9+moveVector).floor()
-	moveChecks[1] = (ec-pv*.9+moveVector).floor()
-	if detectWall(moveChecks):
-		return
-	moveVector = facing*delta
-	move(moveVector)
-
 func findPathTo(c):
 	pointsToVisit = pfClass.pathTo(coordinates.floor(), c.floor())
 	print(pointsToVisit)
@@ -82,13 +66,12 @@ func attemptMove(delta):
 	var moveChecks = [Vector2(0,0),Vector2(0,0)]
 	moveChecks[0] = (ec+pv*.8+moveVector).floor()
 	moveChecks[1] = (ec-pv*.8+moveVector).floor()
-	if detectWall(moveChecks):
-		return
+	if detectWall(moveChecks[0]):
+		moveVector[0]
 	moveVector = facing*delta
 	move(moveVector)
 
-func detectWall(moveChecks):
-	for v in moveChecks:
+func detectWall(v):
 		match level.levelGrid[v]:
 			TILE.WALL:
 				return true
